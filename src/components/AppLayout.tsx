@@ -30,7 +30,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
             >
               <Zap className="w-4 h-4 text-primary-foreground" />
             </motion.div>
-            <span className="font-heading font-semibold text-sm text-foreground">Nodeverse Learn</span>
+            <span className="font-heading font-semibold text-sm text-foreground">FlowMaster</span>
           </Link>
 
           <div className="flex items-center gap-2">

@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.nodeverse.learn',
-  appName: 'Nodeverse Learn',
+  appId: 'com.flowmaster.app',
+  appName: 'FlowMaster',
   webDir: 'dist',
   bundledWebRuntime: false,
   ios: {

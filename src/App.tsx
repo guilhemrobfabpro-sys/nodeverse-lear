@@ -49,7 +49,7 @@ const AuthPage = ({ children }: { children: ReactElement }) => (
         <Zap className="w-7 h-7 text-white" />
       </div>
       <h1 className="font-heading font-bold text-xl text-foreground tracking-tight">
-        Nodeverse Learn
+        FlowMaster
       </h1>
       <p className="text-muted-foreground text-sm mt-1">
         Master automation. No code required.
