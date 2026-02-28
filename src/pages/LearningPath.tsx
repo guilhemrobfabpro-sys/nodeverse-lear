@@ -1,6 +1,13 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Lock, CheckCircle2, ArrowRight, Clock, Sparkles, Star, Trophy, Zap, Flame } from 'lucide-react';
+import { Lock, CheckCircle2, ArrowRight, Clock, Sparkles, Star, Trophy, Zap, Flame, Sprout, Bot, Building2, Rocket, Dumbbell, Moon, Sun, Link2, BarChart3, Wrench, BookOpen, Target, BookMarked } from 'lucide-react';
+import type { LucideProps } from 'lucide-react';
+import type { FC } from 'react';
+
+const ICON_MAP: Record<string, FC<LucideProps>> = {
+  Sprout, Zap, Bot, Building2, Rocket, Flame, Dumbbell, Moon, Sun,
+  Link2, BarChart3, Wrench, BookOpen, Target, Trophy, Star, BookMarked,
+};
 import { AppLayout } from '@/components/AppLayout';
 import { useUser } from '@/contexts/UserContext';
 import { levels } from '@/data/levels';
@@ -103,7 +110,7 @@ export default function LearningPath() {
                       className={`w-11 h-11 sm:w-14 sm:h-14 rounded-xl ${dotColorMap[level.color] || 'bg-primary'} flex items-center justify-center text-xl sm:text-2xl z-10 shrink-0 shadow-lg`}
                       whileTap={{ scale: 0.9, rotate: 5 }}
                     >
-                      {isComplete ? <Trophy className="w-5 h-5 sm:w-7 sm:h-7 text-primary-foreground" /> : level.icon}
+                      {isComplete ? <Trophy className="w-5 h-5 sm:w-7 sm:h-7 text-primary-foreground" /> : (() => { const Icon = ICON_MAP[level.icon]; return Icon ? <Icon className="w-5 h-5 sm:w-7 sm:h-7 text-primary-foreground" /> : null; })()}
                     </motion.div>
                     <div className="flex-1 min-w-0 relative">
                       <div className="flex items-center gap-2">
@@ -214,7 +221,9 @@ export default function LearningPath() {
                   {/* Level badge reward */}
                   <div className="px-3 sm:px-4 pb-3 sm:pb-4">
                     <div className={`rounded-xl p-2.5 sm:p-3 bg-gradient-to-r ${levelGradients[level.color]} border ${borderMap[level.color]} flex items-center gap-2.5 sm:gap-3`}>
-                      <span className="text-lg sm:text-xl">{level.badge.icon}</span>
+                      <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                        {(() => { const Icon = ICON_MAP[level.badge.icon]; return Icon ? <Icon className="w-4 h-4 text-primary" /> : null; })()}
+                      </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-[10px] sm:text-xs text-muted-foreground">Level reward</p>
                         <p className="text-xs sm:text-sm font-heading font-semibold text-foreground truncate">{level.badge.name}</p>

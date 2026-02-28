@@ -108,7 +108,7 @@ export function QuizBlock({ question, options, correct, explanation, onComplete 
               </div>
               <div>
                 <p className="font-heading font-semibold text-sm">
-                  {selected === correct ? '✨ Correct! +30 XP' : 'Not quite right'}
+                  {selected === correct ? 'Correct! +30 XP' : 'Not quite right'}
                 </p>
                 <p className="text-sm text-muted-foreground mt-0.5 leading-relaxed">{explanation}</p>
               </div>

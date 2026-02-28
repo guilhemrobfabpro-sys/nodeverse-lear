@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { Zap } from 'lucide-react';
 
 interface XPGainAnimationProps {
   amount: number;
@@ -31,8 +32,8 @@ export function XPGainAnimation({ amount, trigger }: XPGainAnimationProps) {
           className="fixed top-20 right-8 z-[100] pointer-events-none"
         >
           <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-accent/20 backdrop-blur-sm border border-accent/30">
+            <Zap className="w-5 h-5 text-accent" />
             <span className="text-accent font-heading font-bold text-lg">+{amount} XP</span>
-            <span className="text-xl">⚡</span>
           </div>
         </motion.div>
       )}

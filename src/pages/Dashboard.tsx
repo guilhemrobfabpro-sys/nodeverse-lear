@@ -1,7 +1,14 @@
 import { useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, BookOpen, Clock, Flame, Sparkles, Target, BarChart3, Trophy, Zap, Star, TrendingUp } from 'lucide-react';
+import { ArrowRight, BookOpen, Clock, Flame, Sparkles, Target, BarChart3, Trophy, Zap, Star, TrendingUp, GraduationCap, Map, Medal, Sprout, Bot, Building2, Rocket, Dumbbell, Moon, Sun, Link2, Wrench, BookMarked } from 'lucide-react';
+import type { LucideProps } from 'lucide-react';
+import type { FC } from 'react';
+
+const BADGE_ICON_MAP: Record<string, FC<LucideProps>> = {
+  Sprout, Zap, Bot, Building2, Rocket, Flame, Dumbbell, Moon, Sun,
+  Link2, BarChart3, Wrench, BookOpen, Target, Trophy, Star, BookMarked,
+};
 import { AppLayout } from '@/components/AppLayout';
 import { XPBar } from '@/components/XPBar';
 import { LevelBadge } from '@/components/LevelBadge';
@@ -80,11 +87,11 @@ export default function Dashboard() {
           <div className="absolute bottom-0 left-0 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-tr from-secondary/10 to-transparent rounded-tr-full" />
           
           <div className="relative flex items-center gap-3 sm:gap-4">
-            <motion.div 
+            <motion.div
               className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/10 flex items-center justify-center border border-primary/20"
               whileTap={{ scale: 0.9, rotate: 10 }}
             >
-              <span className="text-2xl sm:text-3xl">👋</span>
+              <GraduationCap className="w-7 h-7 sm:w-9 sm:h-9 text-primary" />
             </motion.div>
             <div className="flex-1 min-w-0">
               <h1 className="text-lg sm:text-xl font-heading font-bold text-foreground truncate">
@@ -118,7 +125,7 @@ export default function Dashboard() {
             { value: user.xp.toLocaleString(), label: 'XP', icon: Zap, color: 'text-secondary' },
             { value: user.level, label: 'Level', icon: Star, color: 'text-primary' },
             { value: completedCount, label: 'Lessons', icon: BookOpen, color: 'text-accent' },
-            { value: `${user.streak}🔥`, label: 'Streak', icon: Flame, color: 'text-secondary' },
+            { value: user.streak, label: 'Streak', icon: Flame, color: 'text-secondary' },
           ].map((stat, i) => (
             <motion.div
               key={i}
@@ -145,7 +152,7 @@ export default function Dashboard() {
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="min-w-0 flex-1">
-                        <span className="text-[10px] font-mono text-muted-foreground">{currentLevelInfo?.icon} Module {currentModule.id}</span>
+                        <span className="text-[10px] font-mono text-muted-foreground">Module {currentModule.id}</span>
                         <h3 className="font-heading font-bold text-foreground text-base sm:text-lg truncate">{currentModule.title}</h3>
                       </div>
                       <motion.div
@@ -175,7 +182,7 @@ export default function Dashboard() {
                     <h3 className="font-heading font-semibold text-foreground text-sm sm:text-base truncate">Build a webhook → Slack notification</h3>
                     <div className="flex items-center gap-2 mt-1">
                       <span className="text-xs px-1.5 py-0.5 rounded bg-muted text-muted-foreground flex items-center gap-1"><Clock className="w-2.5 h-2.5" /> 15m</span>
-                      <span className="text-xs text-secondary font-semibold">⚡ +150 XP</span>
+                      <span className="text-xs text-secondary font-semibold flex items-center gap-1"><Zap className="w-3 h-3" /> +150 XP</span>
                     </div>
                   </div>
                 </div>
@@ -196,7 +203,9 @@ export default function Dashboard() {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.3 + i * 0.1 }}
                     >
-                      <span className="text-2xl">{b.icon}</span>
+                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                        {(() => { const Icon = BADGE_ICON_MAP[b.icon]; return Icon ? <Icon className="w-5 h-5 text-primary" /> : null; })()}
+                      </div>
                       <div className="min-w-0">
                         <p className="font-semibold text-foreground text-sm truncate">{b.name}</p>
                         <p className="text-[10px] text-muted-foreground truncate">{b.description}</p>
@@ -221,7 +230,7 @@ export default function Dashboard() {
                     { value: user.xp.toLocaleString(), label: 'Total XP', icon: Zap, color: 'text-secondary' },
                     { value: user.level, label: 'Level', icon: Star, color: 'text-primary' },
                     { value: completedCount, label: 'Lessons', icon: BookOpen, color: 'text-accent' },
-                    { value: `${user.streak}🔥`, label: 'Streak', icon: Flame, color: 'text-secondary' },
+                    { value: user.streak, label: 'Streak', icon: Flame, color: 'text-secondary' },
                   ].map((stat, i) => (
                     <motion.div
                       key={i}
@@ -241,7 +250,9 @@ export default function Dashboard() {
             <div className="grid grid-cols-2 sm:grid-cols-1 gap-2 sm:gap-3">
               <Link to="/learning-path" className="block glass rounded-2xl p-3 sm:p-4 hover:border-primary/40 transition-all group active:bg-muted/30">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary/10 flex items-center justify-center">🗺️</div>
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                    <Map className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                  </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-heading font-semibold text-foreground text-xs sm:text-sm">Learning Path</h3>
                     <p className="text-[10px] text-muted-foreground hidden sm:block">View full curriculum</p>
@@ -267,7 +278,9 @@ export default function Dashboard() {
 
               <Link to="/profile" className="block glass rounded-2xl p-3 sm:p-4 hover:border-primary/40 transition-all group col-span-2 sm:col-span-1 active:bg-muted/30">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-accent/10 flex items-center justify-center">🏅</div>
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                    <Medal className="w-4 h-4 sm:w-5 sm:h-5 text-accent" />
+                  </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-heading font-semibold text-foreground text-xs sm:text-sm">Badges</h3>
                     <p className="text-[10px] text-muted-foreground">{badges.length} earned</p>

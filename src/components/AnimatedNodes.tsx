@@ -6,13 +6,13 @@ interface AnimatedNodesProps {
 
 export function AnimatedNodes({ className = '' }: AnimatedNodesProps) {
   const nodes = [
-    { x: 120, y: 100, label: '⚡ Trigger', color: 'accent' },
-    { x: 320, y: 75, label: '🌐 HTTP', color: 'primary' },
-    { x: 520, y: 110, label: '🤖 AI', color: 'secondary' },
-    { x: 720, y: 80, label: '💬 Slack', color: 'primary' },
-    { x: 180, y: 240, label: '📧 Gmail', color: 'secondary' },
-    { x: 420, y: 260, label: '🔀 IF', color: 'accent' },
-    { x: 640, y: 230, label: '📊 Sheets', color: 'primary' },
+    { x: 120, y: 100, label: 'Trigger', color: 'accent' },
+    { x: 320, y: 75, label: 'HTTP', color: 'primary' },
+    { x: 520, y: 110, label: 'AI', color: 'secondary' },
+    { x: 720, y: 80, label: 'Slack', color: 'primary' },
+    { x: 180, y: 240, label: 'Gmail', color: 'secondary' },
+    { x: 420, y: 260, label: 'IF', color: 'accent' },
+    { x: 640, y: 230, label: 'Sheets', color: 'primary' },
   ];
 
   const connections = [
