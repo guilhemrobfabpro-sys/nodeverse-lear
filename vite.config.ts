@@ -12,6 +12,9 @@ export default defineConfig(() => ({
       overlay: false,
     },
   },
+  build: {
+    chunkSizeWarningLimit: 1000,
+  },
   plugins: [
     react(),
     VitePWA({
@@ -32,27 +35,28 @@ export default defineConfig(() => ({
             src: "/icons/icon-192.png",
             sizes: "192x192",
             type: "image/png",
+            purpose: "any",
           },
           {
             src: "/icons/icon-512.png",
             sizes: "512x512",
             type: "image/png",
-          },
-          {
-            src: "/icons/icon-512.png",
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "maskable",
+            purpose: "any maskable",
           },
         ],
       },
       workbox: {
         globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
+        navigateFallback: "index.html",
+        navigateFallbackDenylist: [/^\/api\//],
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
             handler: "CacheFirst",
-            options: { cacheName: "google-fonts-cache" },
+            options: {
+              cacheName: "google-fonts-cache",
+              expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 },
+            },
           },
         ],
       },

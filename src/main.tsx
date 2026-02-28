@@ -12,8 +12,8 @@ if (!clerkPublishableKey) {
 createRoot(document.getElementById("root")!).render(
   <ClerkProvider
     publishableKey={clerkPublishableKey}
-    afterSignInUrl="/onboarding"
-    afterSignUpUrl="/onboarding"
+    afterSignInUrl="/dashboard"
+    afterSignUpUrl="/dashboard"
   >
     <App />
   </ClerkProvider>,
