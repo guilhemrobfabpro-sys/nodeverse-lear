@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, BookOpen, Gamepad2, Clock, Flame, Sparkles, Target, BarChart3, Trophy, Zap, Star, TrendingUp } from 'lucide-react';
 import { AppLayout } from '@/components/AppLayout';
 import { XPBar } from '@/components/XPBar';
@@ -21,6 +22,13 @@ const item = {
 export default function Dashboard() {
   const { state, updateStreak } = useUser();
   const { user, progress, badges } = state;
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!state.user.onboarded) {
+      navigate('/onboarding', { replace: true });
+    }
+  }, [state.user.onboarded, navigate]);
 
   updateStreak();
 

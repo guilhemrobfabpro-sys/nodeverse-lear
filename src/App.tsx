@@ -97,7 +97,7 @@ const App = () => (
                   <SignIn
                     routing="path"
                     path="/sign-in"
-                    fallbackRedirectUrl="/onboarding"
+                    fallbackRedirectUrl="/dashboard"
                     signUpUrl="/sign-up"
                     appearance={clerkAppearance}
                   />
@@ -111,7 +111,7 @@ const App = () => (
                   <SignUp
                     routing="path"
                     path="/sign-up"
-                    fallbackRedirectUrl="/onboarding"
+                    fallbackRedirectUrl="/dashboard"
                     signInUrl="/sign-in"
                     appearance={clerkAppearance}
                   />
@@ -119,8 +119,8 @@ const App = () => (
               }
             />
 
-            {/* Root now goes directly to onboarding for a mobile-app feel */}
-            <Route path="/" element={<Navigate to="/onboarding" replace />} />
+            {/* Root redirects to dashboard; onboarding handles new-user redirect */}
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
             {/* Protected application routes */}
             <Route

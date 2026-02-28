@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Zap, Sparkles } from 'lucide-react';
@@ -31,7 +31,13 @@ export default function Onboarding() {
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [selectedTools, setSelectedTools] = useState<string[]>([]);
   const navigate = useNavigate();
-  const { setState } = useUser();
+  const { state, setState } = useUser();
+
+  useEffect(() => {
+    if (state.user.onboarded) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [state.user.onboarded, navigate]);
 
   const toggleGoal = (id: string) =>
     setSelectedGoals(prev => prev.includes(id) ? prev.filter(g => g !== id) : [...prev, id]);
