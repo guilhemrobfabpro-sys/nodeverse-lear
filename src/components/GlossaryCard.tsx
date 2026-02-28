@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Star, ChevronDown, CheckCircle2, BookOpen, Lightbulb, Zap, Sparkles } from 'lucide-react';
+import { Star, ChevronDown, CheckCircle2, BookOpen, Lightbulb, Zap, Sparkles, Link2, Bot, BarChart3, Shield } from 'lucide-react';
 import { useUser } from '@/contexts/UserContext';
 
 interface GlossaryCardProps {
@@ -13,12 +13,12 @@ interface GlossaryCardProps {
   quiz?: { question: string; options: string[]; correct: number };
 }
 
-const categoryConfig: Record<string, { color: string; bg: string; icon: string }> = {
-  API: { color: 'text-secondary', bg: 'bg-secondary/10', icon: '🔗' },
-  n8n: { color: 'text-primary', bg: 'bg-primary/10', icon: '⚡' },
-  AI: { color: 'text-accent', bg: 'bg-accent/10', icon: '🤖' },
-  Data: { color: 'text-blue-400', bg: 'bg-blue-500/10', icon: '📊' },
-  Security: { color: 'text-destructive', bg: 'bg-destructive/10', icon: '🔒' },
+const categoryConfig: Record<string, { color: string; bg: string; icon: React.ReactNode }> = {
+  API: { color: 'text-secondary', bg: 'bg-secondary/10', icon: <Link2 className="w-4 h-4" /> },
+  n8n: { color: 'text-primary', bg: 'bg-primary/10', icon: <Zap className="w-4 h-4" /> },
+  AI: { color: 'text-accent', bg: 'bg-accent/10', icon: <Bot className="w-4 h-4" /> },
+  Data: { color: 'text-blue-400', bg: 'bg-blue-500/10', icon: <BarChart3 className="w-4 h-4" /> },
+  Security: { color: 'text-destructive', bg: 'bg-destructive/10', icon: <Shield className="w-4 h-4" /> },
 };
 
 export function GlossaryCard({ id, term, category, definition, analogy, example, quiz }: GlossaryCardProps) {
@@ -28,7 +28,7 @@ export function GlossaryCard({ id, term, category, definition, analogy, example,
   const isMastered = state.glossary.mastered.includes(id);
   const [quizAnswer, setQuizAnswer] = useState<number | null>(null);
 
-  const cat = categoryConfig[category] || { color: 'text-muted-foreground', bg: 'bg-muted', icon: '📄' };
+  const cat = categoryConfig[category] || { color: 'text-muted-foreground', bg: 'bg-muted', icon: <BookOpen className="w-4 h-4" /> };
 
   const handleQuiz = (index: number) => {
     if (quizAnswer !== null || !quiz) return;
@@ -42,7 +42,7 @@ export function GlossaryCard({ id, term, category, definition, analogy, example,
         onClick={() => setExpanded(!expanded)}
         className="w-full px-5 py-4 flex items-center gap-3 text-left hover:bg-muted/10 transition-colors"
       >
-        <div className={`w-9 h-9 rounded-lg ${cat.bg} flex items-center justify-center shrink-0 text-base`}>
+        <div className={`w-9 h-9 rounded-lg ${cat.bg} ${cat.color} flex items-center justify-center shrink-0`}>
           {cat.icon}
         </div>
         <div className="flex-1 min-w-0">
@@ -144,7 +144,7 @@ export function GlossaryCard({ id, term, category, definition, analogy, example,
                   </div>
                   {quizAnswer !== null && (
                     <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className={`text-sm mt-2 font-semibold ${quizAnswer === quiz.correct ? 'text-accent' : 'text-destructive'}`}>
-                      {quizAnswer === quiz.correct ? '✨ Mastered! +5 XP' : 'Try again next time!'}
+                      {quizAnswer === quiz.correct ? 'Mastered! +5 XP' : 'Try again next time!'}
                     </motion.p>
                   )}
                 </div>

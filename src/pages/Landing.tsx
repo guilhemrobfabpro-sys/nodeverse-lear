@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Gamepad2, Zap, Bot, BookOpen, Trophy, Users, Star, CheckCircle, Flame, Target, Shield, Sparkles } from 'lucide-react';
+import { ArrowRight, Gamepad2, Zap, Bot, BookOpen, Trophy, Users, Star, CheckCircle, Flame, Target, Shield, Sparkles, Sprout, Building2, Rocket } from 'lucide-react';
 import { AnimatedNodes } from '@/components/AnimatedNodes';
 import { useRef } from 'react';
 
@@ -24,11 +24,11 @@ const testimonials = [
 ];
 
 const pathLevels = [
-  { icon: '🌱', title: 'Foundations', desc: 'Learn the language of automation', color: 'border-accent/50', bg: 'from-accent/10' },
-  { icon: '⚡', title: 'Core Skills', desc: 'Master the essential nodes', color: 'border-secondary/50', bg: 'from-secondary/10' },
-  { icon: '🤖', title: 'AI Integration', desc: 'Add intelligence to workflows', color: 'border-primary/50', bg: 'from-primary/10' },
-  { icon: '🏗️', title: 'Advanced', desc: 'Build production-ready systems', color: 'border-secondary/50', bg: 'from-secondary/10' },
-  { icon: '🚀', title: 'Expert', desc: 'Turn skills into income', color: 'border-primary/50', bg: 'from-primary/10' },
+  { icon: <Sprout className="w-4 h-4 text-accent" />, title: 'Foundations', desc: 'Learn the language of automation', color: 'border-accent/50', bg: 'from-accent/10' },
+  { icon: <Zap className="w-4 h-4 text-secondary" />, title: 'Core Skills', desc: 'Master the essential nodes', color: 'border-secondary/50', bg: 'from-secondary/10' },
+  { icon: <Bot className="w-4 h-4 text-primary" />, title: 'AI Integration', desc: 'Add intelligence to workflows', color: 'border-primary/50', bg: 'from-primary/10' },
+  { icon: <Building2 className="w-4 h-4 text-secondary" />, title: 'Advanced', desc: 'Build production-ready systems', color: 'border-secondary/50', bg: 'from-secondary/10' },
+  { icon: <Rocket className="w-4 h-4 text-primary" />, title: 'Expert', desc: 'Turn skills into income', color: 'border-primary/50', bg: 'from-primary/10' },
 ];
 
 const fadeIn = {
@@ -218,7 +218,7 @@ export default function Landing() {
                 whileTap={{ scale: 0.98 }}
                 className={`glass rounded-xl p-4 sm:p-5 flex items-center gap-3 sm:gap-4 border ${level.color} ml-8 sm:ml-12 relative bg-gradient-to-r ${level.bg} to-transparent active:bg-muted/20`}
               >
-                <div className="absolute -left-10 sm:-left-[3.25rem] w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-card border border-border flex items-center justify-center text-base sm:text-lg">
+                <div className="absolute -left-10 sm:-left-[3.25rem] w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-card border border-border flex items-center justify-center">
                   {level.icon}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -266,7 +266,7 @@ export default function Landing() {
                   <p className="text-xs text-muted-foreground">{t.role}</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <p className="text-xs font-heading font-bold text-secondary">⚡ {t.xp} XP</p>
+                  <p className="text-xs font-heading font-bold text-secondary flex items-center gap-1"><Zap className="w-3 h-3" /> {t.xp} XP</p>
                 </div>
               </div>
             </motion.div>

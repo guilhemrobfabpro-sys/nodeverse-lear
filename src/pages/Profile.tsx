@@ -6,7 +6,14 @@ import { LevelBadge } from '@/components/LevelBadge';
 import { useUser, getLevelName } from '@/contexts/UserContext';
 import { badges as allBadges } from '@/data/badges';
 import { levels } from '@/data/levels';
-import { Flame, Zap, Trophy, Star, Sparkles, Shield, BookOpen, Target, LogOut, Settings } from 'lucide-react';
+import { Flame, Zap, Trophy, Star, Sparkles, Shield, BookOpen, Target, LogOut, Settings, Sprout, Bot, Building2, Rocket, Dumbbell, Moon, Sun, Link2, BarChart3, Wrench, BookMarked } from 'lucide-react';
+import type { LucideProps } from 'lucide-react';
+import type { FC } from 'react';
+
+const ICON_MAP: Record<string, FC<LucideProps>> = {
+  Sprout, Zap, Bot, Building2, Rocket, Flame, Dumbbell, Moon, Sun,
+  Link2, BarChart3, Wrench, BookOpen, Target, Trophy, Star, BookMarked,
+};
 import { Link } from 'react-router-dom';
 
 const rarityConfig: Record<string, { border: string; bg: string; glow: string; label: string }> = {
@@ -115,7 +122,9 @@ export default function Profile() {
                   />
                 )}
                 <div className="relative flex items-center gap-2.5 sm:gap-3">
-                  <span className="text-lg sm:text-xl">{level.icon}</span>
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    {(() => { const Icon = ICON_MAP[level.icon]; return Icon ? <Icon className="w-4 h-4 text-primary" /> : null; })()}
+                  </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-xs sm:text-sm font-medium text-foreground truncate">Level {level.id} — {level.title}</span>
@@ -164,9 +173,9 @@ export default function Profile() {
                     <div className={`absolute inset-0 bg-gradient-to-br ${rc.bg}`} />
                   )}
                   <div className="relative">
-                    <span className="text-2xl sm:text-3xl block mb-1 sm:mb-2">
-                      {badge.icon}
-                    </span>
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-1 sm:mb-2">
+                      {(() => { const Icon = ICON_MAP[badge.icon]; return Icon ? <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" /> : null; })()}
+                    </div>
                     <p className="text-[10px] sm:text-sm font-semibold text-foreground leading-tight">{badge.name}</p>
                     <p className="text-[9px] sm:text-[10px] text-muted-foreground mt-0.5 sm:mt-1 line-clamp-2">{badge.description}</p>
                     <div className="mt-1 sm:mt-2 flex items-center justify-center gap-1">
