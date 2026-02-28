@@ -1,6 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import { useUser as useClerkUser } from '@clerk/clerk-react';
 import { supabase } from '@/integrations/supabase/client';
+import { levels } from '@/data/levels';
+import { z } from 'zod';
+
+// ── Types ────────────────────────────────────────────────────────
 
 export interface UserData {
   name: string;
@@ -26,6 +30,7 @@ export interface AppState {
   user: UserData;
   progress: Record<string, LessonProgress>;
   badges: string[];
+  completedChallenges: string[];
   glossary: {
     favorites: string[];
     mastered: string[];
@@ -35,6 +40,56 @@ export interface AppState {
     soundEffects: boolean;
   };
 }
+
+// ── Zod schema for localStorage validation ───────────────────────
+
+const lessonProgressSchema = z.object({
+  status: z.enum(['locked', 'available', 'in_progress', 'complete']),
+  score: z.number().optional(),
+  completedAt: z.string().optional(),
+  currentSection: z.number().optional(),
+});
+
+const appStateSchema = z.object({
+  user: z.object({
+    name: z.string(),
+    level: z.number(),
+    xp: z.number(),
+    streak: z.number(),
+    lastActiveDate: z.string(),
+    createdAt: z.string(),
+    background: z.string(),
+    goal: z.array(z.string()),
+    tools: z.array(z.string()),
+    onboarded: z.boolean(),
+  }),
+  progress: z.record(lessonProgressSchema),
+  badges: z.array(z.string()),
+  completedChallenges: z.array(z.string()).optional(),
+  glossary: z.object({
+    favorites: z.array(z.string()),
+    mastered: z.array(z.string()),
+  }),
+  settings: z
+    .object({
+      notifications: z.boolean(),
+      soundEffects: z.boolean(),
+    })
+    .optional(),
+});
+
+// ── Build full progress map from levels data ─────────────────────
+
+function buildDefaultProgress(): Record<string, LessonProgress> {
+  const allModules = levels.flatMap(l => l.modules);
+  const result: Record<string, LessonProgress> = {};
+  allModules.forEach((module, index) => {
+    result[module.id] = { status: index === 0 ? 'available' : 'locked' };
+  });
+  return result;
+}
+
+const defaultProgress = buildDefaultProgress();
 
 const defaultState: AppState = {
   user: {
@@ -49,26 +104,20 @@ const defaultState: AppState = {
     tools: [],
     onboarded: false,
   },
-  progress: {
-    '1.1': { status: 'available' },
-    '1.2': { status: 'locked' },
-    '1.3': { status: 'locked' },
-    '1.4': { status: 'locked' },
-    '1.5': { status: 'locked' },
-    '1.6': { status: 'locked' },
-    '1.7': { status: 'locked' },
-    '1.8': { status: 'locked' },
-  },
+  progress: defaultProgress,
   badges: [],
+  completedChallenges: [],
   glossary: { favorites: [], mastered: [] },
   settings: { notifications: true, soundEffects: true },
 };
+
+// ── Level constants ───────────────────────────────────────────────
 
 const LEVEL_THRESHOLDS = [0, 500, 1500, 3000, 5000, 8000, 12000, 18000, 25000, 35000];
 const LEVEL_NAMES = [
   'Automation Curious', 'Workflow Apprentice', 'Node Explorer',
   'Integration Builder', 'Automation Crafter', 'Workflow Engineer',
-  'System Architect', 'Automation Master', 'AI Integration Expert', 'FlowMaster Legend'
+  'System Architect', 'Automation Master', 'AI Integration Expert', 'FlowMaster Legend',
 ];
 
 export function getLevelName(level: number) {
@@ -83,32 +132,60 @@ export function getXPForCurrentLevel(level: number) {
   return LEVEL_THRESHOLDS[Math.min(level - 1, LEVEL_THRESHOLDS.length - 1)];
 }
 
+// ── Context type — no raw setState exposed ───────────────────────
+
 interface UserContextType {
   state: AppState;
-  setState: React.Dispatch<React.SetStateAction<AppState>>;
   syncing: boolean;
   addXP: (amount: number) => void;
   completeLesson: (lessonId: string, score?: number) => void;
+  completeChallenge: (challengeId: string, xp: number) => void;
+  completeOnboarding: (name: string, background: string, goal: string[], tools: string[]) => void;
   unlockBadge: (badgeId: string) => void;
   toggleGlossaryFavorite: (term: string) => void;
   masterGlossaryTerm: (term: string) => void;
   updateStreak: () => void;
+  updateSettings: (settings: Partial<AppState['settings']>) => void;
 }
 
 const UserContext = createContext<UserContextType | null>(null);
 
+// ── Load + validate state from localStorage ───────────────────────
+
+function loadStateFromStorage(): AppState {
+  try {
+    const saved = localStorage.getItem('flowmaster_state');
+    if (!saved) return defaultState;
+    const parsed = JSON.parse(saved);
+    const result = appStateSchema.safeParse(parsed);
+    if (!result.success) {
+      console.warn('[UserContext] Stored state failed validation, resetting to defaults.');
+      return defaultState;
+    }
+    // Merge with defaults so newly added fields and lessons are always present
+    return {
+      ...defaultState,
+      ...result.data,
+      user: { ...defaultState.user, ...result.data.user },
+      settings: { ...defaultState.settings, ...(result.data.settings ?? {}) },
+      completedChallenges: result.data.completedChallenges ?? [],
+      // Ensure every lesson from the curriculum is represented in progress
+      progress: { ...defaultProgress, ...result.data.progress },
+    };
+  } catch {
+    return defaultState;
+  }
+}
+
+// ── Provider ──────────────────────────────────────────────────────
+
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const { user: clerkUser, isSignedIn, isLoaded } = useClerkUser();
-  const [state, setState] = useState<AppState>(() => {
-    try {
-      const saved = localStorage.getItem('flowmaster_state');
-      if (saved) return JSON.parse(saved);
-    } catch {}
-    return defaultState;
-  });
-  // True until we've checked Clerk metadata — prevents premature onboarding redirects
+  const [state, setState] = useState<AppState>(loadStateFromStorage);
   const [syncing, setSyncing] = useState(true);
+  const syncTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Persist to localStorage whenever state changes
   useEffect(() => {
     localStorage.setItem('flowmaster_state', JSON.stringify(state));
   }, [state]);
@@ -117,22 +194,30 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!isLoaded) return;
     if (isSignedIn && clerkUser?.unsafeMetadata?.onboarded === true) {
-      setState(prev => prev.user.onboarded ? prev : { ...prev, user: { ...prev.user, onboarded: true } });
+      setState(prev =>
+        prev.user.onboarded ? prev : { ...prev, user: { ...prev.user, onboarded: true } }
+      );
     }
     setSyncing(false);
   }, [isLoaded, isSignedIn, clerkUser?.unsafeMetadata?.onboarded]);
 
-  // Sync profile with Supabase whenever the signed-in user or core profile fields change
+  // Debounced Supabase sync — waits 5 s after last change before writing
   useEffect(() => {
-    const syncProfile = async () => {
-      if (!isSignedIn || !clerkUser) return;
+    if (!isSignedIn || !clerkUser) return;
 
-      const displayName = clerkUser.fullName || clerkUser.username || clerkUser.primaryEmailAddress?.emailAddress || 'Learner';
+    if (syncTimeoutRef.current) clearTimeout(syncTimeoutRef.current);
+
+    syncTimeoutRef.current = setTimeout(async () => {
+      const displayName =
+        clerkUser.fullName ||
+        clerkUser.username ||
+        clerkUser.primaryEmailAddress?.emailAddress ||
+        'Learner';
       const userId = clerkUser.id;
 
-      const { data: existing, error } = await supabase
+      const { data: existing } = await supabase
         .from('profiles')
-        .select('*')
+        .select('id')
         .eq('user_id', userId)
         .maybeSingle();
 
@@ -144,6 +229,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         streak: state.user.streak,
         last_active_date: state.user.lastActiveDate || null,
         lessons_completed: Object.values(state.progress).filter(p => p.status === 'complete').length,
+        challenges_completed: state.completedChallenges.length,
         badges: state.badges,
       };
 
@@ -155,14 +241,28 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
           .update({ ...payload, updated_at: new Date().toISOString() })
           .eq('id', existing.id);
       }
-    };
+    }, 5000);
 
-    void syncProfile();
-  }, [clerkUser, isSignedIn, state.user.xp, state.user.level, state.user.streak, state.user.lastActiveDate, state.progress, state.badges]);
+    return () => {
+      if (syncTimeoutRef.current) clearTimeout(syncTimeoutRef.current);
+    };
+  }, [
+    clerkUser,
+    isSignedIn,
+    state.user.xp,
+    state.user.level,
+    state.user.streak,
+    state.user.lastActiveDate,
+    state.progress,
+    state.badges,
+    state.completedChallenges,
+  ]);
+
+  // ── Actions ────────────────────────────────────────────────────
 
   const addXP = useCallback((amount: number) => {
     setState(prev => {
-      let newXP = prev.user.xp + amount;
+      const newXP = prev.user.xp + amount;
       let newLevel = prev.user.level;
       while (newLevel < 10 && newXP >= getXPForNextLevel(newLevel)) {
         newLevel++;
@@ -171,30 +271,74 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  const completeLesson = useCallback((lessonId: string, score = 100) => {
-    setState(prev => {
-      const newProgress = { ...prev.progress };
-      newProgress[lessonId] = { status: 'complete', score, completedAt: new Date().toISOString() };
-      
-      // Unlock next lesson
-      const [level, num] = lessonId.split('.').map(Number);
-      const nextId = `${level}.${num + 1}`;
-      if (newProgress[nextId] && newProgress[nextId].status === 'locked') {
-        newProgress[nextId] = { status: 'available' };
-      }
-      
-      return { ...prev, progress: newProgress };
-    });
-    addXP(50);
-  }, [addXP]);
+  const completeLesson = useCallback(
+    (lessonId: string, score = 100) => {
+      setState(prev => {
+        const newProgress = { ...prev.progress };
+        newProgress[lessonId] = {
+          status: 'complete',
+          score,
+          completedAt: new Date().toISOString(),
+        };
 
-  const unlockBadge = useCallback((badgeId: string) => {
-    setState(prev => {
-      if (prev.badges.includes(badgeId)) return prev;
-      return { ...prev, badges: [...prev.badges, badgeId] };
-    });
-    addXP(100);
-  }, [addXP]);
+        // Find the next module across all levels (handles cross-level transitions)
+        const allModules = levels.flatMap(l => l.modules);
+        const currentIdx = allModules.findIndex(m => m.id === lessonId);
+        if (currentIdx !== -1 && currentIdx < allModules.length - 1) {
+          const nextModule = allModules[currentIdx + 1];
+          if (newProgress[nextModule.id]?.status === 'locked') {
+            newProgress[nextModule.id] = { status: 'available' };
+          }
+        }
+
+        return { ...prev, progress: newProgress };
+      });
+      addXP(50);
+    },
+    [addXP]
+  );
+
+  const completeChallenge = useCallback(
+    (challengeId: string, xp: number) => {
+      setState(prev => {
+        if (prev.completedChallenges.includes(challengeId)) return prev;
+        return { ...prev, completedChallenges: [...prev.completedChallenges, challengeId] };
+      });
+      addXP(xp);
+    },
+    [addXP]
+  );
+
+  const completeOnboarding = useCallback(
+    (name: string, background: string, goal: string[], tools: string[]) => {
+      setState(prev => ({
+        ...prev,
+        user: {
+          ...prev.user,
+          name: name || 'Learner',
+          background,
+          goal,
+          tools,
+          onboarded: true,
+          createdAt: new Date().toISOString(),
+          lastActiveDate: new Date().toISOString().split('T')[0],
+          streak: 1,
+        },
+      }));
+    },
+    []
+  );
+
+  const unlockBadge = useCallback(
+    (badgeId: string) => {
+      setState(prev => {
+        if (prev.badges.includes(badgeId)) return prev;
+        return { ...prev, badges: [...prev.badges, badgeId] };
+      });
+      addXP(100);
+    },
+    [addXP]
+  );
 
   const toggleGlossaryFavorite = useCallback((term: string) => {
     setState(prev => {
@@ -205,28 +349,53 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  const masterGlossaryTerm = useCallback((term: string) => {
-    setState(prev => {
-      if (prev.glossary.mastered.includes(term)) return prev;
-      return { ...prev, glossary: { ...prev.glossary, mastered: [...prev.glossary.mastered, term] } };
-    });
-    addXP(5);
-  }, [addXP]);
+  const masterGlossaryTerm = useCallback(
+    (term: string) => {
+      setState(prev => {
+        if (prev.glossary.mastered.includes(term)) return prev;
+        return {
+          ...prev,
+          glossary: { ...prev.glossary, mastered: [...prev.glossary.mastered, term] },
+        };
+      });
+      addXP(5);
+    },
+    [addXP]
+  );
 
   const updateStreak = useCallback(() => {
     setState(prev => {
       const today = new Date().toISOString().split('T')[0];
       if (prev.user.lastActiveDate === today) return prev;
-      
+
       const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-      const newStreak = prev.user.lastActiveDate === yesterday ? prev.user.streak + 1 : 1;
-      
+      const newStreak =
+        prev.user.lastActiveDate === yesterday ? prev.user.streak + 1 : 1;
+
       return { ...prev, user: { ...prev.user, streak: newStreak, lastActiveDate: today } };
     });
   }, []);
 
+  const updateSettings = useCallback((settings: Partial<AppState['settings']>) => {
+    setState(prev => ({ ...prev, settings: { ...prev.settings, ...settings } }));
+  }, []);
+
   return (
-    <UserContext.Provider value={{ state, setState, syncing, addXP, completeLesson, unlockBadge, toggleGlossaryFavorite, masterGlossaryTerm, updateStreak }}>
+    <UserContext.Provider
+      value={{
+        state,
+        syncing,
+        addXP,
+        completeLesson,
+        completeChallenge,
+        completeOnboarding,
+        unlockBadge,
+        toggleGlossaryFavorite,
+        masterGlossaryTerm,
+        updateStreak,
+        updateSettings,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

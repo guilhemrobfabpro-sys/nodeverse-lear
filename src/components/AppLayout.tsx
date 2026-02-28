@@ -10,7 +10,7 @@ const navItems = [
   { to: '/dashboard', icon: Home, label: 'Home' },
   { to: '/learning-path', icon: Map, label: 'Path' },
   { to: '/challenges', icon: Gamepad2, label: 'Play' },
-  { to: '/leaderboard', icon: BarChart3, label: 'Ranks' },
+  { to: '/glossary', icon: BookText, label: 'Glossary' },
   { to: '/profile', icon: User, label: 'Profile' },
 ];
 
