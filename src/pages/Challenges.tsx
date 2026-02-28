@@ -1,16 +1,24 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Clock, Trophy, ChevronRight, Lightbulb, 
+import {
+  Clock, Trophy, ChevronRight, Lightbulb,
   CheckCircle2, XCircle, ArrowRight, Zap, Bug,
-  GripVertical, Timer, Sparkles, Target, Play
+  Timer, Sparkles, Target, Play
 } from 'lucide-react';
 import { AppLayout } from '@/components/AppLayout';
 import { useUser } from '@/contexts/UserContext';
 import { challenges as challengeData, dailyChallenge, Challenge, ChallengeStep } from '@/data/challenges';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Progress } from '@/components/ui/progress';
+
+// Rotate the daily challenge by day-of-year so it changes each day.
+// Falls back to the static dailyChallenge if the pool is empty.
+function getTodaysChallenge(): Challenge {
+  const pool = challengeData.length > 0 ? challengeData : [dailyChallenge];
+  const start = new Date(new Date().getFullYear(), 0, 0);
+  const dayOfYear = Math.floor((Date.now() - start.getTime()) / 86400000);
+  return pool[dayOfYear % pool.length];
+}
 
 const difficultyConfig: Record<string, { color: string; bg: string; border: string }> = {
   Beginner: { color: 'text-accent', bg: 'bg-accent/10', border: 'border-accent/30' },
@@ -520,19 +528,15 @@ function ChallengeRunner({ challenge, onClose, onComplete }: { challenge: Challe
 export default function Challenges() {
   const [filter, setFilter] = useState('all');
   const [activeChallenge, setActiveChallenge] = useState<Challenge | null>(null);
-  const [completedIds, setCompletedIds] = useState<string[]>(() => {
-    try { return JSON.parse(localStorage.getItem('fm_completed_challenges') ?? '[]'); } catch { return []; }
-  });
-  const { addXP } = useUser();
+  const { state, completeChallenge } = useUser();
+  const completedIds = state.completedChallenges;
+  const todaysChallenge = getTodaysChallenge();
 
   const filtered = filter === 'all' ? challengeData : challengeData.filter(c => c.difficulty.toLowerCase() === filter);
 
   const handleComplete = (xp: number) => {
-    addXP(xp);
-    if (activeChallenge && !completedIds.includes(activeChallenge.id)) {
-      const newIds = [...completedIds, activeChallenge.id];
-      setCompletedIds(newIds);
-      localStorage.setItem('fm_completed_challenges', JSON.stringify(newIds));
+    if (activeChallenge) {
+      completeChallenge(activeChallenge.id, xp);
     }
   };
 
@@ -558,7 +562,7 @@ export default function Challenges() {
         <motion.div
           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
           className="glass rounded-2xl overflow-hidden cursor-pointer hover:border-secondary/50 transition-all group"
-          onClick={() => setActiveChallenge(dailyChallenge)}
+          onClick={() => setActiveChallenge(todaysChallenge)}
         >
           <div className="bg-gradient-to-r from-secondary/15 via-secondary/5 to-transparent p-6 relative">
             <div className="absolute top-4 right-4 w-16 h-16 rounded-2xl bg-secondary/10 flex items-center justify-center opacity-50 group-hover:opacity-100 transition-opacity">
@@ -567,20 +571,20 @@ export default function Challenges() {
             <div className="flex items-center gap-2 text-secondary font-heading font-semibold text-sm mb-2">
               <Sparkles className="w-4 h-4" /> Daily Challenge
             </div>
-            <h2 className="font-heading font-bold text-foreground text-lg pr-16">{dailyChallenge.title}</h2>
+            <h2 className="font-heading font-bold text-foreground text-lg pr-16">{todaysChallenge.title}</h2>
             <div className="flex items-center gap-3 mt-3">
               <span className="flex items-center gap-1 text-xs px-2 py-1 rounded-md bg-muted text-muted-foreground">
-                <Clock className="w-3 h-3" /> {dailyChallenge.timeLimit} min
+                <Clock className="w-3 h-3" /> {todaysChallenge.timeLimit} min
               </span>
-              <span className={`text-xs px-2 py-1 rounded-md ${difficultyConfig[dailyChallenge.difficulty].bg} ${difficultyConfig[dailyChallenge.difficulty].color}`}>
-                {dailyChallenge.difficulty}
+              <span className={`text-xs px-2 py-1 rounded-md ${difficultyConfig[todaysChallenge.difficulty].bg} ${difficultyConfig[todaysChallenge.difficulty].color}`}>
+                {todaysChallenge.difficulty}
               </span>
               <span className="text-xs px-2 py-1 rounded-md bg-secondary/10 text-secondary font-semibold">
-                ⚡ +{dailyChallenge.xp} XP
+                ⚡ +{todaysChallenge.xp} XP
               </span>
-              <span className="text-xs text-muted-foreground">{dailyChallenge.steps.length} steps</span>
+              <span className="text-xs text-muted-foreground">{todaysChallenge.steps.length} steps</span>
             </div>
-            <Button variant="secondary" size="sm" className="mt-4" onClick={(e) => { e.stopPropagation(); setActiveChallenge(dailyChallenge); }}>
+            <Button variant="secondary" size="sm" className="mt-4" onClick={(e) => { e.stopPropagation(); setActiveChallenge(todaysChallenge); }}>
               <Play className="w-3.5 h-3.5 mr-1" /> Start
             </Button>
           </div>

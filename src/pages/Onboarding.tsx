@@ -32,7 +32,7 @@ export default function Onboarding() {
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [selectedTools, setSelectedTools] = useState<string[]>([]);
   const navigate = useNavigate();
-  const { state, setState, syncing } = useUser();
+  const { state, syncing, completeOnboarding } = useUser();
   const { user: clerkUser } = useClerkUser();
 
   useEffect(() => {
@@ -53,20 +53,7 @@ export default function Onboarding() {
   const finish = async () => {
     // Save to Clerk metadata (cross-device source of truth)
     await clerkUser?.update({ unsafeMetadata: { onboarded: true } });
-    setState(prev => ({
-      ...prev,
-      user: {
-        ...prev.user,
-        name: name || 'Learner',
-        background,
-        goal: selectedGoals,
-        tools: selectedTools,
-        onboarded: true,
-        createdAt: new Date().toISOString(),
-        lastActiveDate: new Date().toISOString().split('T')[0],
-        streak: 1,
-      },
-    }));
+    completeOnboarding(name, background, selectedGoals, selectedTools);
     navigate('/dashboard');
   };
 

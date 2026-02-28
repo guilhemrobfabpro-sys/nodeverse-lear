@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { UserProvider } from "@/contexts/UserContext";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import Onboarding from "./pages/Onboarding";
 import Dashboard from "./pages/Dashboard";
 import LearningPath from "./pages/LearningPath";
@@ -12,13 +14,12 @@ import Glossary from "./pages/Glossary";
 import Profile from "./pages/Profile";
 import Challenges from "./pages/Challenges";
 import Leaderboard from "./pages/Leaderboard";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import { SignIn, SignUp } from "@clerk/clerk-react";
 import type { ReactElement } from "react";
 import { useUser as useClerkUser } from "@clerk/clerk-react";
 import { Zap } from "lucide-react";
-
-const queryClient = new QueryClient();
 
 const clerkAppearance = {
   variables: {
@@ -79,7 +80,13 @@ const ProtectedRoute = ({ children }: { children: ReactElement }) => {
   return children;
 };
 
-const App = () => (
+const App = () => {
+  // QueryClient must live inside the component so it's properly scoped
+  // to this React tree (important for tests and concurrent rendering).
+  const [queryClient] = useState(() => new QueryClient());
+
+  return (
+  <ErrorBoundary>
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <UserProvider>
@@ -187,12 +194,22 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <Settings />
+                </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </UserProvider>
     </TooltipProvider>
   </QueryClientProvider>
-);
+  </ErrorBoundary>
+  );
+};
 
 export default App;

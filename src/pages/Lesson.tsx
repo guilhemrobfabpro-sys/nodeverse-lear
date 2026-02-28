@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, CheckCircle2, BookOpen, Lightbulb, Zap, Code2, Target, Eye, Sparkles, ChevronDown, ChevronUp } from 'lucide-react';
 import { AppLayout } from '@/components/AppLayout';
@@ -18,6 +18,17 @@ export default function Lesson() {
   const [showLevelUp, setShowLevelUp] = useState(false);
   const [newLevel, setNewLevel] = useState(0);
   const [expandedSections, setExpandedSections] = useState<Set<number>>(new Set());
+  // Track previous level to detect level-up without reading localStorage
+  const prevLevelRef = useRef(state.user.level);
+
+  useEffect(() => {
+    const currentLevel = state.user.level;
+    if (currentLevel > prevLevelRef.current) {
+      setNewLevel(currentLevel);
+      setShowLevelUp(true);
+    }
+    prevLevelRef.current = currentLevel;
+  }, [state.user.level]);
 
   const lesson = id ? lessons[id] : null;
   if (!lesson) {
@@ -50,16 +61,8 @@ export default function Lesson() {
 
   const handleComplete = () => {
     if (id && !isComplete) {
-      const prevLevel = state.user.level;
       completeLesson(id);
-      // Check level up (slight delay for state update)
-      setTimeout(() => {
-        const newState = JSON.parse(localStorage.getItem('flowmaster_state') || '{}');
-        if (newState?.user?.level > prevLevel) {
-          setNewLevel(newState.user.level);
-          setShowLevelUp(true);
-        }
-      }, 100);
+      // Level-up detection is handled reactively in the useEffect above
     }
     if (nextId) navigate(`/lesson/${nextId}`);
   };

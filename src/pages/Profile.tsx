@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion';
+import { useClerk } from '@clerk/clerk-react';
 import { AppLayout } from '@/components/AppLayout';
 import { XPBar } from '@/components/XPBar';
 import { LevelBadge } from '@/components/LevelBadge';
 import { useUser, getLevelName } from '@/contexts/UserContext';
 import { badges as allBadges } from '@/data/badges';
 import { levels } from '@/data/levels';
-import { Flame, Zap, Trophy, Star, Sparkles, Shield, BookOpen, Target } from 'lucide-react';
+import { Flame, Zap, Trophy, Star, Sparkles, Shield, BookOpen, Target, LogOut, Settings } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const rarityConfig: Record<string, { border: string; bg: string; glow: string; label: string }> = {
   common: { border: 'border-muted-foreground/30', bg: 'from-muted/20 to-transparent', glow: '', label: 'Common' },
@@ -23,6 +25,7 @@ const categoryIcons: Record<string, React.ReactNode> = {
 
 export default function Profile() {
   const { state } = useUser();
+  const { signOut } = useClerk();
   const { user, badges, progress } = state;
 
   const completedCount = Object.values(progress).filter(p => p.status === 'complete').length;
@@ -44,6 +47,7 @@ export default function Profile() {
           <div className="relative flex items-center gap-3 sm:gap-5">
             <motion.div 
               className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-2xl sm:text-3xl font-heading font-bold text-primary-foreground shadow-lg shrink-0"
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.9, rotate: 5 }}
             >
               {(user.name || 'L')[0].toUpperCase()}
@@ -53,9 +57,7 @@ export default function Profile() {
               <LevelBadge level={user.level} size="sm" />
               <div className="flex items-center gap-3 sm:gap-4 mt-2 flex-wrap">
                 <span className="flex items-center gap-1 text-xs sm:text-sm">
-                  <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 1, repeat: Infinity }}>
-                    <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-secondary" />
-                  </motion.div>
+                  <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-secondary" />
                   <span className="font-semibold text-secondary">{user.streak}</span>
                   <span className="text-muted-foreground text-[10px] sm:text-xs">streak</span>
                 </span>
@@ -162,13 +164,9 @@ export default function Profile() {
                     <div className={`absolute inset-0 bg-gradient-to-br ${rc.bg}`} />
                   )}
                   <div className="relative">
-                    <motion.span 
-                      className="text-2xl sm:text-3xl block mb-1 sm:mb-2"
-                      animate={earned ? { rotate: [0, 5, -5, 0] } : {}}
-                      transition={{ duration: 4, repeat: Infinity, delay: i * 0.3 }}
-                    >
+                    <span className="text-2xl sm:text-3xl block mb-1 sm:mb-2">
                       {badge.icon}
-                    </motion.span>
+                    </span>
                     <p className="text-[10px] sm:text-sm font-semibold text-foreground leading-tight">{badge.name}</p>
                     <p className="text-[9px] sm:text-[10px] text-muted-foreground mt-0.5 sm:mt-1 line-clamp-2">{badge.description}</p>
                     <div className="mt-1 sm:mt-2 flex items-center justify-center gap-1">
@@ -185,6 +183,33 @@ export default function Profile() {
               );
             })}
           </div>
+        </motion.div>
+
+        {/* Account actions */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="flex gap-3"
+        >
+          <Link
+            to="/settings"
+            className="flex-1 glass rounded-xl p-3 sm:p-4 flex items-center gap-2 sm:gap-3 hover:border-primary/40 transition-all group"
+          >
+            <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+              <Settings className="w-4 h-4 text-primary" />
+            </div>
+            <span className="font-heading font-medium text-sm text-foreground">Settings</span>
+          </Link>
+          <button
+            onClick={() => signOut({ redirectUrl: '/sign-in' })}
+            className="flex-1 glass rounded-xl p-3 sm:p-4 flex items-center gap-2 sm:gap-3 hover:border-destructive/40 transition-all group"
+          >
+            <div className="w-8 h-8 rounded-xl bg-destructive/10 flex items-center justify-center">
+              <LogOut className="w-4 h-4 text-destructive" />
+            </div>
+            <span className="font-heading font-medium text-sm text-foreground">Sign Out</span>
+          </button>
         </motion.div>
       </div>
     </AppLayout>

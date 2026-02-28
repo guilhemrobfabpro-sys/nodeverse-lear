@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, BookOpen, Gamepad2, Clock, Flame, Sparkles, Target, BarChart3, Trophy, Zap, Star, TrendingUp } from 'lucide-react';
+import { ArrowRight, BookOpen, Clock, Flame, Sparkles, Target, BarChart3, Trophy, Zap, Star, TrendingUp } from 'lucide-react';
 import { AppLayout } from '@/components/AppLayout';
 import { XPBar } from '@/components/XPBar';
 import { LevelBadge } from '@/components/LevelBadge';
-import { useUser, getLevelName } from '@/contexts/UserContext';
+import { useUser } from '@/contexts/UserContext';
 import { levels } from '@/data/levels';
 import { badges as allBadges } from '@/data/badges';
 import { Progress } from '@/components/ui/progress';
@@ -31,14 +31,38 @@ export default function Dashboard() {
     }
   }, [state.user.onboarded, syncing, navigate]);
 
-  updateStreak();
+  // Must be in useEffect — calling updateStreak() in the render body causes
+  // a state update on every render, leading to an infinite render loop.
+  useEffect(() => {
+    updateStreak();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const currentLesson = Object.entries(progress).find(([, p]) => p.status === 'in_progress' || p.status === 'available');
-  const completedCount = Object.values(progress).filter(p => p.status === 'complete').length;
-  const totalLessons = levels.reduce((sum, l) => sum + l.modules.length, 0);
-  const currentModule = currentLesson ? levels.flatMap(l => l.modules).find(m => m.id === currentLesson[0]) : null;
-  const currentLevelInfo = currentLesson ? levels.find(l => l.modules.some(m => m.id === currentLesson[0])) : null;
-  const earnedBadges = allBadges.filter(b => badges.includes(b.id));
+  const currentLesson = useMemo(
+    () => Object.entries(progress).find(([, p]) => p.status === 'in_progress' || p.status === 'available'),
+    [progress]
+  );
+  const completedCount = useMemo(
+    () => Object.values(progress).filter(p => p.status === 'complete').length,
+    [progress]
+  );
+  const allModules = useMemo(() => levels.flatMap(l => l.modules), []);
+  const currentModule = useMemo(
+    () => (currentLesson ? allModules.find(m => m.id === currentLesson[0]) : null),
+    [currentLesson, allModules]
+  );
+  const currentLevelInfo = useMemo(
+    () => (currentLesson ? levels.find(l => l.modules.some(m => m.id === currentLesson[0])) : null),
+    [currentLesson]
+  );
+  // Actual progress percentage through the current level's modules
+  const currentLevelProgressPct = useMemo(() => {
+    if (!currentLevelInfo) return 0;
+    const completed = currentLevelInfo.modules.filter(
+      m => progress[m.id]?.status === 'complete'
+    ).length;
+    return Math.round((completed / currentLevelInfo.modules.length) * 100);
+  }, [currentLevelInfo, progress]);
+  const earnedBadges = useMemo(() => allBadges.filter(b => badges.includes(b.id)), [badges]);
 
   const streakMultiplier = user.streak >= 30 ? 2 : user.streak >= 14 ? 1.5 : user.streak >= 7 ? 1.25 : user.streak >= 3 ? 1.1 : 1;
 
@@ -69,7 +93,7 @@ export default function Dashboard() {
               <div className="flex items-center gap-2 sm:gap-3 mt-1 flex-wrap">
                 <LevelBadge level={user.level} size="sm" />
                 <div className="flex items-center gap-1 text-xs sm:text-sm">
-                  <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 1, repeat: Infinity }}>
+                  <motion.div whileHover={{ scale: 1.2 }}>
                     <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-secondary" />
                   </motion.div>
                   <span className="font-semibold text-secondary">{user.streak}</span>
@@ -124,15 +148,14 @@ export default function Dashboard() {
                         <span className="text-[10px] font-mono text-muted-foreground">{currentLevelInfo?.icon} Module {currentModule.id}</span>
                         <h3 className="font-heading font-bold text-foreground text-base sm:text-lg truncate">{currentModule.title}</h3>
                       </div>
-                      <motion.div 
+                      <motion.div
                         className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 ml-3"
-                        animate={{ x: [0, 5, 0] }}
-                        transition={{ duration: 2, repeat: Infinity }}
+                        whileHover={{ x: 4 }}
                       >
                         <ArrowRight className="w-5 h-5 text-primary" />
                       </motion.div>
                     </div>
-                    <Progress value={33} className="h-1.5 mt-3 max-w-xs" />
+                    <Progress value={currentLevelProgressPct} className="h-1.5 mt-3 max-w-xs" />
                   </div>
                 </Link>
               </motion.div>
@@ -142,13 +165,9 @@ export default function Dashboard() {
             <motion.div variants={item}>
               <Link to="/challenges" className="block glass rounded-2xl overflow-hidden border-secondary/20 hover:border-secondary/40 transition-all group relative active:bg-secondary/5">
                 <div className="bg-gradient-to-r from-secondary/10 to-transparent p-4 sm:p-5 flex items-center gap-3 sm:gap-4 relative">
-                  <motion.div 
-                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-secondary/10 flex items-center justify-center shrink-0"
-                    animate={{ rotate: [0, 5, -5, 0] }}
-                    transition={{ duration: 4, repeat: Infinity }}
-                  >
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-secondary/10 flex items-center justify-center shrink-0">
                     <Target className="w-6 h-6 sm:w-7 sm:h-7 text-secondary" />
-                  </motion.div>
+                  </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 text-xs text-secondary font-semibold mb-0.5">
                       <Sparkles className="w-3 h-3" /> Daily Challenge
@@ -177,13 +196,7 @@ export default function Dashboard() {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.3 + i * 0.1 }}
                     >
-                      <motion.span 
-                        className="text-2xl"
-                        animate={{ rotate: [0, 10, -10, 0] }}
-                        transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
-                      >
-                        {b.icon}
-                      </motion.span>
+                      <span className="text-2xl">{b.icon}</span>
                       <div className="min-w-0">
                         <p className="font-semibold text-foreground text-sm truncate">{b.name}</p>
                         <p className="text-[10px] text-muted-foreground truncate">{b.description}</p>
@@ -239,13 +252,9 @@ export default function Dashboard() {
 
               <Link to="/leaderboard" className="block glass rounded-2xl p-3 sm:p-4 hover:border-secondary/40 transition-all group border-secondary/10 active:bg-muted/30">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <motion.div 
-                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-secondary/10 flex items-center justify-center"
-                    animate={{ rotate: [0, 5, -5, 0] }}
-                    transition={{ duration: 4, repeat: Infinity }}
-                  >
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-secondary/10 flex items-center justify-center">
                     <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-secondary" />
-                  </motion.div>
+                  </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-heading font-semibold text-foreground text-xs sm:text-sm">Leaderboard</h3>
                     <p className="text-[10px] text-muted-foreground hidden sm:block flex items-center gap-1">
