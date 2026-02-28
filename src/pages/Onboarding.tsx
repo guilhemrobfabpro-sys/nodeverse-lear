@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Zap, Sparkles } from 'lucide-react';
+import { useUser as useClerkUser } from '@clerk/clerk-react';
 import { useUser } from '@/contexts/UserContext';
 
 const backgrounds = [
@@ -31,13 +32,15 @@ export default function Onboarding() {
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [selectedTools, setSelectedTools] = useState<string[]>([]);
   const navigate = useNavigate();
-  const { state, setState } = useUser();
+  const { state, setState, syncing } = useUser();
+  const { user: clerkUser } = useClerkUser();
 
   useEffect(() => {
+    if (syncing) return;
     if (state.user.onboarded) {
       navigate('/dashboard', { replace: true });
     }
-  }, [state.user.onboarded, navigate]);
+  }, [state.user.onboarded, syncing, navigate]);
 
   const toggleGoal = (id: string) =>
     setSelectedGoals(prev => prev.includes(id) ? prev.filter(g => g !== id) : [...prev, id]);
@@ -47,7 +50,9 @@ export default function Onboarding() {
   const recommendedLevel = background === 'beginner' ? 1 : background === 'business' ? 1 : background === 'power' ? 2 : 3;
   const pathName = recommendedLevel === 1 ? 'No-Code Foundations' : recommendedLevel === 2 ? 'Core Skills' : 'AI Integration';
 
-  const finish = () => {
+  const finish = async () => {
+    // Save to Clerk metadata (cross-device source of truth)
+    await clerkUser?.update({ unsafeMetadata: { onboarded: true } });
     setState(prev => ({
       ...prev,
       user: {

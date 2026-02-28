@@ -86,6 +86,7 @@ export function getXPForCurrentLevel(level: number) {
 interface UserContextType {
   state: AppState;
   setState: React.Dispatch<React.SetStateAction<AppState>>;
+  syncing: boolean;
   addXP: (amount: number) => void;
   completeLesson: (lessonId: string, score?: number) => void;
   unlockBadge: (badgeId: string) => void;
@@ -97,7 +98,7 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | null>(null);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
-  const { user: clerkUser, isSignedIn } = useClerkUser();
+  const { user: clerkUser, isSignedIn, isLoaded } = useClerkUser();
   const [state, setState] = useState<AppState>(() => {
     try {
       const saved = localStorage.getItem('flowmaster_state');
@@ -105,10 +106,21 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     } catch {}
     return defaultState;
   });
+  // True until we've checked Clerk metadata — prevents premature onboarding redirects
+  const [syncing, setSyncing] = useState(true);
 
   useEffect(() => {
     localStorage.setItem('flowmaster_state', JSON.stringify(state));
   }, [state]);
+
+  // Sync onboarded flag from Clerk metadata (cross-device source of truth)
+  useEffect(() => {
+    if (!isLoaded) return;
+    if (isSignedIn && clerkUser?.unsafeMetadata?.onboarded === true) {
+      setState(prev => prev.user.onboarded ? prev : { ...prev, user: { ...prev.user, onboarded: true } });
+    }
+    setSyncing(false);
+  }, [isLoaded, isSignedIn, clerkUser?.unsafeMetadata?.onboarded]);
 
   // Sync profile with Supabase whenever the signed-in user or core profile fields change
   useEffect(() => {
@@ -214,7 +226,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <UserContext.Provider value={{ state, setState, addXP, completeLesson, unlockBadge, toggleGlossaryFavorite, masterGlossaryTerm, updateStreak }}>
+    <UserContext.Provider value={{ state, setState, syncing, addXP, completeLesson, unlockBadge, toggleGlossaryFavorite, masterGlossaryTerm, updateStreak }}>
       {children}
     </UserContext.Provider>
   );

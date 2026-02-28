@@ -20,15 +20,16 @@ const item = {
 };
 
 export default function Dashboard() {
-  const { state, updateStreak } = useUser();
+  const { state, syncing, updateStreak } = useUser();
   const { user, progress, badges } = state;
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (syncing) return;
     if (!state.user.onboarded) {
       navigate('/onboarding', { replace: true });
     }
-  }, [state.user.onboarded, navigate]);
+  }, [state.user.onboarded, syncing, navigate]);
 
   updateStreak();
 
