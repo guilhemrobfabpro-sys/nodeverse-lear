@@ -5,15 +5,15 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 backdrop-blur-md shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)]",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
+        default: "bg-primary/30 text-primary-foreground border border-primary/50 hover:bg-primary/45 hover:border-primary/70",
+        destructive: "bg-destructive/30 text-destructive-foreground border border-destructive/50 hover:bg-destructive/45 hover:border-destructive/70",
+        outline: "bg-white/5 border border-white/20 text-foreground hover:bg-white/10 hover:border-white/30 hover:text-accent-foreground",
+        secondary: "bg-secondary/30 text-secondary-foreground border border-secondary/50 hover:bg-secondary/45 hover:border-secondary/70",
+        ghost: "border border-transparent hover:bg-white/8 hover:text-accent-foreground hover:border-white/10",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
