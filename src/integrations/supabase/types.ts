@@ -25,6 +25,8 @@ export type Database = {
           last_active_date: string | null
           lessons_completed: number
           level: number
+          phone_country_code: string | null
+          phone_number: string | null
           streak: number
           updated_at: string
           user_id: string | null
@@ -40,6 +42,8 @@ export type Database = {
           last_active_date?: string | null
           lessons_completed?: number
           level?: number
+          phone_country_code?: string | null
+          phone_number?: string | null
           streak?: number
           updated_at?: string
           user_id?: string | null
@@ -55,6 +59,8 @@ export type Database = {
           last_active_date?: string | null
           lessons_completed?: number
           level?: number
+          phone_country_code?: string | null
+          phone_number?: string | null
           streak?: number
           updated_at?: string
           user_id?: string | null

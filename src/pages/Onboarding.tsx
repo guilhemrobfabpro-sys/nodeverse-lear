@@ -1,9 +1,67 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Zap, Sparkles } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Zap, Sparkles, Phone } from 'lucide-react';
 import { useUser as useClerkUser } from '@clerk/clerk-react';
 import { useUser } from '@/contexts/UserContext';
+
+const countryCodes = [
+  { code: 'US', dial: '+1', name: 'United States', flag: '🇺🇸' },
+  { code: 'GB', dial: '+44', name: 'United Kingdom', flag: '🇬🇧' },
+  { code: 'FR', dial: '+33', name: 'France', flag: '🇫🇷' },
+  { code: 'DE', dial: '+49', name: 'Germany', flag: '🇩🇪' },
+  { code: 'ES', dial: '+34', name: 'Spain', flag: '🇪🇸' },
+  { code: 'IT', dial: '+39', name: 'Italy', flag: '🇮🇹' },
+  { code: 'PT', dial: '+351', name: 'Portugal', flag: '🇵🇹' },
+  { code: 'NL', dial: '+31', name: 'Netherlands', flag: '🇳🇱' },
+  { code: 'BE', dial: '+32', name: 'Belgium', flag: '🇧🇪' },
+  { code: 'CH', dial: '+41', name: 'Switzerland', flag: '🇨🇭' },
+  { code: 'AT', dial: '+43', name: 'Austria', flag: '🇦🇹' },
+  { code: 'PL', dial: '+48', name: 'Poland', flag: '🇵🇱' },
+  { code: 'SE', dial: '+46', name: 'Sweden', flag: '🇸🇪' },
+  { code: 'NO', dial: '+47', name: 'Norway', flag: '🇳🇴' },
+  { code: 'DK', dial: '+45', name: 'Denmark', flag: '🇩🇰' },
+  { code: 'FI', dial: '+358', name: 'Finland', flag: '🇫🇮' },
+  { code: 'RU', dial: '+7', name: 'Russia', flag: '🇷🇺' },
+  { code: 'CA', dial: '+1', name: 'Canada', flag: '🇨🇦' },
+  { code: 'MX', dial: '+52', name: 'Mexico', flag: '🇲🇽' },
+  { code: 'BR', dial: '+55', name: 'Brazil', flag: '🇧🇷' },
+  { code: 'AR', dial: '+54', name: 'Argentina', flag: '🇦🇷' },
+  { code: 'CO', dial: '+57', name: 'Colombia', flag: '🇨🇴' },
+  { code: 'CL', dial: '+56', name: 'Chile', flag: '🇨🇱' },
+  { code: 'PE', dial: '+51', name: 'Peru', flag: '🇵🇪' },
+  { code: 'AU', dial: '+61', name: 'Australia', flag: '🇦🇺' },
+  { code: 'NZ', dial: '+64', name: 'New Zealand', flag: '🇳🇿' },
+  { code: 'JP', dial: '+81', name: 'Japan', flag: '🇯🇵' },
+  { code: 'CN', dial: '+86', name: 'China', flag: '🇨🇳' },
+  { code: 'KR', dial: '+82', name: 'South Korea', flag: '🇰🇷' },
+  { code: 'IN', dial: '+91', name: 'India', flag: '🇮🇳' },
+  { code: 'PK', dial: '+92', name: 'Pakistan', flag: '🇵🇰' },
+  { code: 'BD', dial: '+880', name: 'Bangladesh', flag: '🇧🇩' },
+  { code: 'ID', dial: '+62', name: 'Indonesia', flag: '🇮🇩' },
+  { code: 'PH', dial: '+63', name: 'Philippines', flag: '🇵🇭' },
+  { code: 'VN', dial: '+84', name: 'Vietnam', flag: '🇻🇳' },
+  { code: 'TH', dial: '+66', name: 'Thailand', flag: '🇹🇭' },
+  { code: 'MY', dial: '+60', name: 'Malaysia', flag: '🇲🇾' },
+  { code: 'SG', dial: '+65', name: 'Singapore', flag: '🇸🇬' },
+  { code: 'HK', dial: '+852', name: 'Hong Kong', flag: '🇭🇰' },
+  { code: 'TW', dial: '+886', name: 'Taiwan', flag: '🇹🇼' },
+  { code: 'TR', dial: '+90', name: 'Turkey', flag: '🇹🇷' },
+  { code: 'SA', dial: '+966', name: 'Saudi Arabia', flag: '🇸🇦' },
+  { code: 'AE', dial: '+971', name: 'UAE', flag: '🇦🇪' },
+  { code: 'IL', dial: '+972', name: 'Israel', flag: '🇮🇱' },
+  { code: 'EG', dial: '+20', name: 'Egypt', flag: '🇪🇬' },
+  { code: 'NG', dial: '+234', name: 'Nigeria', flag: '🇳🇬' },
+  { code: 'ZA', dial: '+27', name: 'South Africa', flag: '🇿🇦' },
+  { code: 'KE', dial: '+254', name: 'Kenya', flag: '🇰🇪' },
+  { code: 'GH', dial: '+233', name: 'Ghana', flag: '🇬🇭' },
+  { code: 'MA', dial: '+212', name: 'Morocco', flag: '🇲🇦' },
+  { code: 'DZ', dial: '+213', name: 'Algeria', flag: '🇩🇿' },
+  { code: 'TN', dial: '+216', name: 'Tunisia', flag: '🇹🇳' },
+  { code: 'CI', dial: '+225', name: 'Ivory Coast', flag: '🇨🇮' },
+  { code: 'SN', dial: '+221', name: 'Senegal', flag: '🇸🇳' },
+  { code: 'CM', dial: '+237', name: 'Cameroon', flag: '🇨🇲' },
+];
 
 const backgrounds = [
   { id: 'beginner', icon: '🌱', label: 'Complete beginner', desc: 'Never automated anything' },
@@ -28,6 +86,8 @@ const tools = [
 export default function Onboarding() {
   const [step, setStep] = useState(0);
   const [name, setName] = useState('');
+  const [phoneCountry, setPhoneCountry] = useState('US');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [background, setBackground] = useState('');
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
   const [selectedTools, setSelectedTools] = useState<string[]>([]);
@@ -50,14 +110,23 @@ export default function Onboarding() {
   const recommendedLevel = background === 'beginner' ? 1 : background === 'business' ? 1 : background === 'power' ? 2 : 3;
   const pathName = recommendedLevel === 1 ? 'No-Code Foundations' : recommendedLevel === 2 ? 'Core Skills' : 'AI Integration';
 
+  const selectedCountry = countryCodes.find(c => c.code === phoneCountry) ?? countryCodes[0];
+
   const finish = async () => {
     // Save to Clerk metadata (cross-device source of truth)
     await clerkUser?.update({ unsafeMetadata: { onboarded: true } });
-    completeOnboarding(name, background, selectedGoals, selectedTools);
+    completeOnboarding(name, background, selectedGoals, selectedTools, selectedCountry.dial, phoneNumber.trim());
     navigate('/dashboard');
   };
 
-  const canNext = step === 0 ? name.trim().length > 0 : step === 1 ? !!background : step === 2 ? selectedGoals.length > 0 : true;
+  // Steps: 0=name, 1=phone, 2=background, 3=goals, 4=tools, 5=results
+  const phoneValid = phoneNumber.trim().length === 0 || /^\d{5,15}$/.test(phoneNumber.replace(/\s/g, ''));
+  const canNext =
+    step === 0 ? name.trim().length > 0 :
+    step === 1 ? phoneValid :
+    step === 2 ? !!background :
+    step === 3 ? selectedGoals.length > 0 :
+    true;
 
   const slideVariants = {
     enter: { opacity: 0, y: 40, scale: 0.96 },
@@ -96,6 +165,62 @@ export default function Onboarding() {
           className="w-full px-4 py-3.5 rounded-2xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary text-base"
           autoFocus
         />
+      </div>
+    </div>,
+
+    // Phone number
+    <div className="space-y-5 px-2">
+      <div className="text-center">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: 'spring', damping: 12 }}
+          className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4 shadow-md"
+        >
+          <Phone className="w-7 h-7 text-primary-foreground" />
+        </motion.div>
+        <h2 className="text-xl sm:text-2xl font-heading font-bold text-foreground">What's your phone number?</h2>
+        <p className="text-muted-foreground text-sm mt-1">Optional — we'll keep you posted on your progress</p>
+      </div>
+      <div className="max-w-xs mx-auto space-y-3">
+        <div>
+          <label className="text-sm text-muted-foreground block text-left mb-1.5">Country</label>
+          <select
+            value={phoneCountry}
+            onChange={e => setPhoneCountry(e.target.value)}
+            className="w-full px-4 py-3.5 rounded-2xl bg-muted border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary text-base appearance-none cursor-pointer"
+          >
+            {countryCodes.map(c => (
+              <option key={c.code} value={c.code}>
+                {c.flag} {c.name} ({c.dial})
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="text-sm text-muted-foreground block text-left mb-1.5">Phone number</label>
+          <div className="flex gap-2">
+            <span className="flex items-center px-4 py-3.5 rounded-2xl bg-muted border border-border text-foreground font-medium text-base whitespace-nowrap">
+              {selectedCountry.flag} {selectedCountry.dial}
+            </span>
+            <input
+              type="tel"
+              value={phoneNumber}
+              onChange={e => setPhoneNumber(e.target.value.replace(/[^\d\s]/g, ''))}
+              placeholder="6 12 34 56 78"
+              className="flex-1 px-4 py-3.5 rounded-2xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary text-base"
+            />
+          </div>
+          {phoneNumber && !phoneValid && (
+            <p className="text-xs text-destructive mt-1.5 text-left">Please enter a valid phone number (5–15 digits)</p>
+          )}
+        </div>
+        <button
+          onClick={() => { setPhoneNumber(''); setStep(s => s + 1); }}
+          className="w-full text-sm text-muted-foreground hover:text-foreground py-2 transition-colors"
+        >
+          Skip for now
+        </button>
       </div>
     </div>,
 
@@ -225,16 +350,16 @@ export default function Onboarding() {
       {/* Progress bar */}
       <div className="w-full max-w-md mb-6 sm:mb-8">
         <div className="flex gap-2">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <motion.div 
-              key={i} 
+          {Array.from({ length: 6 }).map((_, i) => (
+            <motion.div
+              key={i}
               className={`h-1.5 flex-1 rounded-full transition-all ${i <= step ? 'bg-primary' : 'bg-muted'}`}
               animate={i === step ? { scaleY: [1, 1.5, 1] } : {}}
               transition={{ duration: 0.5 }}
             />
           ))}
         </div>
-        <p className="text-xs text-muted-foreground mt-2 text-center">Step {step + 1} of 5</p>
+        <p className="text-xs text-muted-foreground mt-2 text-center">Step {step + 1} of 6</p>
       </div>
 
       {/* Content */}
@@ -266,7 +391,7 @@ export default function Onboarding() {
             <ArrowLeft className="w-4 h-4" /> Back
           </motion.button>
         )}
-        {step < 4 ? (
+        {step < 5 ? (
           <motion.button
             onClick={() => setStep(s => s + 1)}
             disabled={!canNext}
