@@ -17,6 +17,8 @@ export interface UserData {
   goal: string[];
   tools: string[];
   onboarded: boolean;
+  phoneCountryCode: string;
+  phoneNumber: string;
 }
 
 export interface LessonProgress {
@@ -62,6 +64,8 @@ const appStateSchema = z.object({
     goal: z.array(z.string()),
     tools: z.array(z.string()),
     onboarded: z.boolean(),
+    phoneCountryCode: z.string().optional().default(''),
+    phoneNumber: z.string().optional().default(''),
   }),
   progress: z.record(lessonProgressSchema),
   badges: z.array(z.string()),
@@ -103,6 +107,8 @@ const defaultState: AppState = {
     goal: [],
     tools: [],
     onboarded: false,
+    phoneCountryCode: '',
+    phoneNumber: '',
   },
   progress: defaultProgress,
   badges: [],
@@ -140,7 +146,7 @@ interface UserContextType {
   addXP: (amount: number) => void;
   completeLesson: (lessonId: string, score?: number) => void;
   completeChallenge: (challengeId: string, xp: number) => void;
-  completeOnboarding: (name: string, background: string, goal: string[], tools: string[]) => void;
+  completeOnboarding: (name: string, background: string, goal: string[], tools: string[], phoneCountryCode?: string, phoneNumber?: string) => void;
   unlockBadge: (badgeId: string) => void;
   toggleGlossaryFavorite: (term: string) => void;
   masterGlossaryTerm: (term: string) => void;
@@ -231,6 +237,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         lessons_completed: Object.values(state.progress).filter(p => p.status === 'complete').length,
         challenges_completed: state.completedChallenges.length,
         badges: state.badges,
+        phone_country_code: state.user.phoneCountryCode || null,
+        phone_number: state.user.phoneNumber || null,
       };
 
       if (!existing) {
@@ -256,6 +264,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     state.progress,
     state.badges,
     state.completedChallenges,
+    state.user.phoneCountryCode,
+    state.user.phoneNumber,
   ]);
 
   // ── Actions ────────────────────────────────────────────────────
@@ -310,7 +320,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
   );
 
   const completeOnboarding = useCallback(
-    (name: string, background: string, goal: string[], tools: string[]) => {
+    (name: string, background: string, goal: string[], tools: string[], phoneCountryCode = '', phoneNumber = '') => {
       setState(prev => ({
         ...prev,
         user: {
@@ -323,6 +333,8 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
           createdAt: new Date().toISOString(),
           lastActiveDate: new Date().toISOString().split('T')[0],
           streak: 1,
+          phoneCountryCode,
+          phoneNumber,
         },
       }));
     },
