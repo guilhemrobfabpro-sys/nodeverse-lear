@@ -1,15 +1,17 @@
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Map, Gamepad2, BookText, User, Zap } from 'lucide-react';
+import { Home, Map, Gamepad2, BookText, User, Zap, Sun, Moon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { XPBar } from './XPBar';
 import { StreakCounter } from './StreakCounter';
 import { useUser } from '@/contexts/UserContext';
 import GlassIcons from './GlassIcons';
+import { useTheme } from '@/hooks/useTheme';
 
 export function AppLayout({ children }: { children: ReactNode }) {
   const location = useLocation();
   const { state } = useUser();
+  const { theme, toggle } = useTheme();
 
   const navItems = [
     { to: '/dashboard',     icon: <Home     className="w-4 h-4" />, color: 'blue',   label: 'Home'    },
@@ -43,6 +45,14 @@ export function AppLayout({ children }: { children: ReactNode }) {
             <div className="hidden xs:block w-20">
               <XPBar showLabel={false} />
             </div>
+            <motion.button
+              onClick={toggle}
+              className="w-8 h-8 rounded-full bg-muted border border-border flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+              whileTap={{ scale: 0.88 }}
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </motion.button>
             <Link
               to="/profile"
               className="w-8 h-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-xs font-heading font-bold text-primary"
