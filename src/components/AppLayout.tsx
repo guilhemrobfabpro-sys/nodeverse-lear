@@ -1,22 +1,27 @@
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Map, Gamepad2, BookText, User, BarChart3, Home, Zap } from 'lucide-react';
+import { Home, Map, Gamepad2, BookText, User, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { XPBar } from './XPBar';
 import { StreakCounter } from './StreakCounter';
 import { useUser } from '@/contexts/UserContext';
-
-const navItems = [
-  { to: '/dashboard', icon: Home, label: 'Home' },
-  { to: '/learning-path', icon: Map, label: 'Path' },
-  { to: '/challenges', icon: Gamepad2, label: 'Play' },
-  { to: '/glossary', icon: BookText, label: 'Glossary' },
-  { to: '/profile', icon: User, label: 'Profile' },
-];
+import GlassIcons from './GlassIcons';
 
 export function AppLayout({ children }: { children: ReactNode }) {
   const location = useLocation();
   const { state } = useUser();
+
+  const navItems = [
+    { to: '/dashboard',     icon: <Home     className="w-4 h-4" />, color: 'blue',   label: 'Home'    },
+    { to: '/learning-path', icon: <Map      className="w-4 h-4" />, color: 'purple', label: 'Path'    },
+    { to: '/challenges',    icon: <Gamepad2 className="w-4 h-4" />, color: 'orange', label: 'Play'    },
+    { to: '/glossary',      icon: <BookText className="w-4 h-4" />, color: 'green',  label: 'Glossary'},
+    { to: '/profile',       icon: <User     className="w-4 h-4" />, color: 'indigo', label: 'Profile' },
+  ].map(item => ({
+    ...item,
+    href: item.to,
+    isActive: location.pathname.startsWith(item.to),
+  }));
 
   return (
     <div className="min-h-screen gradient-bg">
@@ -49,52 +54,19 @@ export function AppLayout({ children }: { children: ReactNode }) {
       </header>
 
       <div className="flex">
-        {/* Main content with bottom safe area reserved for tab bar */}
-        <main className="flex-1 min-h-[calc(100vh-3rem)] pb-[64px]" style={{ paddingBottom: 'calc(64px + env(safe-area-inset-bottom, 0px))' }}>
+        {/* Main content — extra bottom padding for the taller glass nav */}
+        <main className="flex-1 min-h-[calc(100vh-3rem)] pb-[80px]" style={{ paddingBottom: 'calc(80px + env(safe-area-inset-bottom, 0px))' }}>
           {children}
         </main>
       </div>
 
-      {/* iOS-style mobile bottom tab bar */}
+      {/* Glass icon bottom tab bar */}
       <nav
         className="fixed bottom-0 left-0 right-0 z-50 glass-strong border-t border-border/30 lg:hidden"
         style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
       >
-        <div className="max-w-3xl mx-auto flex justify-between px-4 py-2">
-          {navItems.map((item) => {
-            const isActive = location.pathname.startsWith(item.to);
-            return (
-              <Link
-                key={item.to}
-                to={item.to}
-                className="flex flex-col items-center gap-0.5 px-3 py-1 rounded-2xl min-w-[60px] relative"
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="mobile-nav-indicator"
-                    className="absolute inset-0 bg-primary/10 rounded-2xl"
-                    transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                  />
-                )}
-                <motion.div
-                  animate={isActive ? { scale: 1.15, y: -2 } : { scale: 1, y: 0 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                  className="relative"
-                >
-                  <item.icon
-                    className={`w-5 h-5 transition-colors ${isActive ? 'text-primary' : 'text-muted-foreground'}`}
-                  />
-                </motion.div>
-                <span
-                  className={`text-[11px] font-medium relative transition-colors ${
-                    isActive ? 'text-primary' : 'text-muted-foreground'
-                  }`}
-                >
-                  {item.label}
-                </span>
-              </Link>
-            );
-          })}
+        <div className="max-w-3xl mx-auto">
+          <GlassIcons items={navItems} className="icon-btns--nav" />
         </div>
       </nav>
     </div>
