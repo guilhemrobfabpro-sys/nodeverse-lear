@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Lock, CheckCircle2, ArrowRight, Clock, Sparkles, Star, Trophy, Zap, Flame, Sprout, Bot, Building2, Rocket, Dumbbell, Moon, Sun, Link2, BarChart3, Wrench, BookOpen, Target, BookMarked } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Clock, Star, Trophy, Zap, Flame, Sprout, Bot, Building2, Rocket, Dumbbell, Moon, Sun, Link2, BarChart3, Wrench, BookOpen, Target, BookMarked } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import type { FC } from 'react';
 
@@ -83,9 +83,8 @@ export default function LearningPath() {
           />
 
           {levels.map((level, li) => {
-            const moduleStatuses = level.modules.map(m => progress[m.id]?.status || 'locked');
+            const moduleStatuses = level.modules.map(m => progress[m.id]?.status || 'available');
             const completedModules = moduleStatuses.filter(s => s === 'complete').length;
-            const isLocked = li > 0 && moduleStatuses.every(s => s === 'locked');
             const isComplete = completedModules === level.modules.length;
             const progressPct = (completedModules / level.modules.length) * 100;
 
@@ -96,7 +95,7 @@ export default function LearningPath() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: li * 0.1 }}
               >
-                <div className={`glass rounded-2xl overflow-hidden transition-all ${isLocked ? 'opacity-40' : ''} ${borderMap[level.color] || ''} ${isComplete ? glowMap[level.color] : ''}`}>
+                <div className={`glass rounded-2xl overflow-hidden transition-all ${borderMap[level.color] || ''} ${isComplete ? glowMap[level.color] : ''}`}>
                   {/* Level header */}
                   <div className={`bg-gradient-to-r ${levelGradients[level.color]} p-4 sm:p-5 flex items-center gap-3 sm:gap-4 relative overflow-hidden`}>
                     {isComplete && (
@@ -129,30 +128,26 @@ export default function LearningPath() {
                       <div className="flex items-center gap-2 sm:gap-3 mt-0.5 sm:mt-1">
                         <span className="flex items-center gap-1 text-[10px] sm:text-xs text-muted-foreground"><Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3" />{level.duration}</span>
                         <span className="text-[10px] sm:text-xs text-muted-foreground">{level.lessonCount} lessons</span>
-                        {isLocked && <Lock className="w-3 h-3 text-muted-foreground" />}
                       </div>
                     </div>
-                    {!isLocked && (
-                      <div className="shrink-0 w-12 sm:w-16 text-center relative">
-                        <motion.div 
-                          className="text-lg sm:text-2xl font-bold font-heading text-foreground"
-                          key={progressPct}
-                          initial={{ scale: 0.5 }}
-                          animate={{ scale: 1 }}
-                        >
-                          {Math.round(progressPct)}%
-                        </motion.div>
-                        <Progress value={progressPct} className="h-1 mt-1" />
-                      </div>
-                    )}
+                    <div className="shrink-0 w-12 sm:w-16 text-center relative">
+                      <motion.div
+                        className="text-lg sm:text-2xl font-bold font-heading text-foreground"
+                        key={progressPct}
+                        initial={{ scale: 0.5 }}
+                        animate={{ scale: 1 }}
+                      >
+                        {Math.round(progressPct)}%
+                      </motion.div>
+                      <Progress value={progressPct} className="h-1 mt-1" />
+                    </div>
                   </div>
 
                   {/* Modules */}
                   <div className="p-2 sm:p-3 space-y-0.5 sm:space-y-1">
                     {level.modules.map((mod, mi) => {
-                      const status = progress[mod.id]?.status || 'locked';
+                      const status = progress[mod.id]?.status || 'available';
                       const isModComplete = status === 'complete';
-                      const isAvailable = status === 'available' || status === 'in_progress';
 
                       return (
                         <motion.div
@@ -161,58 +156,46 @@ export default function LearningPath() {
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: li * 0.1 + mi * 0.03 }}
                         >
-                          {isAvailable || isModComplete ? (
-                            <Link
-                              to={`/lesson/${mod.id}`}
-                              className={`flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 rounded-xl transition-all hover:bg-muted/30 group active:bg-muted/40 ${
-                                mod.isMilestone ? `bg-gradient-to-r ${levelGradients[level.color]} border ${borderMap[level.color]}` : ''
-                              }`}
-                            >
-                              {isModComplete ? (
-                                <motion.div 
-                                  className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-accent/20 flex items-center justify-center shrink-0"
-                                  initial={{ scale: 0 }}
-                                  animate={{ scale: 1 }}
-                                  transition={{ type: 'spring' }}
-                                >
-                                  <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent" />
-                                </motion.div>
-                              ) : (
-                                <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg border-2 ${borderMap[level.color] || 'border-primary/30'} flex items-center justify-center shrink-0`}>
-                                  <motion.div 
-                                    className={`w-2 h-2 rounded-full ${dotColorMap[level.color] || 'bg-primary'}`}
-                                    animate={{ scale: [1, 1.3, 1] }}
-                                    transition={{ duration: 2, repeat: Infinity }}
-                                  />
-                                </div>
-                              )}
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-1.5 sm:gap-2">
-                                  <span className="text-[9px] sm:text-[10px] font-mono text-muted-foreground">{mod.id}</span>
-                                  {mod.isMilestone && (
-                                    <span className="text-[9px] sm:text-[10px] px-1 sm:px-1.5 py-0.5 rounded bg-secondary/20 text-secondary flex items-center gap-0.5">
-                                      <Trophy className="w-2 h-2 sm:w-2.5 sm:h-2.5" /> Milestone
-                                    </span>
-                                  )}
-                                </div>
-                                <p className="font-medium text-foreground text-xs sm:text-sm truncate">{mod.title}</p>
+                          <Link
+                            to={`/lesson/${mod.id}`}
+                            className={`flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 rounded-xl transition-all hover:bg-muted/30 group active:bg-muted/40 ${
+                              mod.isMilestone ? `bg-gradient-to-r ${levelGradients[level.color]} border ${borderMap[level.color]}` : ''
+                            }`}
+                          >
+                            {isModComplete ? (
+                              <motion.div
+                                className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-accent/20 flex items-center justify-center shrink-0"
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{ type: 'spring' }}
+                              >
+                                <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent" />
+                              </motion.div>
+                            ) : (
+                              <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg border-2 ${borderMap[level.color] || 'border-primary/30'} flex items-center justify-center shrink-0`}>
+                                <motion.div
+                                  className={`w-2 h-2 rounded-full ${dotColorMap[level.color] || 'bg-primary'}`}
+                                  animate={{ scale: [1, 1.3, 1] }}
+                                  transition={{ duration: 2, repeat: Infinity }}
+                                />
                               </div>
-                              <span className="text-[10px] sm:text-xs text-secondary font-semibold shrink-0 flex items-center gap-0.5">
-                                <Zap className="w-2.5 h-2.5 sm:w-3 sm:h-3" />+{mod.xp}
-                              </span>
-                              <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground group-hover:text-primary shrink-0 transition-colors" />
-                            </Link>
-                          ) : (
-                            <div className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 rounded-xl opacity-30">
-                              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-muted/50 flex items-center justify-center shrink-0">
-                                <Lock className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground" />
-                              </div>
-                              <div className="flex-1 min-w-0">
+                            )}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-1.5 sm:gap-2">
                                 <span className="text-[9px] sm:text-[10px] font-mono text-muted-foreground">{mod.id}</span>
-                                <p className="font-medium text-foreground text-xs sm:text-sm truncate">{mod.title}</p>
+                                {mod.isMilestone && (
+                                  <span className="text-[9px] sm:text-[10px] px-1 sm:px-1.5 py-0.5 rounded bg-secondary/20 text-secondary flex items-center gap-0.5">
+                                    <Trophy className="w-2 h-2 sm:w-2.5 sm:h-2.5" /> Milestone
+                                  </span>
+                                )}
                               </div>
+                              <p className="font-medium text-foreground text-xs sm:text-sm truncate">{mod.title}</p>
                             </div>
-                          )}
+                            <span className="text-[10px] sm:text-xs text-secondary font-semibold shrink-0 flex items-center gap-0.5">
+                              <Zap className="w-2.5 h-2.5 sm:w-3 sm:h-3" />+{mod.xp}
+                            </span>
+                            <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-muted-foreground group-hover:text-primary shrink-0 transition-colors" />
+                          </Link>
                         </motion.div>
                       );
                     })}
@@ -228,10 +211,8 @@ export default function LearningPath() {
                         <p className="text-[10px] sm:text-xs text-muted-foreground">Level reward</p>
                         <p className="text-xs sm:text-sm font-heading font-semibold text-foreground truncate">{level.badge.name}</p>
                       </div>
-                      {isComplete ? (
+                      {isComplete && (
                         <span className="text-[10px] sm:text-xs text-accent font-semibold flex items-center gap-1 shrink-0"><CheckCircle2 className="w-3 h-3" /> Earned</span>
-                      ) : (
-                        <span className="text-[10px] sm:text-xs text-muted-foreground shrink-0"><Lock className="w-3 h-3 inline mr-1" />Locked</span>
                       )}
                     </div>
                   </div>

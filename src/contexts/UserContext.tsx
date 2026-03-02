@@ -87,8 +87,8 @@ const appStateSchema = z.object({
 function buildDefaultProgress(): Record<string, LessonProgress> {
   const allModules = levels.flatMap(l => l.modules);
   const result: Record<string, LessonProgress> = {};
-  allModules.forEach((module, index) => {
-    result[module.id] = { status: index === 0 ? 'available' : 'locked' };
+  allModules.forEach(module => {
+    result[module.id] = { status: 'available' };
   });
   return result;
 }
