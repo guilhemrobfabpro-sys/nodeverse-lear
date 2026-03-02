@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { Lock, CheckCircle2, ArrowRight, Clock, Sparkles, Star, Trophy, Zap, Flame, Sprout, Bot, Building2, Rocket, Dumbbell, Moon, Sun, Link2, BarChart3, Wrench, BookOpen, Target, BookMarked } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Lock, CheckCircle2, ArrowRight, Clock, Sparkles, Star, Trophy, Zap, Flame, Sprout, Bot, Building2, Rocket, Dumbbell, Moon, Sun, Link2, BarChart3, Wrench, BookOpen, Target, BookMarked, Crown } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import type { FC } from 'react';
 
@@ -12,6 +12,7 @@ import { AppLayout } from '@/components/AppLayout';
 import { useUser } from '@/contexts/UserContext';
 import { levels } from '@/data/levels';
 import { Progress } from '@/components/ui/progress';
+import { canAccessLevel } from '@/lib/plan';
 
 const levelGradients: Record<string, string> = {
   accent: 'from-accent/20 via-accent/5 to-transparent',
@@ -40,6 +41,7 @@ const glowMap: Record<string, string> = {
 export default function LearningPath() {
   const { state } = useUser();
   const { progress } = state;
+  const navigate = useNavigate();
 
   const totalCompleted = Object.values(progress).filter(p => p.status === 'complete').length;
   const totalModules = levels.reduce((sum, l) => sum + l.modules.length, 0);
@@ -88,6 +90,7 @@ export default function LearningPath() {
             const isLocked = li > 0 && moduleStatuses.every(s => s === 'locked');
             const isComplete = completedModules === level.modules.length;
             const progressPct = (completedModules / level.modules.length) * 100;
+            const isPlanLocked = !canAccessLevel(level.id, state.plan);
 
             return (
               <motion.div
@@ -96,7 +99,30 @@ export default function LearningPath() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: li * 0.1 }}
               >
-                <div className={`glass rounded-2xl overflow-hidden transition-all ${isLocked ? 'opacity-40' : ''} ${borderMap[level.color] || ''} ${isComplete ? glowMap[level.color] : ''}`}>
+                <div className={`glass rounded-2xl overflow-hidden transition-all relative ${isLocked && !isPlanLocked ? 'opacity-40' : ''} ${borderMap[level.color] || ''} ${isComplete ? glowMap[level.color] : ''}`}>
+                  {/* Pro lock overlay */}
+                  {isPlanLocked && (
+                    <motion.div
+                      className="absolute inset-0 z-10 backdrop-blur-sm bg-background/70 flex flex-col items-center justify-center gap-3 rounded-2xl cursor-pointer"
+                      onClick={() => navigate('/upgrade')}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-secondary to-primary flex items-center justify-center shadow-lg">
+                        <Crown className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="text-center px-4">
+                        <p className="font-heading font-bold text-foreground text-sm">{level.title}</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">{level.lessonCount} lessons · {level.duration}</p>
+                      </div>
+                      <motion.button
+                        className="px-4 py-2 rounded-xl bg-gradient-to-r from-primary to-secondary text-white text-xs font-heading font-bold flex items-center gap-1.5 shadow"
+                        whileHover={{ scale: 1.04 }}
+                        whileTap={{ scale: 0.96 }}
+                      >
+                        <Zap className="w-3.5 h-3.5" /> Unlock with Pro
+                      </motion.button>
+                    </motion.div>
+                  )}
                   {/* Level header */}
                   <div className={`bg-gradient-to-r ${levelGradients[level.color]} p-4 sm:p-5 flex items-center gap-3 sm:gap-4 relative overflow-hidden`}>
                     {isComplete && (

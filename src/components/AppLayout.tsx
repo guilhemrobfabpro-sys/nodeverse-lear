@@ -1,12 +1,13 @@
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Map, Gamepad2, BookText, User, Zap, Sun, Moon } from 'lucide-react';
+import { Home, Map, Gamepad2, BookText, User, Zap, Sun, Moon, Crown } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { XPBar } from './XPBar';
 import { StreakCounter } from './StreakCounter';
 import { useUser } from '@/contexts/UserContext';
 import GlassIcons from './GlassIcons';
 import { useTheme } from '@/hooks/useTheme';
+import { isPro } from '@/lib/plan';
 
 export function AppLayout({ children }: { children: ReactNode }) {
   const location = useLocation();
@@ -53,11 +54,15 @@ export function AppLayout({ children }: { children: ReactNode }) {
             >
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </motion.button>
-            <Link
-              to="/profile"
-              className="w-8 h-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-xs font-heading font-bold text-primary"
-            >
-              {state.user.level}
+            <Link to="/profile" className="relative flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-xs font-heading font-bold text-primary">
+                {state.user.level}
+              </div>
+              {isPro(state.plan) && (
+                <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-gradient-to-br from-secondary to-primary flex items-center justify-center shadow">
+                  <Crown className="w-2.5 h-2.5 text-white" />
+                </span>
+              )}
             </Link>
           </div>
         </div>

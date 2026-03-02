@@ -3,13 +3,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Clock, Trophy, ChevronRight, Lightbulb,
   CheckCircle2, XCircle, ArrowRight, Zap, Bug,
-  Timer, Sparkles, Target, Play
+  Timer, Sparkles, Target, Play, Crown, Lock,
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { AppLayout } from '@/components/AppLayout';
 import { useUser } from '@/contexts/UserContext';
 import { challenges as challengeData, dailyChallenge, Challenge, ChallengeStep } from '@/data/challenges';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { isPro } from '@/lib/plan';
 
 // Rotate the daily challenge by day-of-year so it changes each day.
 // Falls back to the static dailyChallenge if the pool is empty.
@@ -529,8 +531,10 @@ export default function Challenges() {
   const [filter, setFilter] = useState('all');
   const [activeChallenge, setActiveChallenge] = useState<Challenge | null>(null);
   const { state, completeChallenge } = useUser();
+  const navigate = useNavigate();
   const completedIds = state.completedChallenges;
   const todaysChallenge = getTodaysChallenge();
+  const userIsPro = isPro(state.plan);
 
   const filtered = filter === 'all' ? challengeData : challengeData.filter(c => c.difficulty.toLowerCase() === filter);
 
@@ -589,6 +593,36 @@ export default function Challenges() {
             </Button>
           </div>
         </motion.div>
+
+        {/* Challenge Library — Pro only */}
+        <div className="relative">
+          {/* Pro lock overlay */}
+          {!userIsPro && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="absolute inset-0 z-10 backdrop-blur-sm bg-background/75 rounded-2xl flex flex-col items-center justify-center gap-3 py-10 cursor-pointer"
+              onClick={() => navigate('/upgrade')}
+            >
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-secondary to-primary flex items-center justify-center shadow-lg">
+                <Crown className="w-7 h-7 text-white" />
+              </div>
+              <div className="text-center px-6">
+                <p className="font-heading font-bold text-foreground text-base">Challenge Library</p>
+                <p className="text-sm text-muted-foreground mt-1">{challengeData.length} challenges · all difficulty levels</p>
+              </div>
+              <motion.button
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-secondary text-white text-sm font-heading font-bold flex items-center gap-2 shadow"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+              >
+                <Zap className="w-4 h-4" /> Unlock with Pro
+              </motion.button>
+              <p className="text-xs text-muted-foreground flex items-center gap-1">
+                <Lock className="w-3 h-3" /> Free plan includes 1 daily challenge
+              </p>
+            </motion.div>
+          )}
 
         {/* Filter pills - scrollable on mobile */}
         <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-3 px-3 sm:mx-0 sm:px-0 pb-1 sm:pb-0">
@@ -649,6 +683,7 @@ export default function Challenges() {
             );
           })}
         </div>
+        </div>{/* end challenge library wrapper */}
       </div>
 
       {/* Challenge Dialog */}

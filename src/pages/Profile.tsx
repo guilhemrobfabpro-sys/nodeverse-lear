@@ -6,7 +6,7 @@ import { LevelBadge } from '@/components/LevelBadge';
 import { useUser, getLevelName } from '@/contexts/UserContext';
 import { badges as allBadges } from '@/data/badges';
 import { levels } from '@/data/levels';
-import { Flame, Zap, Trophy, Star, Sparkles, Shield, BookOpen, Target, LogOut, Settings, Sprout, Bot, Building2, Rocket, Dumbbell, Moon, Sun, Link2, BarChart3, Wrench, BookMarked } from 'lucide-react';
+import { Flame, Zap, Trophy, Star, Sparkles, Shield, BookOpen, Target, LogOut, Settings, Sprout, Bot, Building2, Rocket, Dumbbell, Moon, Sun, Link2, BarChart3, Wrench, BookMarked, Crown } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import type { FC } from 'react';
 
@@ -15,6 +15,7 @@ const ICON_MAP: Record<string, FC<LucideProps>> = {
   Link2, BarChart3, Wrench, BookOpen, Target, Trophy, Star, BookMarked,
 };
 import { Link } from 'react-router-dom';
+import { isPro } from '@/lib/plan';
 
 const rarityConfig: Record<string, { border: string; bg: string; glow: string; label: string }> = {
   common: { border: 'border-muted-foreground/30', bg: 'from-muted/20 to-transparent', glow: '', label: 'Common' },
@@ -60,7 +61,18 @@ export default function Profile() {
               {(user.name || 'L')[0].toUpperCase()}
             </motion.div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-xl sm:text-2xl font-heading font-bold text-foreground truncate">{user.name || 'Learner'}</h1>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className="text-xl sm:text-2xl font-heading font-bold text-foreground truncate">{user.name || 'Learner'}</h1>
+                {isPro(state.plan) ? (
+                  <span className="flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full bg-gradient-to-r from-secondary/30 to-primary/30 border border-primary/30 text-primary font-bold shrink-0">
+                    <Crown className="w-3 h-3" /> PRO
+                  </span>
+                ) : (
+                  <Link to="/upgrade" className="flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full bg-muted border border-border text-muted-foreground hover:border-primary/50 hover:text-primary transition-colors font-semibold shrink-0">
+                    <Crown className="w-3 h-3" /> Upgrade
+                  </Link>
+                )}
+              </div>
               <LevelBadge level={user.level} size="sm" />
               <div className="flex items-center gap-3 sm:gap-4 mt-2 flex-wrap">
                 <span className="flex items-center gap-1 text-xs sm:text-sm">
@@ -193,6 +205,26 @@ export default function Profile() {
             })}
           </div>
         </motion.div>
+
+        {/* Upgrade card — free users only */}
+        {!isPro(state.plan) && (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
+            <Link to="/upgrade" className="block glass rounded-2xl overflow-hidden border-primary/25 hover:border-primary/50 transition-all">
+              <div className="bg-gradient-to-r from-primary/10 via-secondary/5 to-transparent p-4 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/10 flex items-center justify-center shrink-0">
+                  <Crown className="w-5 h-5 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-heading font-bold text-foreground text-sm">Unlock Pro</p>
+                  <p className="text-xs text-muted-foreground">All 5 levels · Certificate · Full challenges</p>
+                </div>
+                <div className="shrink-0 px-3 py-1.5 rounded-lg bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold">
+                  See plans
+                </div>
+              </div>
+            </Link>
+          </motion.div>
+        )}
 
         {/* Account actions */}
         <motion.div

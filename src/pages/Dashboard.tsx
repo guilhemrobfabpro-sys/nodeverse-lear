@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, BookOpen, Clock, Flame, Sparkles, Target, BarChart3, Trophy, Zap, Star, TrendingUp, GraduationCap, Map, Medal, Sprout, Bot, Building2, Rocket, Dumbbell, Moon, Sun, Link2, Wrench, BookMarked } from 'lucide-react';
+import { ArrowRight, BookOpen, Clock, Flame, Sparkles, Target, BarChart3, Trophy, Zap, Star, TrendingUp, GraduationCap, Map, Medal, Sprout, Bot, Building2, Rocket, Dumbbell, Moon, Sun, Link2, Wrench, BookMarked, Crown } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import type { FC } from 'react';
 
@@ -16,6 +16,7 @@ import { useUser } from '@/contexts/UserContext';
 import { levels } from '@/data/levels';
 import { badges as allBadges } from '@/data/badges';
 import { Progress } from '@/components/ui/progress';
+import { isPro } from '@/lib/plan';
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -163,6 +164,29 @@ export default function Dashboard() {
                       </motion.div>
                     </div>
                     <Progress value={currentLevelProgressPct} className="h-1.5 mt-3 max-w-xs" />
+                  </div>
+                </Link>
+              </motion.div>
+            )}
+
+            {/* Upgrade CTA — free users only */}
+            {!isPro(state.plan) && (
+              <motion.div variants={item}>
+                <Link to="/upgrade" className="block glass rounded-2xl overflow-hidden border-primary/25 hover:border-primary/50 transition-all group relative active:bg-primary/5">
+                  <div className="bg-gradient-to-r from-primary/10 via-secondary/5 to-transparent p-4 sm:p-5 flex items-center gap-3 sm:gap-4 relative">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/10 flex items-center justify-center shrink-0">
+                      <Crown className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 text-xs text-primary font-semibold mb-0.5">
+                        <Sparkles className="w-3 h-3" /> Upgrade to Pro
+                      </div>
+                      <h3 className="font-heading font-semibold text-foreground text-sm sm:text-base truncate">Unlock 42 more lessons + challenges</h3>
+                      <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5">Levels 2–5 · Full challenge library · Certificate</p>
+                    </div>
+                    <div className="shrink-0 px-3 py-1.5 rounded-lg bg-gradient-to-r from-primary to-secondary text-white text-xs font-bold">
+                      Unlock
+                    </div>
                   </div>
                 </Link>
               </motion.div>

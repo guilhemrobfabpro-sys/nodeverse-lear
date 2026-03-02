@@ -15,6 +15,7 @@ import Profile from "./pages/Profile";
 import Challenges from "./pages/Challenges";
 import Leaderboard from "./pages/Leaderboard";
 import Settings from "./pages/Settings";
+import Upgrade from "./pages/Upgrade";
 import NotFound from "./pages/NotFound";
 import { SignIn, SignUp } from "@clerk/clerk-react";
 import type { ReactElement } from "react";
@@ -199,6 +200,14 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <Settings />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/upgrade"
+              element={
+                <ProtectedRoute>
+                  <Upgrade />
                 </ProtectedRoute>
               }
             />

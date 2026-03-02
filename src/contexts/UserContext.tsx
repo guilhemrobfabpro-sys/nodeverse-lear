@@ -26,6 +26,8 @@ export interface LessonProgress {
   currentSection?: number;
 }
 
+export type Plan = 'free' | 'pro';
+
 export interface AppState {
   user: UserData;
   progress: Record<string, LessonProgress>;
@@ -39,6 +41,7 @@ export interface AppState {
     notifications: boolean;
     soundEffects: boolean;
   };
+  plan: Plan;
 }
 
 // ── Zod schema for localStorage validation ───────────────────────
@@ -76,6 +79,7 @@ const appStateSchema = z.object({
       soundEffects: z.boolean(),
     })
     .optional(),
+  plan: z.enum(['free', 'pro']).optional(),
 });
 
 // ── Build full progress map from levels data ─────────────────────
@@ -109,6 +113,7 @@ const defaultState: AppState = {
   completedChallenges: [],
   glossary: { favorites: [], mastered: [] },
   settings: { notifications: true, soundEffects: true },
+  plan: 'free',
 };
 
 // ── Level constants ───────────────────────────────────────────────
@@ -146,6 +151,7 @@ interface UserContextType {
   masterGlossaryTerm: (term: string) => void;
   updateStreak: () => void;
   updateSettings: (settings: Partial<AppState['settings']>) => void;
+  upgradeToPro: () => void;
 }
 
 const UserContext = createContext<UserContextType | null>(null);
@@ -169,6 +175,7 @@ function loadStateFromStorage(): AppState {
       user: { ...defaultState.user, ...result.data.user },
       settings: { ...defaultState.settings, ...(result.data.settings ?? {}) },
       completedChallenges: result.data.completedChallenges ?? [],
+      plan: result.data.plan ?? 'free',
       // Ensure every lesson from the curriculum is represented in progress
       progress: { ...defaultProgress, ...result.data.progress },
     };
@@ -380,6 +387,12 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     setState(prev => ({ ...prev, settings: { ...prev.settings, ...settings } }));
   }, []);
 
+  const upgradeToPro = useCallback(() => {
+    // TODO: Replace this with a Stripe Checkout redirect when payments are ready.
+    // e.g. window.location.href = await createCheckoutSession(clerkUser.id);
+    setState(prev => ({ ...prev, plan: 'pro' }));
+  }, []);
+
   return (
     <UserContext.Provider
       value={{
@@ -394,6 +407,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         masterGlossaryTerm,
         updateStreak,
         updateSettings,
+        upgradeToPro,
       }}
     >
       {children}

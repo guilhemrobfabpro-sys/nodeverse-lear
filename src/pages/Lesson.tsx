@@ -10,6 +10,7 @@ import { levels } from '@/data/levels';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { LevelUpCeremony } from '@/components/LevelUpCeremony';
+import { canAccessLesson } from '@/lib/plan';
 
 export default function Lesson() {
   const { id } = useParams<{ id: string }>();
@@ -20,6 +21,13 @@ export default function Lesson() {
   const [expandedSections, setExpandedSections] = useState<Set<number>>(new Set());
   // Track previous level to detect level-up without reading localStorage
   const prevLevelRef = useRef(state.user.level);
+
+  // Redirect free users who land on a Pro lesson directly
+  useEffect(() => {
+    if (id && !canAccessLesson(id, state.plan)) {
+      navigate('/upgrade', { replace: true });
+    }
+  }, [id, state.plan, navigate]);
 
   useEffect(() => {
     const currentLevel = state.user.level;
