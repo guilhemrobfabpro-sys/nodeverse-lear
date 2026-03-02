@@ -24,23 +24,20 @@ export function AppLayout({ children }: { children: ReactNode }) {
       <header className="sticky top-0 z-50 glass-strong border-b border-border/30" style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}>
         <div className="max-w-3xl mx-auto px-3 h-12 flex items-center justify-between">
           <Link to="/dashboard" className="flex items-center gap-2">
-            <motion.div
-              className="w-8 h-8 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-sm"
-              whileTap={{ scale: 0.92 }}
-            >
-              <Zap className="w-4 h-4 text-primary-foreground" />
-            </motion.div>
-            <span className="font-heading font-semibold text-sm text-foreground">FlowMaster</span>
+            <div className="w-8 h-8 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+              <Zap className="w-4 h-4 text-primary" />
+            </div>
+            <span className="font-heading font-semibold text-sm text-foreground tracking-tight">FlowMaster</span>
           </Link>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <StreakCounter days={state.user.streak} />
-            <div className="hidden xs:block w-20">
+            <div className="hidden xs:block w-24">
               <XPBar showLabel={false} />
             </div>
             <Link
               to="/profile"
-              className="w-8 h-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-xs font-heading font-bold text-primary"
+              className="w-8 h-8 rounded-full bg-muted border border-border flex items-center justify-center text-xs font-heading font-semibold text-foreground hover:border-primary/40 transition-colors"
             >
               {state.user.level}
             </Link>

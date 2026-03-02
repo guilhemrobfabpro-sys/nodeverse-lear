@@ -97,11 +97,8 @@ export default function Lesson() {
             <span>Learning Path</span>
           </Link>
 
-          <div className="glass rounded-2xl p-4 sm:p-6 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-full" />
-            <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-secondary/5 to-transparent rounded-tr-full" />
-            
-            <div className="relative">
+          <div className="glass rounded-2xl p-4 sm:p-6">
+            <div>
               <div className="flex items-center gap-2 mb-2 flex-wrap">
                 <span className="text-xs font-mono px-2 py-1 rounded-md bg-primary/10 text-primary">{levelInfo?.icon} {id}</span>
                 {isComplete && (

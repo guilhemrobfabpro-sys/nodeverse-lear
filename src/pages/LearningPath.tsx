@@ -48,39 +48,25 @@ export default function LearningPath() {
     <AppLayout>
       <div className="max-w-3xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-5 sm:mb-8">
-          <div className="glass rounded-2xl p-4 sm:p-6 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-full" />
-            <div className="absolute bottom-0 left-0 w-20 sm:w-24 h-20 sm:h-24 bg-gradient-to-tr from-accent/10 to-transparent rounded-tr-full" />
-            
-            <div className="relative flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
-              <motion.div 
-                className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center border border-primary/20"
-                whileTap={{ rotate: 10 }}
-              >
-                <Star className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
-              </motion.div>
+          <div className="glass rounded-2xl p-4 sm:p-6">
+            <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-muted border border-border flex items-center justify-center shrink-0">
+                <Star className="w-5 h-5 text-primary" />
+              </div>
               <div className="flex-1 min-w-0">
-                <h1 className="text-xl sm:text-2xl font-heading font-bold text-foreground">Learning Path</h1>
+                <h1 className="text-lg sm:text-xl font-heading font-semibold text-foreground">Learning Path</h1>
                 <p className="text-muted-foreground text-xs sm:text-sm">Zero to automation hero</p>
               </div>
               <div className="text-right shrink-0">
                 <p className="text-[10px] sm:text-xs text-muted-foreground">Progress</p>
-                <p className="font-heading font-bold text-foreground text-base sm:text-lg">{totalCompleted}/{totalModules}</p>
+                <p className="font-heading font-semibold text-foreground text-base sm:text-lg">{totalCompleted}/{totalModules}</p>
               </div>
             </div>
-            <Progress value={(totalCompleted / totalModules) * 100} className="h-2 sm:h-2.5" />
+            <Progress value={(totalCompleted / totalModules) * 100} className="h-1.5" />
           </div>
         </motion.div>
 
-        <div className="relative space-y-4 sm:space-y-6">
-          {/* Connecting line */}
-          <div className="absolute left-5 sm:left-6 top-0 bottom-0 w-px bg-gradient-to-b from-primary/30 via-border/50 to-transparent" />
-          <motion.div 
-            className="absolute left-[19px] sm:left-[23px] top-0 w-[3px] bg-gradient-to-b from-accent via-primary to-transparent rounded-full"
-            initial={{ height: 0 }}
-            animate={{ height: `${(totalCompleted / totalModules) * 100}%` }}
-            transition={{ duration: 1.5, ease: 'easeOut' }}
-          />
+        <div className="space-y-3 sm:space-y-4">
 
           {levels.map((level, li) => {
             const moduleStatuses = level.modules.map(m => progress[m.id]?.status || 'available');
@@ -97,36 +83,22 @@ export default function LearningPath() {
               >
                 <div className={`glass rounded-2xl overflow-hidden transition-all ${borderMap[level.color] || ''} ${isComplete ? glowMap[level.color] : ''}`}>
                   {/* Level header */}
-                  <div className={`bg-gradient-to-r ${levelGradients[level.color]} p-4 sm:p-5 flex items-center gap-3 sm:gap-4 relative overflow-hidden`}>
-                    {isComplete && (
-                      <motion.div 
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/5 to-transparent"
-                        animate={{ x: ['-100%', '200%'] }}
-                        transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-                      />
-                    )}
-                    <motion.div 
-                      className={`w-11 h-11 sm:w-14 sm:h-14 rounded-xl ${dotColorMap[level.color] || 'bg-primary'} flex items-center justify-center text-xl sm:text-2xl z-10 shrink-0 shadow-lg`}
-                      whileTap={{ scale: 0.9, rotate: 5 }}
-                    >
-                      {isComplete ? <Trophy className="w-5 h-5 sm:w-7 sm:h-7 text-primary-foreground" /> : (() => { const Icon = ICON_MAP[level.icon]; return Icon ? <Icon className="w-5 h-5 sm:w-7 sm:h-7 text-primary-foreground" /> : null; })()}
-                    </motion.div>
-                    <div className="flex-1 min-w-0 relative">
+                  <div className="p-4 sm:p-5 flex items-center gap-3 sm:gap-4 border-b border-border/40">
+                    <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl ${dotColorMap[level.color] || 'bg-primary'} flex items-center justify-center shrink-0`}>
+                      {isComplete ? <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" /> : (() => { const Icon = ICON_MAP[level.icon]; return Icon ? <Icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary-foreground" /> : null; })()}
+                    </div>
+                    <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
                         <span className="text-[10px] sm:text-xs font-mono text-muted-foreground">LEVEL {level.id}</span>
                         {isComplete && (
-                          <motion.span 
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            className="text-[9px] sm:text-[10px] px-1.5 sm:px-2 py-0.5 rounded-full bg-accent/20 text-accent font-semibold flex items-center gap-1"
-                          >
-                            <CheckCircle2 className="w-2.5 h-2.5 sm:w-3 sm:h-3" /> Done
-                          </motion.span>
+                          <span className="text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded-md bg-accent/15 text-accent font-medium flex items-center gap-1">
+                            <CheckCircle2 className="w-2.5 h-2.5" /> Done
+                          </span>
                         )}
                       </div>
-                      <h2 className="font-heading font-bold text-foreground text-base sm:text-lg leading-tight truncate">{level.title}</h2>
-                      <div className="flex items-center gap-2 sm:gap-3 mt-0.5 sm:mt-1">
-                        <span className="flex items-center gap-1 text-[10px] sm:text-xs text-muted-foreground"><Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3" />{level.duration}</span>
+                      <h2 className="font-heading font-semibold text-foreground text-sm sm:text-base leading-tight truncate">{level.title}</h2>
+                      <div className="flex items-center gap-2 sm:gap-3 mt-0.5">
+                        <span className="flex items-center gap-1 text-[10px] sm:text-xs text-muted-foreground"><Clock className="w-2.5 h-2.5" />{level.duration}</span>
                         <span className="text-[10px] sm:text-xs text-muted-foreground">{level.lessonCount} lessons</span>
                       </div>
                     </div>
@@ -203,7 +175,7 @@ export default function LearningPath() {
 
                   {/* Level badge reward */}
                   <div className="px-3 sm:px-4 pb-3 sm:pb-4">
-                    <div className={`rounded-xl p-2.5 sm:p-3 bg-gradient-to-r ${levelGradients[level.color]} border ${borderMap[level.color]} flex items-center gap-2.5 sm:gap-3`}>
+                    <div className="rounded-xl p-2.5 sm:p-3 bg-muted/40 border border-border/50 flex items-center gap-2.5 sm:gap-3">
                       <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                         {(() => { const Icon = ICON_MAP[level.badge.icon]; return Icon ? <Icon className="w-4 h-4 text-primary" /> : null; })()}
                       </div>

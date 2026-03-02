@@ -82,31 +82,23 @@ export default function Dashboard() {
         animate="show"
       >
         {/* Welcome header */}
-        <motion.div variants={item} className="glass rounded-2xl p-4 sm:p-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 sm:w-40 h-32 sm:h-40 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-full" />
-          <div className="absolute bottom-0 left-0 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-tr from-secondary/10 to-transparent rounded-tr-full" />
-          
-          <div className="relative flex items-center gap-3 sm:gap-4">
-            <motion.div
-              className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-secondary/10 flex items-center justify-center border border-primary/20"
-              whileTap={{ scale: 0.9, rotate: 10 }}
-            >
-              <GraduationCap className="w-7 h-7 sm:w-9 sm:h-9 text-primary" />
-            </motion.div>
+        <motion.div variants={item} className="glass rounded-2xl p-4 sm:p-6">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-muted border border-border flex items-center justify-center shrink-0">
+              <GraduationCap className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
+            </div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-lg sm:text-xl font-heading font-bold text-foreground truncate">
+              <h1 className="text-base sm:text-lg font-heading font-semibold text-foreground truncate">
                 Welcome back, {user.name || 'Learner'}
               </h1>
               <div className="flex items-center gap-2 sm:gap-3 mt-1 flex-wrap">
                 <LevelBadge level={user.level} size="sm" />
                 <div className="flex items-center gap-1 text-xs sm:text-sm">
-                  <motion.div whileHover={{ scale: 1.2 }}>
-                    <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-secondary" />
-                  </motion.div>
+                  <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-secondary" />
                   <span className="font-semibold text-secondary">{user.streak}</span>
                   <span className="text-muted-foreground text-[10px] sm:text-xs">day streak</span>
                   {streakMultiplier > 1 && (
-                    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-secondary/20 text-secondary font-semibold ml-0.5">
+                    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-secondary/15 text-secondary font-semibold ml-0.5">
                       x{streakMultiplier} XP
                     </span>
                   )}
@@ -114,7 +106,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="relative mt-3 sm:mt-4">
+          <div className="mt-3 sm:mt-4">
             <XPBar />
           </div>
         </motion.div>
@@ -143,26 +135,22 @@ export default function Dashboard() {
           <div className="lg:col-span-2 space-y-4 sm:space-y-5">
             {/* Continue learning */}
             {currentModule && (
-              <motion.div variants={item} whileTap={{ scale: 0.98 }}>
-                <Link to={`/lesson/${currentModule.id}`} className="block glass rounded-2xl overflow-hidden hover:border-primary/40 transition-all group relative active:bg-primary/5">
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="bg-gradient-to-r from-primary/10 to-transparent p-4 sm:p-5 relative">
-                    <div className="flex items-center gap-2 text-xs text-primary font-semibold mb-2">
+              <motion.div variants={item}>
+                <Link to={`/lesson/${currentModule.id}`} className="block glass rounded-2xl overflow-hidden hover:border-primary/30 transition-all group">
+                  <div className="p-4 sm:p-5">
+                    <div className="flex items-center gap-2 text-xs text-primary font-medium mb-3">
                       <BookOpen className="w-3.5 h-3.5" /> Continue Learning
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="min-w-0 flex-1">
-                        <span className="text-[10px] font-mono text-muted-foreground">Module {currentModule.id}</span>
-                        <h3 className="font-heading font-bold text-foreground text-base sm:text-lg truncate">{currentModule.title}</h3>
+                        <span className="text-[10px] font-mono text-muted-foreground">{currentModule.id}</span>
+                        <h3 className="font-heading font-semibold text-foreground text-base sm:text-lg truncate mt-0.5">{currentModule.title}</h3>
                       </div>
-                      <motion.div
-                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 ml-3"
-                        whileHover={{ x: 4 }}
-                      >
-                        <ArrowRight className="w-5 h-5 text-primary" />
-                      </motion.div>
+                      <div className="w-9 h-9 rounded-xl bg-muted border border-border flex items-center justify-center shrink-0 ml-3 group-hover:border-primary/30 transition-colors">
+                        <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                      </div>
                     </div>
-                    <Progress value={currentLevelProgressPct} className="h-1.5 mt-3 max-w-xs" />
+                    <Progress value={currentLevelProgressPct} className="h-1 mt-4 max-w-xs" />
                   </div>
                 </Link>
               </motion.div>
@@ -170,21 +158,22 @@ export default function Dashboard() {
 
             {/* Daily Challenge */}
             <motion.div variants={item}>
-              <Link to="/challenges" className="block glass rounded-2xl overflow-hidden border-secondary/20 hover:border-secondary/40 transition-all group relative active:bg-secondary/5">
-                <div className="bg-gradient-to-r from-secondary/10 to-transparent p-4 sm:p-5 flex items-center gap-3 sm:gap-4 relative">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-secondary/10 flex items-center justify-center shrink-0">
-                    <Target className="w-6 h-6 sm:w-7 sm:h-7 text-secondary" />
+              <Link to="/challenges" className="block glass rounded-2xl overflow-hidden hover:border-border/80 transition-all group">
+                <div className="p-4 sm:p-5 flex items-center gap-3 sm:gap-4">
+                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-muted border border-border flex items-center justify-center shrink-0">
+                    <Target className="w-5 h-5 text-secondary" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 text-xs text-secondary font-semibold mb-0.5">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium mb-0.5">
                       <Sparkles className="w-3 h-3" /> Daily Challenge
                     </div>
                     <h3 className="font-heading font-semibold text-foreground text-sm sm:text-base truncate">Build a webhook → Slack notification</h3>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="text-xs px-1.5 py-0.5 rounded bg-muted text-muted-foreground flex items-center gap-1"><Clock className="w-2.5 h-2.5" /> 15m</span>
-                      <span className="text-xs text-secondary font-semibold flex items-center gap-1"><Zap className="w-3 h-3" /> +150 XP</span>
+                      <span className="text-xs px-1.5 py-0.5 rounded-md bg-muted text-muted-foreground flex items-center gap-1"><Clock className="w-2.5 h-2.5" /> 15m</span>
+                      <span className="text-xs text-secondary font-medium flex items-center gap-1"><Zap className="w-3 h-3" /> +150 XP</span>
                     </div>
                   </div>
+                  <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground transition-colors shrink-0" />
                 </div>
               </Link>
             </motion.div>
@@ -220,9 +209,9 @@ export default function Dashboard() {
           {/* Stats sidebar - hidden on mobile since we have horizontal stats */}
           <motion.div variants={item} className="space-y-3 sm:space-y-4">
             <div className="glass rounded-2xl overflow-hidden hidden sm:block">
-              <div className="bg-gradient-to-r from-primary/10 to-transparent px-5 py-3 flex items-center gap-2 border-b border-border/20">
-                <BarChart3 className="w-4 h-4 text-primary" />
-                <span className="font-heading font-semibold text-sm text-primary">Your Stats</span>
+              <div className="px-5 py-3 flex items-center gap-2 border-b border-border/40">
+                <BarChart3 className="w-4 h-4 text-muted-foreground" />
+                <span className="font-heading font-semibold text-sm text-foreground">Stats</span>
               </div>
               <div className="p-5 space-y-4">
                 <div className="grid grid-cols-2 gap-3">
@@ -232,15 +221,10 @@ export default function Dashboard() {
                     { value: completedCount, label: 'Lessons', icon: BookOpen, color: 'text-accent' },
                     { value: user.streak, label: 'Streak', icon: Flame, color: 'text-secondary' },
                   ].map((stat, i) => (
-                    <motion.div
-                      key={i}
-                      className="rounded-xl bg-muted/30 p-3 text-center relative overflow-hidden group"
-                      whileHover={{ scale: 1.05 }}
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <p className="text-xl font-heading font-bold text-foreground relative">{stat.value}</p>
-                      <p className="text-[10px] text-muted-foreground relative">{stat.label}</p>
-                    </motion.div>
+                    <div key={i} className="rounded-xl bg-muted/50 border border-border/50 p-3 text-center">
+                      <p className="text-lg font-heading font-bold text-foreground">{stat.value}</p>
+                      <p className="text-[10px] text-muted-foreground mt-0.5">{stat.label}</p>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -248,44 +232,42 @@ export default function Dashboard() {
 
             {/* Quick links - 2-column grid on mobile */}
             <div className="grid grid-cols-2 sm:grid-cols-1 gap-2 sm:gap-3">
-              <Link to="/learning-path" className="block glass rounded-2xl p-3 sm:p-4 hover:border-primary/40 transition-all group active:bg-muted/30">
+              <Link to="/learning-path" className="block glass rounded-2xl p-3 sm:p-4 hover:border-border/80 transition-all group">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-muted border border-border flex items-center justify-center shrink-0">
                     <Map className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-heading font-semibold text-foreground text-xs sm:text-sm">Learning Path</h3>
                     <p className="text-[10px] text-muted-foreground hidden sm:block">View full curriculum</p>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition-colors hidden sm:block" />
+                  <ArrowRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-foreground transition-colors hidden sm:block" />
                 </div>
               </Link>
 
-              <Link to="/leaderboard" className="block glass rounded-2xl p-3 sm:p-4 hover:border-secondary/40 transition-all group border-secondary/10 active:bg-muted/30">
+              <Link to="/leaderboard" className="block glass rounded-2xl p-3 sm:p-4 hover:border-border/80 transition-all group">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-secondary/10 flex items-center justify-center">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-muted border border-border flex items-center justify-center shrink-0">
                     <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-secondary" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-heading font-semibold text-foreground text-xs sm:text-sm">Leaderboard</h3>
-                    <p className="text-[10px] text-muted-foreground hidden sm:block flex items-center gap-1">
-                      <TrendingUp className="w-2.5 h-2.5" /> See your rank
-                    </p>
+                    <p className="text-[10px] text-muted-foreground hidden sm:block">See your rank</p>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-secondary transition-colors hidden sm:block" />
+                  <ArrowRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-foreground transition-colors hidden sm:block" />
                 </div>
               </Link>
 
-              <Link to="/profile" className="block glass rounded-2xl p-3 sm:p-4 hover:border-primary/40 transition-all group col-span-2 sm:col-span-1 active:bg-muted/30">
+              <Link to="/profile" className="block glass rounded-2xl p-3 sm:p-4 hover:border-border/80 transition-all group col-span-2 sm:col-span-1">
                 <div className="flex items-center gap-2 sm:gap-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-muted border border-border flex items-center justify-center shrink-0">
                     <Medal className="w-4 h-4 sm:w-5 sm:h-5 text-accent" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-heading font-semibold text-foreground text-xs sm:text-sm">Badges</h3>
                     <p className="text-[10px] text-muted-foreground">{badges.length} earned</p>
                   </div>
-                  <ArrowRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition-colors hidden sm:block" />
+                  <ArrowRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-foreground transition-colors hidden sm:block" />
                 </div>
               </Link>
             </div>

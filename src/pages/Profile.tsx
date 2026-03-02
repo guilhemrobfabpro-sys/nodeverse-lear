@@ -17,10 +17,10 @@ const ICON_MAP: Record<string, FC<LucideProps>> = {
 import { Link } from 'react-router-dom';
 
 const rarityConfig: Record<string, { border: string; bg: string; glow: string; label: string }> = {
-  common: { border: 'border-muted-foreground/30', bg: 'from-muted/20 to-transparent', glow: '', label: 'Common' },
-  rare: { border: 'border-primary/40', bg: 'from-primary/10 to-transparent', glow: 'glow-purple', label: 'Rare' },
-  epic: { border: 'border-secondary/40', bg: 'from-secondary/10 to-transparent', glow: 'glow-orange', label: 'Epic' },
-  legendary: { border: 'border-yellow-400/40', bg: 'from-yellow-500/10 to-transparent', glow: '', label: 'Legendary' },
+  common: { border: 'border-border', bg: 'from-muted/10 to-transparent', glow: '', label: 'Common' },
+  rare: { border: 'border-primary/30', bg: 'from-primary/8 to-transparent', glow: '', label: 'Rare' },
+  epic: { border: 'border-secondary/30', bg: 'from-secondary/8 to-transparent', glow: '', label: 'Epic' },
+  legendary: { border: 'border-yellow-400/30', bg: 'from-yellow-500/8 to-transparent', glow: '', label: 'Legendary' },
 };
 
 const categoryIcons: Record<string, React.ReactNode> = {
@@ -47,55 +47,44 @@ export default function Profile() {
     <AppLayout>
       <div className="max-w-3xl mx-auto px-3 sm:px-4 py-4 sm:py-6 space-y-4 sm:space-y-6">
         {/* Profile card */}
-        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="glass rounded-2xl p-4 sm:p-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 sm:w-40 h-32 sm:h-40 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-full" />
-          <div className="absolute bottom-0 left-0 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-tr from-secondary/10 to-transparent rounded-tr-full" />
-          
-          <div className="relative flex items-center gap-3 sm:gap-5">
-            <motion.div 
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-2xl sm:text-3xl font-heading font-bold text-primary-foreground shadow-lg shrink-0"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.9, rotate: 5 }}
-            >
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="glass rounded-2xl p-4 sm:p-6">
+          <div className="flex items-center gap-3 sm:gap-5">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-muted border border-border flex items-center justify-center text-xl sm:text-2xl font-heading font-bold text-foreground shrink-0">
               {(user.name || 'L')[0].toUpperCase()}
-            </motion.div>
+            </div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-xl sm:text-2xl font-heading font-bold text-foreground truncate">{user.name || 'Learner'}</h1>
+              <h1 className="text-lg sm:text-xl font-heading font-semibold text-foreground truncate">{user.name || 'Learner'}</h1>
               <LevelBadge level={user.level} size="sm" />
               <div className="flex items-center gap-3 sm:gap-4 mt-2 flex-wrap">
                 <span className="flex items-center gap-1 text-xs sm:text-sm">
-                  <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-secondary" />
-                  <span className="font-semibold text-secondary">{user.streak}</span>
+                  <Flame className="w-3.5 h-3.5 text-secondary" />
+                  <span className="font-medium text-secondary">{user.streak}</span>
                   <span className="text-muted-foreground text-[10px] sm:text-xs">streak</span>
                 </span>
                 <span className="flex items-center gap-1 text-xs sm:text-sm text-muted-foreground">
-                  <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
-                  <span className="font-semibold text-foreground">{user.xp.toLocaleString()}</span>
+                  <Zap className="w-3.5 h-3.5 text-primary" />
+                  <span className="font-medium text-foreground">{user.xp.toLocaleString()}</span>
                   <span className="text-[10px] sm:text-xs">XP</span>
                 </span>
               </div>
             </div>
           </div>
-          <div className="relative mt-4 sm:mt-5">
+          <div className="mt-4 sm:mt-5">
             <XPBar />
           </div>
 
           {/* Quick stats */}
-          <div className="relative grid grid-cols-3 gap-2 sm:gap-3 mt-4 sm:mt-5">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3 mt-4 sm:mt-5">
             {[
               { icon: BookOpen, label: 'Lessons', value: `${completedCount}/${totalModules}`, color: 'text-primary' },
               { icon: Trophy, label: 'Badges', value: `${badges.length}/${allBadges.length}`, color: 'text-secondary' },
               { icon: Target, label: 'Level', value: getLevelName(user.level), color: 'text-accent' },
             ].map((s, i) => (
-              <motion.div
-                key={i}
-                className="rounded-xl bg-muted/30 p-2.5 sm:p-3 text-center"
-                whileTap={{ scale: 0.95 }}
-              >
+              <div key={i} className="rounded-xl bg-muted/50 border border-border/50 p-2.5 sm:p-3 text-center">
                 <s.icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 mx-auto mb-1 ${s.color}`} />
-                <p className="text-xs sm:text-sm font-heading font-bold text-foreground">{s.value}</p>
+                <p className="text-xs sm:text-sm font-heading font-semibold text-foreground">{s.value}</p>
                 <p className="text-[9px] sm:text-[10px] text-muted-foreground">{s.label}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </motion.div>
@@ -166,7 +155,7 @@ export default function Profile() {
                   transition={{ delay: 0.2 + i * 0.03 }}
                   whileTap={earned ? { scale: 0.9 } : {}}
                   className={`glass rounded-xl p-3 sm:p-4 text-center transition-all relative overflow-hidden ${
-                    earned ? `${rc.border} ${rc.glow}` : 'opacity-30'
+                    earned ? rc.border : 'opacity-25'
                   }`}
                 >
                   {earned && (

@@ -23,11 +23,10 @@ export function XPBar({ showLabel = true, className = '' }: XPBarProps) {
       )}
       <div className="h-2.5 rounded-full bg-muted overflow-hidden">
         <motion.div
-          className="h-full rounded-full bg-gradient-to-r from-primary to-secondary"
+          className="h-full rounded-full bg-primary"
           initial={{ width: 0 }}
           animate={{ width: `${Math.min(progress, 100)}%` }}
           transition={{ duration: 1, ease: 'easeOut' }}
-          style={{ boxShadow: '0 0 10px hsl(262 55% 50% / 0.5)' }}
         />
       </div>
     </div>
