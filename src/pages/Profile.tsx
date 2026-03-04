@@ -243,7 +243,11 @@ export default function Profile() {
             <span className="font-heading font-medium text-sm text-foreground">Settings</span>
           </Link>
           <button
-            onClick={() => signOut({ redirectUrl: '/sign-in' })}
+            onClick={() => {
+              localStorage.removeItem('flowmaster_state');
+              localStorage.removeItem('flowmaster_theme');
+              signOut({ redirectUrl: '/sign-in' });
+            }}
             className="flex-1 glass rounded-xl p-3 sm:p-4 flex items-center gap-2 sm:gap-3 hover:border-destructive/40 transition-all group"
           >
             <div className="w-8 h-8 rounded-xl bg-destructive/10 flex items-center justify-center">

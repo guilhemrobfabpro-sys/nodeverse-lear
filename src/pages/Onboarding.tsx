@@ -91,8 +91,9 @@ export default function Onboarding() {
         <label className="text-sm text-muted-foreground block text-left mb-1.5">What's your name?</label>
         <input
           value={name}
-          onChange={e => setName(e.target.value)}
+          onChange={e => setName(e.target.value.slice(0, 50))}
           placeholder="Enter your name"
+          maxLength={50}
           className="w-full px-4 py-3.5 rounded-2xl bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary text-base"
           autoFocus
         />

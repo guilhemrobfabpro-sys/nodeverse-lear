@@ -20,8 +20,9 @@ export class ErrorBoundary extends Component<Props, State> {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error('[ErrorBoundary] Caught error:', error, info.componentStack);
+  componentDidCatch(_error: Error, _info: ErrorInfo) {
+    // Errors intentionally not logged to console in production to avoid leaking stack traces.
+    // Wire up a monitoring service (e.g. Sentry) here when ready.
   }
 
   handleReset = () => {
@@ -41,11 +42,6 @@ export class ErrorBoundary extends Component<Props, State> {
           <p className="text-sm text-muted-foreground mb-6 max-w-sm">
             An unexpected error occurred. Your progress is saved.
           </p>
-          {this.state.error && (
-            <pre className="text-[10px] text-muted-foreground bg-muted/30 rounded-xl p-3 mb-6 max-w-sm overflow-x-auto text-left">
-              {this.state.error.message}
-            </pre>
-          )}
           <div className="flex gap-3">
             <button
               onClick={this.handleReset}
