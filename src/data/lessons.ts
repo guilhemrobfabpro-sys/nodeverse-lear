@@ -1272,4 +1272,748 @@ export const lessons: Record<string, Lesson> = {
       },
     ],
   },
+
+  // ─── LEVEL 6: SELL YOUR AUTOMATIONS ───────────────────────────────────────
+
+  '6.1': {
+    id: '6.1',
+    title: 'The Freelance Automation Mindset',
+    description: 'Before you find clients, you need the right frame. Position yourself as a consultant who solves business problems — not a developer who builds workflows.',
+    sections: [
+      {
+        type: 'concept',
+        title: 'You Solve Problems, Not Build Workflows',
+        content: 'Most beginners describe themselves as "n8n builders" or "no-code developers." This is the first mistake.\n\nYour client doesn\'t care about n8n. They care about **saving 10 hours a week**, **never missing a lead again**, or **cutting their data-entry costs in half.**\n\nYour job is to understand their problem so deeply that building the automation becomes the easy part.',
+        highlight: 'Clients buy outcomes, not tools. Sell the result, not the workflow.',
+      },
+      {
+        type: 'analogy',
+        title: 'The Plumber Analogy',
+        content: 'A plumber doesn\'t sell pipe-fitting. They sell dry basements and working showers.\n\nYou don\'t sell n8n workflows. You sell **"your sales team will never manually enter a lead again"** or **"your invoices will go out the same minute a project is marked complete."**\n\nThis reframe changes every conversation you have with a potential client.',
+      },
+      {
+        type: 'concept',
+        title: 'The Market Opportunity',
+        content: 'There are millions of small and medium businesses worldwide. Most of them:\n- Know they\'re wasting time on repetitive work\n- Can\'t afford a full-time developer\n- Have never heard of n8n but desperately need what it does\n\nThat gap — between the problem and the solution — is exactly where you live.',
+        items: [
+          '**Average automation project**: $500 – $5,000',
+          '**Monthly retainer clients**: $500 – $2,000/month',
+          '**Full-time freelancer income**: $4,000 – $15,000+/month at scale',
+        ],
+      },
+      {
+        type: 'visual',
+        title: '3 Mental Shifts to Make Today',
+        content: 'These mindset changes separate automation consultants who earn well from those who stay stuck:',
+        items: [
+          '**From builder → consultant**: Ask "what problem are we solving?" before touching n8n',
+          '**From hourly → value-based**: Price the outcome, not your time',
+          '**From reactive → proactive**: Don\'t wait for perfect clients — build systems to attract them',
+        ],
+      },
+      {
+        type: 'quiz',
+        title: 'Quick Check',
+        quiz: {
+          question: 'A prospect says "we need an automation." What\'s your first question?',
+          options: [
+            '"What apps do you want to connect?"',
+            '"What problem is this causing your business right now?"',
+            '"What\'s your budget?"',
+            '"Have you tried Zapier?"',
+          ],
+          correct: 1,
+          explanation: 'Always uncover the business problem first. The real pain is what you\'ll charge for solving — the apps are just implementation details.',
+        },
+      },
+    ],
+  },
+
+  '6.2': {
+    id: '6.2',
+    title: 'Choose Your Niche',
+    description: 'The fastest path to clients and premium rates is a clear niche. Learn which industries pay well for automation and how to pick yours.',
+    sections: [
+      {
+        type: 'concept',
+        title: 'Why Niching Is Your Superpower',
+        content: 'Generalists say: "I build automations for anyone."\nSpecialists say: "I automate lead follow-up systems for real estate agencies."\n\nWho gets hired faster? The specialist — every time.\n\nWhen you niche down, you:\n- Become the obvious expert in that space\n- Command higher rates (specialists earn 2–3× generalists)\n- Get referrals automatically because clients know exactly who to send you\n- Need less convincing — clients already believe you understand their world',
+        highlight: 'The riches are in the niches. Narrow down to speed up.',
+      },
+      {
+        type: 'visual',
+        title: 'Top Niches for Automation Freelancers',
+        content: 'These industries have high pain, strong budgets, and proven willingness to pay:',
+        items: [
+          '🏠 **Real estate agencies** — lead routing, follow-up sequences, listing updates',
+          '⚖️ **Law firms** — client intake, document requests, billing reminders',
+          '🏥 **Healthcare / clinics** — appointment reminders, patient intake, referral tracking',
+          '🛒 **E-commerce brands** — order automation, inventory alerts, review requests',
+          '🏢 **SaaS companies** — onboarding flows, churn alerts, trial-to-paid sequences',
+          '🏗️ **Contractors / trades** — quote follow-up, project updates, invoice automation',
+          '📈 **Marketing agencies** — report generation, client dashboards, ad alert systems',
+        ],
+      },
+      {
+        type: 'concept',
+        title: 'How to Pick Your Niche',
+        content: 'Use the 3-filter test on any niche you\'re considering:',
+        items: [
+          '**1. Do you have access?** Can you reach people in this industry easily? (LinkedIn, local network, past jobs)',
+          '**2. Do they have budget?** Can they afford $500–$3,000 for a project? (B2B almost always can)',
+          '**3. Is the pain obvious?** Can you name 3 repetitive tasks they hate right now?',
+        ],
+      },
+      {
+        type: 'interactive',
+        title: 'Niche Validation Exercise',
+        content: 'Before committing to a niche, answer these questions:\n\n**1. Name the niche**: _______\n**2. What\'s their #1 repetitive pain?**: _______\n**3. What does solving it save them?** (time / money / stress): _______\n**4. Can you name 3 people in this niche right now?**: _______\n\nIf you answered all 4 clearly — that\'s your niche. Start there.',
+      },
+      {
+        type: 'quiz',
+        title: 'Quick Check',
+        quiz: {
+          question: 'Which positioning will close more clients faster?',
+          options: [
+            '"I build n8n automations for businesses of all sizes"',
+            '"I automate follow-up systems for real estate agencies"',
+            '"I work with tech-savvy founders who want custom APIs"',
+            '"I do anything related to Zapier or Make.com"',
+          ],
+          correct: 1,
+          explanation: 'Specific positioning immediately signals expertise. Clients in real estate will feel "this person understands my world" — and that\'s worth more than any portfolio.',
+        },
+      },
+    ],
+  },
+
+  '6.3': {
+    id: '6.3',
+    title: 'Build a Portfolio Without Clients',
+    description: 'No clients yet? No problem. There are 4 proven ways to build credibility and proof before anyone pays you a cent.',
+    sections: [
+      {
+        type: 'concept',
+        title: 'The Cold Start Problem',
+        content: 'Every freelancer faces the same paradox at the start: clients want proof of work, but you need clients to get proof.\n\nThe solution is to **manufacture your own proof** — build real workflows, document them as case studies, and let the work speak for itself.\n\nYou don\'t need a paying client to demonstrate value. You need something that works.',
+        highlight: 'Nobody checks whether you were paid to build it. They check whether it works.',
+      },
+      {
+        type: 'visual',
+        title: '4 Ways to Build Portfolio Without Clients',
+        content: 'Use any combination of these to build credibility fast:',
+        items: [
+          '**1. Demo workflows** — Build 3 polished automations for your target niche. Record a 2-min Loom video showing each in action. Host on a simple Notion page or personal site.',
+          '**2. Volunteer work** — Find a local business or non-profit and automate something for free in exchange for a written testimonial. One testimonial breaks the no-client paradox.',
+          '**3. Your own business** — Automate your own freelance admin: invoice sending, lead tracking, onboarding emails. Document it as a case study ("I saved 5 hours/week in my own business").',
+          '**4. Open-source templates** — Share a workflow template on the n8n community or Make.com marketplace. Downloads = social proof.',
+        ],
+      },
+      {
+        type: 'concept',
+        title: 'What a Good Portfolio Case Study Looks Like',
+        content: 'Each case study should follow this format — even for demo projects:\n\n**The Situation**: What manual process existed before?\n**The Problem**: What was this costing? (time, errors, missed opportunities)\n**The Solution**: What workflow did you build? (screenshot or video)\n**The Result**: What changed? (hours saved, error rate, leads captured)\n\nKeep it to one page. Clients don\'t read essays.',
+      },
+      {
+        type: 'challenge',
+        title: 'Portfolio Sprint',
+        challenge: {
+          description: 'Build your first 3 portfolio pieces this week:',
+          tasks: [
+            'Build a lead capture → Notion CRM workflow (any niche) and record a 90-second demo',
+            'Build an automated email follow-up sequence with a delay and condition node',
+            'Build a daily report workflow that sends a Slack or email summary',
+            'Write a one-paragraph case study for each using the Situation/Problem/Solution/Result format',
+          ],
+          reward: { xp: 200, badge: 'portfolio_builder' },
+        },
+      },
+      {
+        type: 'quiz',
+        title: 'Quick Check',
+        quiz: {
+          question: 'You have zero clients. What\'s the fastest way to get your first testimonial?',
+          options: [
+            'Wait until someone pays you for work',
+            'Ask a friend to write a fake testimonial',
+            'Volunteer to automate something for a local business for free in exchange for a written review',
+            'List yourself on Upwork and wait for requests',
+          ],
+          correct: 2,
+          explanation: 'One real testimonial from a volunteer project beats a perfect portfolio with no social proof. Offer value first — ask for the testimonial after they see results.',
+        },
+      },
+    ],
+  },
+
+  '6.4': {
+    id: '6.4',
+    title: 'Where to Find Clients',
+    description: 'Knowing how to build automations is half the job. Knowing where to find people who will pay for them is the other half.',
+    sections: [
+      {
+        type: 'concept',
+        title: 'The 5 Client Acquisition Channels',
+        content: 'Most freelancers try one channel, get discouraged, and quit. Winners use 2–3 channels simultaneously and double down on what works.',
+        items: [
+          '**1. Warm outreach** — Your existing network (fastest first client)',
+          '**2. Cold outreach** — LinkedIn DMs and emails to targeted prospects',
+          '**3. Content marketing** — LinkedIn posts, YouTube, or Twitter/X (slow but compounds)',
+          '**4. Freelance platforms** — Upwork, Fiverr, Contra (competitive but steady)',
+          '**5. Communities** — n8n Discord, Indie Hackers, niche Slack groups, Reddit',
+        ],
+      },
+      {
+        type: 'visual',
+        title: 'Channel Comparison',
+        content: 'Each channel has a different speed-vs-quality trade-off:',
+        items: [
+          '**Warm outreach** → Speed: Fast (days) | Quality: High | Effort: Low — Start here first',
+          '**Cold outreach** → Speed: Medium (weeks) | Quality: Medium | Effort: High — Best for scale',
+          '**Content marketing** → Speed: Slow (months) | Quality: Highest | Effort: High — Best long-term',
+          '**Platforms** → Speed: Medium | Quality: Lower (price competition) | Effort: Medium',
+          '**Communities** → Speed: Variable | Quality: High | Effort: Medium — Great for referrals',
+        ],
+      },
+      {
+        type: 'concept',
+        title: 'Start With Warm Outreach',
+        content: 'Before spending a single minute on cold outreach or content, do this:\n\nMake a list of **20 people you already know** who run or work at businesses. Former colleagues, friends who own companies, family members with businesses.\n\nSend each a personal message (not a pitch):\n\n*"Hey [name], I\'ve been building business automations with no-code tools lately and loving it. Are you or anyone you know dealing with repetitive manual work that eats up your team\'s time? Would love to chat."*\n\nNo portfolio needed. No website. Just a human conversation.\n\n**50% of first clients come from someone the freelancer already knew.**',
+        highlight: 'Your first client is probably already in your phone contacts.',
+      },
+      {
+        type: 'interactive',
+        title: 'Build Your Prospecting List',
+        content: 'Right now, open a spreadsheet and fill in these columns for 20 people:\n\n| Name | Company | Role | Channel | Pain I Can Solve | Status |\n|------|---------|------|---------|-----------------|--------|\n\n**Tips**:\n- LinkedIn is your best research tool — filter by industry and role\n- Look at who you\'re already connected with before going cold\n- Prioritize decision-makers: owner, CEO, operations manager, head of sales',
+      },
+      {
+        type: 'quiz',
+        title: 'Quick Check',
+        quiz: {
+          question: 'What\'s the best channel to get your very first client?',
+          options: [
+            'Create a TikTok channel about automation',
+            'Post on Upwork immediately',
+            'Message 20 people you already know personally',
+            'Run Facebook ads to your portfolio site',
+          ],
+          correct: 2,
+          explanation: 'Warm outreach converts at 10–20×  the rate of cold. Your existing network has trust built in — leverage it before spending time on cold channels.',
+        },
+      },
+    ],
+  },
+
+  '6.5': {
+    id: '6.5',
+    title: 'Cold Outreach That Gets Replies',
+    description: 'Most cold outreach gets ignored because it\'s about the sender, not the recipient. Learn the exact framework that turns cold strangers into warm leads.',
+    sections: [
+      {
+        type: 'concept',
+        title: 'Why Most Cold Outreach Fails',
+        content: 'Read any cold email or LinkedIn DM and you\'ll see the same pattern:\n\n*"Hi, I\'m [name], I build automations and I\'m very experienced with n8n and Zapier and I\'d love to help your business grow. Can we schedule a call?"*\n\nThis fails because:\n- It\'s 100% about the sender\n- It offers no specific value\n- It asks for time from a stranger with no reason to trust you\n\n**The fix**: make it about them, their specific pain, and what they get — in that order.',
+        highlight: 'The best cold message sounds like you\'ve been watching their business for weeks.',
+      },
+      {
+        type: 'code',
+        title: 'The High-Converting Cold Email Template',
+        code: `Subject: [Company Name] — quick automation idea
+
+Hi [First Name],
+
+I noticed [specific observation about their business — job listing, LinkedIn post,
+manual process visible on their site, etc.].
+
+Most [their role] I talk to in [their industry] lose [X hours/week or specific outcome]
+to [the specific manual process].
+
+I recently built an automation for [similar company type] that [specific result —
+"cut their lead response time from 2 days to 4 minutes" / "eliminated 8 hours of
+weekly data entry"].
+
+Would it be worth a 20-minute call to see if something similar makes sense for [Company]?
+
+[Your Name]
+[Link to 1 relevant demo or case study]`,
+      },
+      {
+        type: 'concept',
+        title: 'The 5-Touch Outreach Sequence',
+        content: 'Most replies don\'t come on the first message. Use this sequence over 2 weeks:',
+        items: [
+          '**Day 1**: Send the cold email (or LinkedIn connection request with a note)',
+          '**Day 3**: LinkedIn connection follow-up — like or comment on a recent post',
+          '**Day 5**: First follow-up email — one sentence: "Just wanted to make sure this didn\'t get buried."',
+          '**Day 9**: Second follow-up — add a new piece of value (a relevant tip, a link to your demo)',
+          '**Day 14**: Breakup email — "I\'ll stop reaching out after this. If the timing is ever right, you know where to find me."',
+        ],
+      },
+      {
+        type: 'concept',
+        title: 'LinkedIn DM Strategy',
+        content: 'LinkedIn is better than email for cold outreach in most B2B niches. Here\'s the sequence:\n\n1. **Connect** with a short personalized note (not a pitch)\n2. After they accept, **send a value message**: share a relevant insight or quick tip related to their business\n3. After engagement, **make the soft ask**: ask if they\'d be open to a short call\n\nNever pitch in the connection request. Warm them up first.',
+        items: [
+          'Connection note: "Hi [name], I work with [niche] businesses on automation systems. Loved your post about [topic] — would be great to connect."',
+          'Value message: "Since you\'re in [industry], thought this might be useful: [1 quick automation tip relevant to them]."',
+          'Soft ask: "I\'ve helped a few [niche] businesses automate [specific task]. Would a 20-min call make sense to see if there\'s a fit?"',
+        ],
+      },
+      {
+        type: 'quiz',
+        title: 'Quick Check',
+        quiz: {
+          question: 'Which subject line is most likely to get opened?',
+          options: [
+            '"Automation services for your business"',
+            '"Helping you grow"',
+            '"[Company Name] — quick automation idea"',
+            '"I can save you time"',
+          ],
+          correct: 2,
+          explanation: 'Personalization with their company name + a specific hook ("quick automation idea") triggers curiosity. Generic subject lines get deleted without opening.',
+        },
+      },
+    ],
+  },
+
+  '6.6': {
+    id: '6.6',
+    title: 'The Discovery Call',
+    description: 'The discovery call is not a pitch — it\'s a diagnosis. Learn how to uncover the real pain, qualify the lead, and set yourself up to close.',
+    sections: [
+      {
+        type: 'concept',
+        title: 'The Goal of a Discovery Call',
+        content: 'Most freelancers go into discovery calls trying to impress. Wrong move.\n\nYour goal is to **understand their situation so thoroughly** that when you propose a solution, it feels inevitable — not like a sales pitch.\n\nA great discovery call ends with the prospect saying: "Yes, that\'s exactly the problem. Can you solve it?"\n\nYou talk 30% of the time. They talk 70%.',
+        highlight: 'The best closer is the best listener.',
+      },
+      {
+        type: 'interactive',
+        title: 'The SPIN Discovery Framework',
+        content: 'SPIN stands for Situation, Problem, Implication, Need-Payoff. Use it in this order:\n\n**Situation questions** (understand context):\n- "Walk me through how your team handles [process] today."\n- "How many people are involved in this?"\n- "What tools are you currently using?"\n\n**Problem questions** (surface the pain):\n- "What\'s the most frustrating part of that process?"\n- "How often does something slip through the cracks?"\n- "What does a mistake here cost you?"\n\n**Implication questions** (amplify the pain):\n- "How much time per week is your team spending on this?"\n- "What would happen if this scales and you\'re still doing it manually?"\n- "What opportunities are you missing because of this bottleneck?"\n\n**Need-Payoff questions** (let them sell themselves):\n- "If you could eliminate that entirely, what would that mean for your team?"\n- "What would you do with those 10 hours back?"\n- "How would automating this change your month-end?"',
+      },
+      {
+        type: 'visual',
+        title: 'Discovery Call Structure (30 Minutes)',
+        content: 'Follow this timing on every call:',
+        items: [
+          '**0–2 min**: Warm up, confirm agenda ("I\'d love to understand your situation before talking solutions — does that work?")',
+          '**2–15 min**: SPIN questions — situation, then problem, then implication',
+          '**15–22 min**: Need-payoff — help them articulate the value of solving it',
+          '**22–27 min**: Brief solution sketch — "Based on what you\'ve shared, here\'s what I\'d build…"',
+          '**27–30 min**: Next steps — "I\'ll send a proposal by [date]. Does that work?"',
+        ],
+      },
+      {
+        type: 'concept',
+        title: 'Qualifying: BANT',
+        content: 'Before you spend time writing a proposal, qualify the lead using BANT:\n\n- **Budget**: "Do you have a rough budget in mind for this?" (If they won\'t answer, they\'re not serious)\n- **Authority**: "Is this a decision you make, or does it need sign-off from someone else?"\n- **Need**: Is the pain real and urgent? Did they bring it up themselves?\n- **Timeline**: "When would you ideally want this up and running?"\n\nIf any of these are weak, address it before investing more time.',
+        highlight: 'A lead without budget, authority, need, and timeline is just a conversation — not an opportunity.',
+      },
+      {
+        type: 'quiz',
+        title: 'Quick Check',
+        quiz: {
+          question: 'During a discovery call, you should mostly be:',
+          options: [
+            'Demonstrating your n8n skills live',
+            'Listening and asking questions',
+            'Pitching your pricing immediately',
+            'Showing your portfolio',
+          ],
+          correct: 1,
+          explanation: 'Discovery is about understanding their world. The more they talk, the more you learn — and the more invested they become in the solution. You talk 30%, they talk 70%.',
+        },
+      },
+    ],
+  },
+
+  '6.7': {
+    id: '6.7',
+    title: 'Pricing & Writing Your Proposal',
+    description: 'Learn the 3 pricing models, how to estimate a project\'s value, and how to write a proposal that converts.',
+    sections: [
+      {
+        type: 'concept',
+        title: 'The 3 Pricing Models',
+        content: 'You have 3 ways to price your work. Most beginners start with hourly and graduate to value-based as they gain confidence:',
+        items: [
+          '**Hourly** ($50–$150/hr): Simple to explain, but caps your income and invites micromanagement. Good for first projects.',
+          '**Fixed project** ($500–$10,000): You quote a flat price for a defined scope. Clean, professional. Use this most of the time.',
+          '**Value-based**: You price based on the ROI the client gets, not your time. If your workflow saves them $5,000/month, charging $3,000 is a bargain for them.',
+        ],
+        highlight: 'Price the outcome, not the effort. A 2-hour workflow that saves $3,000/month is worth far more than $200.',
+      },
+      {
+        type: 'concept',
+        title: 'How to Estimate a Project Price',
+        content: 'Use this formula for fixed project pricing:\n\n**1. Estimate your build time** (be honest — add 30% buffer for testing and revisions)\n**2. Multiply by your hourly rate**\n**3. Add a complexity premium** (integrations with tricky APIs, custom logic, etc.)\n**4. Compare to client\'s ROI** — if the number is less than 20% of the annual value you create, you\'re undercharging\n\n**Anchor prices to remember**:\n- Simple 2-node automation: $300–$600\n- Multi-step lead system: $800–$2,000\n- Full CRM + notification system: $2,000–$5,000\n- AI-powered workflow with custom logic: $3,000–$8,000',
+      },
+      {
+        type: 'code',
+        title: 'Proposal Template',
+        code: `# Automation Proposal — [Client Company Name]
+Prepared by [Your Name] | [Date]
+
+---
+
+## The Situation
+[2–3 sentences summarizing their current manual process,
+exactly as they described it in the discovery call.]
+
+## The Problem
+[Name the specific pain. Hours lost, errors, missed leads, etc.
+Use their words — they said it best.]
+
+## The Solution
+I'll build an automated workflow that:
+- [Step 1 — what it does]
+- [Step 2 — what triggers next]
+- [Step 3 — the output they care about]
+
+**Apps connected**: [App A] → [App B] → [App C]
+**Trigger**: [What starts the workflow]
+**Result**: [What the client sees/gets at the end]
+
+---
+
+## Investment
+| Package       | Price    | Included                            |
+|---------------|----------|-------------------------------------|
+| Standard      | $[X]     | Build + testing + 1 round of edits  |
+| With training | $[X+300] | Above + 60-min walkthrough session  |
+
+**Payment terms**: 50% upfront, 50% on delivery.
+
+---
+
+## Timeline
+- Kickoff call: [date]
+- Draft workflow ready: [date + 5 days]
+- Final delivery: [date + 10 days]
+
+---
+
+## Next Step
+Reply to this email with "Let's go" and I'll send the invoice for the first 50%.
+
+Questions? Book a quick call: [Calendly link]`,
+      },
+      {
+        type: 'quiz',
+        title: 'Quick Check',
+        quiz: {
+          question: 'You build a workflow that saves a client 15 hours/week. Their team earns $30/hr. Monthly savings = $1,800. What\'s a fair project price?',
+          options: [
+            '$150 (1 hour of your time)',
+            '$500 – $1,500 (fixed project rate)',
+            '$2,500 – $3,500 (value-based)',
+            '$10,000+ (they can afford it)',
+          ],
+          correct: 2,
+          explanation: '$2,500 – $3,500 pays for itself in 2 months and the client keeps saving money forever. Value-based pricing is fair to both parties — you get compensated for impact, not hours.',
+        },
+      },
+    ],
+  },
+
+  '6.8': {
+    id: '6.8',
+    title: 'Closing the Deal',
+    description: 'Proposals don\'t close themselves. Learn how to follow up, handle objections, and get the "yes" without feeling pushy.',
+    sections: [
+      {
+        type: 'concept',
+        title: 'Most Deals Die in the Follow-Up',
+        content: 'You sent the proposal. You heard "looks great, I\'ll get back to you." Then silence.\n\nThis is not rejection — this is just business. Decision-makers are busy. Life gets in the way. Your job is to stay top of mind without being annoying.\n\n**The rule**: follow up until you get a yes, a no, or a clear "not now."',
+        highlight: '80% of sales require 5+ follow-ups. Most freelancers give up after 1.',
+      },
+      {
+        type: 'analogy',
+        title: 'The Doctor Analogy',
+        content: 'When a doctor tells you that you need surgery, they don\'t apologize for recommending it. They\'re confident because they know it\'s the right diagnosis.\n\nClose the same way. You\'ve done the discovery. You\'ve identified the pain. You know the solution works. **Present it with the same calm confidence a doctor has when prescribing treatment.**\n\nYou\'re not begging for work — you\'re prescribing a fix for a problem they already confirmed is real.',
+      },
+      {
+        type: 'interactive',
+        title: 'Common Objections & Responses',
+        content: 'Prepare for these — they\'re not "no," they\'re just "not yet convinced":',
+        items: [
+          '**"It\'s too expensive"** → "What part of the ROI feels off? You mentioned this costs you [X hours/week] — at your team\'s rate that\'s [Y/month]. This pays for itself in [Z weeks]."',
+          '**"We need to think about it"** → "Of course. What\'s the main thing you need to think through? I can address it now or follow up Friday."',
+          '**"We\'re going to try building it ourselves"** → "Happy to help if it gets complicated. What timeline are you giving the internal attempt?"',
+          '**"We don\'t have budget right now"** → "When does your budget reset? I can hold the scope for you and start then."',
+          '**"Can you do it cheaper?"** → "I can reduce scope. Which of the three deliverables matters most to you? We can start there."',
+        ],
+      },
+      {
+        type: 'concept',
+        title: 'The Follow-Up Sequence After Sending a Proposal',
+        content: 'Use this cadence after sending a proposal:',
+        items: [
+          '**Day 2**: "Just checking this landed in your inbox — let me know if you have any questions."',
+          '**Day 5**: Add a value touchpoint — send a relevant tip, a short video, or a similar case study',
+          '**Day 10**: Direct ask — "I want to hold your spot in my schedule. Are you still interested in moving forward?"',
+          '**Day 17**: Breakup message — "I\'m about to take on another project in [their industry]. Is this still something you\'d like to move forward with?"',
+        ],
+        highlight: 'The breakup email has the highest response rate of any follow-up. It creates urgency without pressure.',
+      },
+      {
+        type: 'quiz',
+        title: 'Quick Check',
+        quiz: {
+          question: 'A client says "it\'s too expensive." What\'s your best response?',
+          options: [
+            'Immediately drop your price by 30%',
+            'Apologize and offer a discount',
+            'Ask what part of the ROI feels off and walk them through the math',
+            'End the conversation — they\'re not a serious buyer',
+          ],
+          correct: 2,
+          explanation: '"Too expensive" almost always means "I\'m not convinced of the value yet." Don\'t drop price — strengthen the value case first. If they still won\'t budge, then offer reduced scope, not a discount.',
+        },
+      },
+    ],
+  },
+
+  '6.9': {
+    id: '6.9',
+    title: 'Contracts & Getting Paid',
+    description: 'Protect your time and your money. Learn the key contract clauses every freelancer needs and how to structure payments so you never chase invoices.',
+    sections: [
+      {
+        type: 'concept',
+        title: 'Why Contracts Protect Both Sides',
+        content: 'New freelancers often skip contracts because they don\'t want to seem "difficult." This is a costly mistake.\n\nA contract doesn\'t mean you distrust the client — it means you\'re both professionals who agree on the same expectations.\n\nContracts protect you from:\n- Scope creep ("can you just add one more thing?")\n- Late or non-payment\n- Clients claiming ownership of work they haven\'t paid for\n- Disputes over what was delivered\n\nThey protect the client from:\n- Unclear deliverables\n- Unexpected cost overruns\n- No recourse if you disappear',
+        highlight: 'No contract = no proof. Always have something in writing, even if it\'s just an email confirmation.',
+      },
+      {
+        type: 'visual',
+        title: 'Key Contract Clauses to Include',
+        content: 'Your contract doesn\'t need to be long. These clauses cover 90% of situations:',
+        items: [
+          '**Scope of work**: Exactly what you will build (and what is NOT included)',
+          '**Deliverables**: What the client receives at the end (exported workflow, documentation, video walkthrough)',
+          '**Timeline**: Start date, milestone dates, final delivery date',
+          '**Payment terms**: Amount, schedule (50/50 is standard), accepted methods',
+          '**Revision policy**: How many rounds of changes are included (recommend: 2)',
+          '**IP ownership**: Client owns the workflow after full payment is received',
+          '**Kill fee**: If client cancels mid-project, they owe X% of remaining balance',
+          '**Maintenance**: What happens after delivery? (Not included unless separately agreed)',
+        ],
+      },
+      {
+        type: 'concept',
+        title: 'Payment Structure That Protects You',
+        content: 'Use this structure for every project:\n\n**50% upfront** — non-negotiable. Never start work without a deposit. This filters serious clients and covers your time if they disappear.\n\n**50% on delivery** — before you hand over credentials or export the workflow.\n\n**For larger projects ($3,000+)**: Consider 3-part payment — 40% upfront, 30% at midpoint milestone, 30% on delivery.\n\n**Accepted payment methods**: Stripe, PayPal, bank transfer, Wise. Avoid cash for anything over $200.',
+        items: [
+          '**Invoice tool**: Wave (free) or Stripe Invoicing',
+          '**Set payment terms**: "Due within 7 days of invoice"',
+          '**Add late fee clause**: 2% per week after the due date (rarely needed, always useful)',
+        ],
+      },
+      {
+        type: 'challenge',
+        title: 'Create Your Standard Contract',
+        challenge: {
+          description: 'Draft your freelance automation contract:',
+          tasks: [
+            'Copy the 8 key clauses above into a Google Doc',
+            'Fill in your standard revision policy (how many rounds?)',
+            'Add your standard payment terms (50/50 + 7-day due date)',
+            'Save it as your master template — customize scope/price per client',
+          ],
+          reward: { xp: 150 },
+        },
+      },
+      {
+        type: 'quiz',
+        title: 'Quick Check',
+        quiz: {
+          question: 'When should you start building a client\'s automation?',
+          options: [
+            'As soon as you have a verbal agreement',
+            'After they sign the contract but before payment',
+            'After they sign and the 50% deposit clears',
+            'After full payment is received',
+          ],
+          correct: 2,
+          explanation: 'Signed contract + 50% deposit = safe to start. Verbal agreements or contracts alone aren\'t enough. The deposit proves commitment and covers your time if they go dark.',
+        },
+      },
+    ],
+  },
+
+  '6.10': {
+    id: '6.10',
+    title: 'Deliver Like a Pro',
+    description: 'Getting hired is step one. How you deliver is what gets you referrals, testimonials, and repeat business.',
+    sections: [
+      {
+        type: 'concept',
+        title: 'The Delivery Framework',
+        content: 'Professional delivery has 4 phases:\n\n**1. Kickoff** — confirm scope, timeline, and access credentials\n**2. Build** — develop the workflow, test with real data\n**3. Review** — share a Loom walkthrough, gather feedback, make revisions\n**4. Handover** — deliver final workflow + documentation + training\n\nMost freelancers skip Kickoff and Handover. Those are exactly what create 5-star clients.',
+        highlight: 'Clients don\'t just pay for the workflow — they pay for the certainty that it works and they know how to use it.',
+      },
+      {
+        type: 'visual',
+        title: 'Communication Cadence During a Project',
+        content: 'Over-communicate progress. Silence breeds anxiety. Anxiety breeds scope creep and difficult clients.',
+        items: [
+          '**Day 1 (Kickoff)**: Send a confirmation email with scope, timeline, and what you need from them',
+          '**Day 3**: Brief update — "Build is underway, on track for [date]"',
+          '**Midpoint**: Send a Loom video showing work-in-progress — ask for early feedback',
+          '**Before delivery**: "Everything is tested and ready. Here\'s what I\'ll be sending you."',
+          '**Delivery day**: Send workflow + documentation + a 5-min Loom walkthrough',
+          '**Day 7 post-delivery**: Check-in — "How\'s everything running? Any questions?"',
+        ],
+      },
+      {
+        type: 'concept',
+        title: 'What Good Handover Documentation Looks Like',
+        content: 'When you deliver, include:\n\n- **How it works**: A plain-English explanation of each step\n- **How to maintain it**: What to do if a credential expires or an API changes\n- **How to edit it**: Where to change the key variables (email address, spreadsheet ID, etc.)\n- **What to do if it breaks**: Who to contact and what error messages mean\n\nA well-documented workflow = fewer support requests = more time for your next project.',
+      },
+      {
+        type: 'concept',
+        title: 'Managing Scope Creep',
+        content: 'Scope creep is the silent killer of freelance profits. It starts with: "Can you just quickly add..."\n\nYour response every time:\n\n*"That\'s a great idea and I can definitely add it. That\'s outside the original scope though, so I\'d quote it as a small add-on. Want me to send a quick estimate?"*\n\nThis is not rude. This is professional. Clients respect freelancers who manage their own scope — it\'s a sign of someone who knows what they\'re doing.',
+        highlight: 'Every "quick addition" that you do for free trains the client to expect free work forever.',
+      },
+      {
+        type: 'quiz',
+        title: 'Quick Check',
+        quiz: {
+          question: 'A client asks for "one quick change" that\'s clearly outside your agreed scope. You:',
+          options: [
+            'Do it for free to keep them happy',
+            'Refuse — the contract is the contract',
+            'Quote it as a small paid add-on and ask if they\'d like to proceed',
+            'Ignore the request and hope they forget',
+          ],
+          correct: 2,
+          explanation: 'Quoting add-ons is the professional response. It respects your time, the contract, and the client. Most clients will either pay for it or accept that the original scope was correct.',
+        },
+      },
+    ],
+  },
+
+  '6.11': {
+    id: '6.11',
+    title: 'Upsells & Retainers',
+    description: 'The best client you\'ll ever have is one you already have. Learn how to turn one-off projects into predictable monthly income.',
+    sections: [
+      {
+        type: 'concept',
+        title: 'From Project to Recurring Revenue',
+        content: 'A single project pays you once. A retainer pays you every month.\n\nThe best time to pitch a retainer is right after a successful delivery — when the client is happiest, when trust is highest, and when they\'ve already seen your work in action.\n\n**The pitch is simple**: "Would it make sense to keep me on a small monthly retainer to maintain this, make updates as your business changes, and build the next automation on your list?"',
+        highlight: 'One retainer client at $1,000/month is worth 2 new project clients. And it\'s infinitely easier to keep than to acquire.',
+      },
+      {
+        type: 'visual',
+        title: 'Retainer Models That Work',
+        content: 'Pick the model that fits your work style:',
+        items: [
+          '**Maintenance retainer** ($300–$600/month): Monitor their workflows, fix bugs, update credentials when APIs change. Minimum time commitment. Pure recurring income.',
+          '**Hours bank** ($500–$1,500/month): Client buys X hours/month of your time. They use it for updates, new workflows, or consulting calls. Hours don\'t roll over.',
+          '**Automation-as-a-service** ($800–$2,500/month): You manage, monitor, and expand their entire automation stack. Full ownership. High value, high responsibility.',
+        ],
+      },
+      {
+        type: 'interactive',
+        title: 'Upsell Opportunities After Every Delivery',
+        content: 'After delivering a workflow, look for these natural next steps to offer:',
+        items: [
+          '**The natural next workflow**: "You mentioned you also manually handle [X]. Want me to automate that next?"',
+          '**The monitoring layer**: "I can set up error alerts and daily reports so you always know the workflow is running."',
+          '**The training session**: "Would it help to do a 60-min session with your team so they can manage it day-to-day?"',
+          '**The audit**: "I can review your other tools and spot 3–5 more automation opportunities — want me to put together a roadmap?"',
+          '**The retainer offer**: "I can stay on as your automation partner at a flat monthly rate. No surprises."',
+        ],
+      },
+      {
+        type: 'concept',
+        title: 'The Testimonial Request',
+        content: 'After a successful delivery and ideally after the client sees the first results in action, ask for a testimonial:\n\n*"I\'m glad the workflow is saving you time. Would you be willing to write 2–3 sentences about your experience? It helps me a lot and takes you less than 5 minutes."*\n\nA strong testimonial includes:\n- The specific problem they had before\n- The concrete result after\n- A recommendation\n\nExample: *"Before working with [you], our team spent 8 hours a week manually entering leads into our CRM. Now it\'s instant and error-free. I\'d recommend [you] to any business that\'s tired of doing things by hand."*',
+        highlight: 'One great testimonial is worth more than any ad you could ever run.',
+      },
+      {
+        type: 'quiz',
+        title: 'Quick Check',
+        quiz: {
+          question: 'When\'s the best time to pitch a retainer to a client?',
+          options: [
+            'Before you start the project',
+            'In the middle of the build',
+            'Right after successful delivery when they\'re happiest',
+            'A few months after delivery via cold email',
+          ],
+          correct: 2,
+          explanation: 'Trust and satisfaction peak right after a successful delivery. That\'s your window. Strike while the client is excited about what you built — before the novelty wears off.',
+        },
+      },
+    ],
+  },
+
+  '6.12': {
+    id: '6.12',
+    title: 'Milestone: Land Your First Client',
+    description: 'This is your final project. Apply every skill from this level to complete a full client acquisition cycle — from identifying a prospect to closing the deal.',
+    sections: [
+      {
+        type: 'concept',
+        title: 'Your Complete Playbook',
+        content: 'You\'ve covered everything. Here\'s the full journey from zero to your first paid project:\n\n1. **Mindset** — You solve business problems, not build workflows\n2. **Niche** — You know who you\'re targeting and why they need you\n3. **Portfolio** — You have 3 demo automations and at least 1 case study\n4. **Prospecting** — You have a list of 20 people to contact\n5. **Outreach** — You have your cold email template and follow-up sequence\n6. **Discovery call** — You use SPIN to uncover pain and qualify leads\n7. **Proposal** — You can write a value-based proposal in under an hour\n8. **Closing** — You know how to handle the 5 common objections\n9. **Contract** — You have a standard template ready to send\n10. **Delivery** — You know how to communicate, document, and hand over\n11. **Retainers** — You know how to turn every project into recurring income',
+      },
+      {
+        type: 'challenge',
+        title: 'The Full Cycle Challenge',
+        challenge: {
+          description: 'Complete the full client acquisition cycle — real or simulated:',
+          tasks: [
+            'Identify 1 real prospect in your target niche (or use a friend\'s business as a simulation)',
+            'Send a personalized outreach message using the template from lesson 6.5',
+            'Complete a 20-minute discovery call using the SPIN framework — record it if possible',
+            'Write a proposal using the template from lesson 6.7 — include specific pricing',
+            'Send the proposal and prepare your follow-up sequence',
+            'Draft your standard contract and payment terms',
+          ],
+          reward: { xp: 300, badge: 'automation_seller' },
+        },
+      },
+      {
+        type: 'visual',
+        title: 'What Success Looks Like at Each Stage',
+        content: 'Track your progress against these milestones:',
+        items: [
+          '**Week 1**: Portfolio ready, prospecting list of 20 built, outreach started',
+          '**Week 2–3**: 3–5 discovery calls booked',
+          '**Week 3–4**: First proposal sent',
+          '**Week 4–6**: First signed contract + deposit received',
+          '**Week 6–8**: First workflow delivered + retainer pitched',
+          '**Month 3**: 2–3 active clients, first referral received',
+        ],
+      },
+      {
+        type: 'concept',
+        title: 'The Only Metric That Matters',
+        content: 'At the end of this level, there is only one number that counts:\n\n**Did someone pay you for an automation?**\n\nNot "do you have a great portfolio" or "is your LinkedIn perfect." Did money change hands?\n\nEverything in this level was designed to get you to that moment. Once you\'ve done it once, the second client is 10× easier. The third is easier still.\n\nThe system is now yours. Go run it.',
+        highlight: 'Your first paid client is the proof of concept. Every one after is scale.',
+      },
+      {
+        type: 'quiz',
+        title: 'Final Check',
+        quiz: {
+          question: 'After delivering a project, what\'s the single most valuable thing you should ask for?',
+          options: [
+            'A referral to another client immediately',
+            'To be paid in full',
+            'A written testimonial and a retainer conversation',
+            'Permission to use their logo on your website',
+          ],
+          correct: 2,
+          explanation: 'A testimonial builds your next client pipeline. A retainer converts a one-time project into predictable income. Both happen at the same moment — right after a successful delivery.',
+        },
+      },
+    ],
+  },
 };
