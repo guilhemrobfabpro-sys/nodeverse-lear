@@ -1,13 +1,13 @@
 import { useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, BookOpen, Clock, Flame, Sparkles, Target, BarChart3, Trophy, Zap, Star, TrendingUp, GraduationCap, Map, Medal, Sprout, Bot, Building2, Rocket, Dumbbell, Moon, Sun, Link2, Wrench, BookMarked, Crown } from 'lucide-react';
+import { ArrowRight, BookOpen, Clock, Flame, Sparkles, Target, BarChart3, Trophy, Zap, Star, TrendingUp, GraduationCap, Map, Medal, Sprout, Bot, Building2, Rocket, Dumbbell, Moon, Sun, Link2, Wrench, BookMarked, Crown, Briefcase } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import type { FC } from 'react';
 
 const BADGE_ICON_MAP: Record<string, FC<LucideProps>> = {
   Sprout, Zap, Bot, Building2, Rocket, Flame, Dumbbell, Moon, Sun,
-  Link2, BarChart3, Wrench, BookOpen, Target, Trophy, Star, BookMarked,
+  Link2, BarChart3, Wrench, BookOpen, Target, Trophy, Star, BookMarked, Briefcase,
 };
 import { AppLayout } from '@/components/AppLayout';
 import { XPBar } from '@/components/XPBar';
