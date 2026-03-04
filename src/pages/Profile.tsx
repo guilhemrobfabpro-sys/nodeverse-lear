@@ -6,13 +6,13 @@ import { LevelBadge } from '@/components/LevelBadge';
 import { useUser, getLevelName } from '@/contexts/UserContext';
 import { badges as allBadges } from '@/data/badges';
 import { levels } from '@/data/levels';
-import { Flame, Zap, Trophy, Star, Sparkles, Shield, BookOpen, Target, LogOut, Settings, Sprout, Bot, Building2, Rocket, Dumbbell, Moon, Sun, Link2, BarChart3, Wrench, BookMarked, Crown } from 'lucide-react';
+import { Flame, Zap, Trophy, Star, Sparkles, Shield, BookOpen, Target, LogOut, Settings, Sprout, Bot, Building2, Rocket, Dumbbell, Moon, Sun, Link2, BarChart3, Wrench, BookMarked, Crown, Briefcase } from 'lucide-react';
 import type { LucideProps } from 'lucide-react';
 import type { FC } from 'react';
 
 const ICON_MAP: Record<string, FC<LucideProps>> = {
   Sprout, Zap, Bot, Building2, Rocket, Flame, Dumbbell, Moon, Sun,
-  Link2, BarChart3, Wrench, BookOpen, Target, Trophy, Star, BookMarked,
+  Link2, BarChart3, Wrench, BookOpen, Target, Trophy, Star, BookMarked, Briefcase,
 };
 import { Link } from 'react-router-dom';
 import { isPro } from '@/lib/plan';

@@ -14,6 +14,7 @@ export const badges: Badge[] = [
   { id: 'ai_whisperer', name: 'AI Whisperer', icon: 'Bot', description: 'Complete Level 3', category: 'progression', rarity: 'rare' },
   { id: 'system_architect', name: 'System Architect', icon: 'Building2', description: 'Complete Level 4', category: 'progression', rarity: 'epic' },
   { id: 'automation_master', name: 'Automation Master', icon: 'Rocket', description: 'Complete Level 5', category: 'progression', rarity: 'legendary' },
+  { id: 'automation_seller', name: 'Automation Seller', icon: 'Briefcase', description: 'Complete Level 6', category: 'progression', rarity: 'legendary' },
   // Activity
   { id: 'on_fire', name: 'On Fire', icon: 'Flame', description: '7-day learning streak', category: 'activity', rarity: 'common' },
   { id: 'iron_will', name: 'Iron Will', icon: 'Dumbbell', description: '30-day learning streak', category: 'activity', rarity: 'epic' },

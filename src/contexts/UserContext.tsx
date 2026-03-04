@@ -288,7 +288,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
           completedAt: new Date().toISOString(),
         };
 
-        // Find the next module across all levels (handles cross-level transitions)
+        // Unlock the next module across all levels
         const allModules = levels.flatMap(l => l.modules);
         const currentIdx = allModules.findIndex(m => m.id === lessonId);
         if (currentIdx !== -1 && currentIdx < allModules.length - 1) {
@@ -298,11 +298,48 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
           }
         }
 
-        return { ...prev, progress: newProgress };
+        // Check if the lesson's level is now fully complete → award its badge
+        const levelId = parseInt(lessonId.split('.')[0], 10);
+        const completedLevel = levels.find(l => l.id === levelId);
+        const newBadges = [...prev.badges];
+        let xpEarned = 50; // base lesson XP
+
+        if (completedLevel) {
+          const allDone = completedLevel.modules.every(
+            m => newProgress[m.id]?.status === 'complete'
+          );
+          if (allDone && !newBadges.includes(completedLevel.badge.id)) {
+            newBadges.push(completedLevel.badge.id);
+            xpEarned += 100; // badge bonus XP
+          }
+        }
+
+        // Time-of-day badges
+        const hour = new Date().getHours();
+        if (hour >= 0 && hour < 5 && !newBadges.includes('night_owl')) {
+          newBadges.push('night_owl');
+          xpEarned += 100;
+        } else if (hour >= 5 && hour < 7 && !newBadges.includes('early_bird')) {
+          newBadges.push('early_bird');
+          xpEarned += 100;
+        }
+
+        // Recompute XP and user level in one pass
+        const newXP = prev.user.xp + xpEarned;
+        let newUserLevel = prev.user.level;
+        while (newUserLevel < 10 && newXP >= getXPForNextLevel(newUserLevel)) {
+          newUserLevel++;
+        }
+
+        return {
+          ...prev,
+          progress: newProgress,
+          badges: newBadges,
+          user: { ...prev.user, xp: newXP, level: newUserLevel },
+        };
       });
-      addXP(50);
     },
-    [addXP]
+    []
   );
 
   const completeChallenge = useCallback(
@@ -379,7 +416,35 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       const newStreak =
         prev.user.lastActiveDate === yesterday ? prev.user.streak + 1 : 1;
 
-      return { ...prev, user: { ...prev.user, streak: newStreak, lastActiveDate: today } };
+      // Award streak badges
+      const newBadges = [...prev.badges];
+      let bonusXP = 0;
+      if (newStreak >= 7 && !newBadges.includes('on_fire')) {
+        newBadges.push('on_fire');
+        bonusXP += 100;
+      }
+      if (newStreak >= 30 && !newBadges.includes('iron_will')) {
+        newBadges.push('iron_will');
+        bonusXP += 100;
+      }
+
+      const newXP = prev.user.xp + bonusXP;
+      let newUserLevel = prev.user.level;
+      while (newUserLevel < 10 && newXP >= getXPForNextLevel(newUserLevel)) {
+        newUserLevel++;
+      }
+
+      return {
+        ...prev,
+        badges: newBadges,
+        user: {
+          ...prev.user,
+          streak: newStreak,
+          lastActiveDate: today,
+          xp: newXP,
+          level: newUserLevel,
+        },
+      };
     });
   }, []);
 
