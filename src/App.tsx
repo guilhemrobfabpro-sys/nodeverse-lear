@@ -16,6 +16,7 @@ import Challenges from "./pages/Challenges";
 import Leaderboard from "./pages/Leaderboard";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
+import Landing from "./pages/Landing";
 import { SignIn, SignUp } from "@clerk/clerk-react";
 import type { ReactElement } from "react";
 import { useUser as useClerkUser } from "@clerk/clerk-react";
@@ -23,14 +24,14 @@ import { Zap } from "lucide-react";
 
 const clerkAppearance = {
   variables: {
-    colorPrimary: "hsl(262, 55%, 55%)",
-    colorBackground: "hsl(260, 30%, 9%)",
-    colorText: "hsl(214, 32%, 91%)",
-    colorTextSecondary: "hsl(215, 17%, 55%)",
-    colorInputBackground: "hsl(260, 22%, 14%)",
-    colorInputText: "hsl(214, 32%, 91%)",
-    colorNeutral: "hsl(260, 22%, 14%)",
-    borderRadius: "0.875rem",
+    colorPrimary: "hsl(217, 91%, 60%)",
+    colorBackground: "hsl(222, 18%, 7%)",
+    colorText: "hsl(215, 24%, 91%)",
+    colorTextSecondary: "hsl(215, 12%, 50%)",
+    colorInputBackground: "hsl(222, 10%, 13%)",
+    colorInputText: "hsl(215, 24%, 91%)",
+    colorNeutral: "hsl(222, 10%, 15%)",
+    borderRadius: "0.75rem",
     fontSize: "15px",
     spacingUnit: "1rem",
   },
@@ -38,18 +39,15 @@ const clerkAppearance = {
 
 const AuthPage = ({ children }: { children: ReactElement }) => (
   <div
-    className="min-h-screen gradient-bg flex flex-col items-center justify-center px-4 py-10"
+    className="min-h-screen bg-background flex flex-col items-center justify-center px-4 py-10"
     style={{ paddingTop: "max(2.5rem, env(safe-area-inset-top, 0px) + 1.5rem)" }}
   >
     {/* Branding */}
     <div className="mb-8 text-center">
-      <div
-        className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4"
-        style={{ boxShadow: "0 0 28px hsl(262 55% 50% / 0.45)" }}
-      >
-        <Zap className="w-7 h-7 text-white" />
+      <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-4">
+        <Zap className="w-6 h-6 text-primary" />
       </div>
-      <h1 className="font-heading font-bold text-xl text-foreground tracking-tight">
+      <h1 className="font-heading font-semibold text-lg text-foreground tracking-tight">
         FlowMaster
       </h1>
       <p className="text-muted-foreground text-sm mt-1">
@@ -67,7 +65,7 @@ const ProtectedRoute = ({ children }: { children: ReactElement }) => {
 
   if (!isLoaded) {
     return (
-      <div className="min-h-screen flex items-center justify-center gradient-bg">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <span className="text-sm text-muted-foreground">Loading…</span>
       </div>
     );
@@ -75,6 +73,25 @@ const ProtectedRoute = ({ children }: { children: ReactElement }) => {
 
   if (!isSignedIn) {
     return <Navigate to="/sign-in" replace />;
+  }
+
+  return children;
+};
+
+// Redirects already-authenticated users away from landing/auth pages
+const PublicRoute = ({ children }: { children: ReactElement }) => {
+  const { isLoaded, isSignedIn } = useClerkUser();
+
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <span className="text-sm text-muted-foreground">Loading…</span>
+      </div>
+    );
+  }
+
+  if (isSignedIn) {
+    return <Navigate to="/dashboard" replace />;
   }
 
   return children;
@@ -94,6 +111,16 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <Routes>
+            {/* Landing page — shows for unauthenticated, redirects to dashboard if signed in */}
+            <Route
+              path="/"
+              element={
+                <PublicRoute>
+                  <Landing />
+                </PublicRoute>
+              }
+            />
+
             {/* Auth routes */}
             {/* Clerk uses sub-paths like /sign-in/factor-one and /sign-in/sso-callback,
                 so we need /* to catch all of them */}
@@ -118,16 +145,13 @@ const App = () => {
                   <SignUp
                     routing="path"
                     path="/sign-up"
-                    fallbackRedirectUrl="/dashboard"
+                    fallbackRedirectUrl="/onboarding"
                     signInUrl="/sign-in"
                     appearance={clerkAppearance}
                   />
                 </AuthPage>
               }
             />
-
-            {/* Root redirects to dashboard; onboarding handles new-user redirect */}
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
             {/* Protected application routes */}
             <Route
@@ -213,3 +237,4 @@ const App = () => {
 };
 
 export default App;
+

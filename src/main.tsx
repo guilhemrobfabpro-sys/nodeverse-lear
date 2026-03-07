@@ -13,7 +13,7 @@ createRoot(document.getElementById("root")!).render(
   <ClerkProvider
     publishableKey={clerkPublishableKey}
     signInFallbackRedirectUrl="/dashboard"
-    signUpFallbackRedirectUrl="/dashboard"
+    signUpFallbackRedirectUrl="/onboarding"
   >
     <App />
   </ClerkProvider>,
