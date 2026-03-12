@@ -12,9 +12,9 @@ const stats = [
 ];
 
 const features = [
-  { icon: Gamepad2, title: 'Gamified Learning', desc: 'Earn XP, unlock badges, level up as you master automation.', color: 'text-primary', glow: 'glow-purple' },
-  { icon: Zap, title: 'Hands-on Practice', desc: 'Build real workflows from lesson one. No theory-only lectures.', color: 'text-secondary', glow: 'glow-orange' },
-  { icon: Bot, title: 'AI-Powered', desc: 'Integrate ChatGPT, Claude & more into your automations.', color: 'text-accent', glow: 'glow-green' },
+  { icon: Gamepad2, title: 'Gamified n8n Learning', desc: 'Earn XP, unlock badges and level up as you master each n8n node and workflow concept.', color: 'text-primary', glow: 'glow-purple' },
+  { icon: Zap, title: 'Hands-on n8n Projects', desc: 'Build real n8n workflows from lesson one — webhooks, APIs, AI agents, and more.', color: 'text-secondary', glow: 'glow-orange' },
+  { icon: Bot, title: 'AI Workflow Integration', desc: 'Learn to connect ChatGPT, Claude and other AI tools directly inside your n8n automations.', color: 'text-accent', glow: 'glow-green' },
 ];
 
 const testimonials = [
@@ -24,11 +24,11 @@ const testimonials = [
 ];
 
 const pathLevels = [
-  { icon: <Sprout className="w-4 h-4 text-accent" />, title: 'Foundations', desc: 'Learn the language of automation', color: 'border-accent/50', bg: 'from-accent/10' },
-  { icon: <Zap className="w-4 h-4 text-secondary" />, title: 'Core Skills', desc: 'Master the essential nodes', color: 'border-secondary/50', bg: 'from-secondary/10' },
-  { icon: <Bot className="w-4 h-4 text-primary" />, title: 'AI Integration', desc: 'Add intelligence to workflows', color: 'border-primary/50', bg: 'from-primary/10' },
-  { icon: <Building2 className="w-4 h-4 text-secondary" />, title: 'Advanced', desc: 'Build production-ready systems', color: 'border-secondary/50', bg: 'from-secondary/10' },
-  { icon: <Rocket className="w-4 h-4 text-primary" />, title: 'Expert', desc: 'Turn skills into income', color: 'border-primary/50', bg: 'from-primary/10' },
+  { icon: <Sprout className="w-4 h-4 text-accent" />, title: 'n8n Foundations', desc: 'Nodes, triggers, basic workflows — the n8n essentials', color: 'border-accent/50', bg: 'from-accent/10' },
+  { icon: <Zap className="w-4 h-4 text-secondary" />, title: 'Core n8n Skills', desc: 'HTTP requests, APIs, filters, data transformation', color: 'border-secondary/50', bg: 'from-secondary/10' },
+  { icon: <Bot className="w-4 h-4 text-primary" />, title: 'AI & n8n Integration', desc: 'ChatGPT, Claude and LangChain inside n8n workflows', color: 'border-primary/50', bg: 'from-primary/10' },
+  { icon: <Building2 className="w-4 h-4 text-secondary" />, title: 'Advanced Workflows', desc: 'Error handling, sub-workflows, production n8n systems', color: 'border-secondary/50', bg: 'from-secondary/10' },
+  { icon: <Rocket className="w-4 h-4 text-primary" />, title: 'Expert & Freelance', desc: 'Sell n8n automations and build client projects', color: 'border-primary/50', bg: 'from-primary/10' },
 ];
 
 const fadeIn = {
@@ -60,10 +60,10 @@ export default function Landing() {
             <span className="font-heading font-bold text-base sm:text-lg text-foreground">FlowMaster</span>
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
-            <Link to="/onboarding" className="px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium text-foreground hover:bg-muted/30 transition-colors hidden sm:inline">
+            <Link to="/sign-in" className="px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-colors">
               Log in
             </Link>
-            <Link to="/onboarding" className="px-4 py-2 rounded-xl text-xs sm:text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors glow-purple active:bg-primary/80">
+            <Link to="/sign-up" className="px-4 py-2 rounded-xl text-xs sm:text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-colors active:bg-primary/80">
               Start Free
             </Link>
           </div>
@@ -95,15 +95,15 @@ export default function Landing() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-3xl sm:text-5xl lg:text-7xl font-heading font-bold tracking-tight mb-4 sm:mb-6"
             >
-              <span className="text-foreground">Automate Everything.</span>
+              <span className="text-foreground">Learn n8n.</span>
               <br />
-              <motion.span 
+              <motion.span
                 className="gradient-text"
                 animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
                 transition={{ duration: 5, repeat: Infinity }}
                 style={{ backgroundSize: '200% 200%' }}
               >
-                No Code Required.
+                Automate Everything.
               </motion.span>
             </motion.h1>
 
@@ -113,7 +113,7 @@ export default function Landing() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-base sm:text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8 px-4 sm:px-0"
             >
-              Learn n8n from scratch to expert. Interactive lessons, real projects, AI-powered workflows.
+              The free n8n course that takes you from total beginner to automation expert. Interactive lessons, real n8n workflow projects, AI integrations.
             </motion.p>
 
             <motion.div
@@ -123,8 +123,8 @@ export default function Landing() {
               className="flex flex-col sm:flex-row items-center justify-center gap-3 px-4 sm:px-0"
             >
               <Link
-                to="/onboarding"
-                className="w-full sm:w-auto px-8 py-3.5 rounded-2xl font-heading font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all glow-purple flex items-center justify-center gap-2 text-base sm:text-lg group active:bg-primary/80"
+                to="/sign-up"
+                className="w-full sm:w-auto px-8 py-3.5 rounded-2xl font-heading font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all flex items-center justify-center gap-2 text-base sm:text-lg group active:bg-primary/80"
               >
                 Start Learning for Free 
                 <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
@@ -172,7 +172,7 @@ export default function Landing() {
       {/* Features */}
       <section className="max-w-6xl mx-auto px-4 py-12 sm:py-20">
         <motion.h2 {...fadeIn} className="text-2xl sm:text-3xl font-heading font-bold text-center text-foreground mb-8 sm:mb-12">
-          Everything you need to master automation
+          Everything you need to master n8n automation
         </motion.h2>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
           {features.map((f, i) => (
@@ -200,10 +200,10 @@ export default function Landing() {
       {/* Learning Path Preview */}
       <section id="curriculum" className="max-w-4xl mx-auto px-4 py-12 sm:py-20">
         <motion.h2 {...fadeIn} className="text-2xl sm:text-3xl font-heading font-bold text-center text-foreground mb-3 sm:mb-4">
-          Your journey from zero to hero
+          Your n8n learning path — zero to expert
         </motion.h2>
         <motion.p {...fadeIn} className="text-center text-muted-foreground mb-8 sm:mb-12 text-sm sm:text-base">
-          5 levels, 50+ lessons, real-world projects at every stage
+          5 levels, 50+ n8n lessons, real-world automation projects at every stage
         </motion.p>
 
         <div className="relative">
@@ -238,7 +238,7 @@ export default function Landing() {
       {/* Testimonials */}
       <section className="max-w-6xl mx-auto px-4 py-12 sm:py-20">
         <motion.h2 {...fadeIn} className="text-2xl sm:text-3xl font-heading font-bold text-center text-foreground mb-8 sm:mb-12">
-          Loved by automation learners
+          Loved by n8n learners worldwide
         </motion.h2>
         <div className="flex gap-4 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-3 pb-2 sm:pb-0">
           {testimonials.map((t, i) => (
@@ -290,13 +290,13 @@ export default function Landing() {
               <Sparkles className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
             </motion.div>
             <h2 className="text-2xl sm:text-3xl sm:text-4xl font-heading font-bold text-foreground mb-3 sm:mb-4">
-              Ready to automate your life?
+              Start your n8n journey today — it's free
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground mb-6 sm:mb-8 max-w-md mx-auto">
-              Join thousands of learners mastering n8n and building their automation future.
+              Join 2,000+ learners mastering n8n and building their automation career.
             </p>
             <Link
-              to="/onboarding"
+              to="/sign-up"
               className="inline-flex items-center gap-2 px-8 py-3.5 sm:py-4 rounded-2xl font-heading font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all text-base sm:text-lg group active:bg-primary/80"
             >
               Create Free Account 
@@ -315,7 +315,7 @@ export default function Landing() {
             <Zap className="w-4 h-4 text-primary" />
             <span className="font-heading font-semibold">FlowMaster</span>
           </div>
-          <p>From zero to automation hero</p>
+          <p>The free n8n automation course</p>
         </div>
       </footer>
     </div>

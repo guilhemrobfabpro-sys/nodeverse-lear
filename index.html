@@ -2,25 +2,134 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+
+    <!-- ── Viewport ───────────────────────────────────────────────────── -->
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no"
     />
-    <title>FlowMaster</title>
-    <meta name="description" content="Master automation. No code required." />
+
+    <!-- ── Primary SEO ────────────────────────────────────────────────── -->
+    <title>FlowMaster — Free n8n Automation Course for Beginners</title>
+    <meta
+      name="description"
+      content="Learn n8n automation for free with interactive lessons, real-world projects and gamified XP. Go from zero to expert — build powerful no-code workflows with n8n today."
+    />
+    <meta
+      name="keywords"
+      content="learn n8n, n8n tutorial, n8n course, n8n automation, n8n for beginners, free n8n course, n8n workflow tutorial, no-code automation, n8n training, n8n workflow examples, n8n online course, automation learning"
+    />
+    <meta name="author" content="FlowMaster" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://flowmaster.app/" />
+
+    <!-- ── Open Graph (Facebook, LinkedIn, Discord …) ─────────────────── -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="FlowMaster" />
+    <meta property="og:url" content="https://flowmaster.app/" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="FlowMaster — Free n8n Automation Course" />
+    <meta
+      property="og:description"
+      content="Learn n8n automation for free with interactive lessons, real-world projects and gamified XP. Go from zero to expert — build powerful no-code workflows with n8n today."
+    />
+    <meta property="og:image" content="https://flowmaster.app/icons/icon-512.png" />
+    <meta property="og:image:width" content="512" />
+    <meta property="og:image:height" content="512" />
+    <meta property="og:image:alt" content="FlowMaster — Learn n8n Automation" />
+
+    <!-- ── Twitter / X Card ───────────────────────────────────────────── -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@flowmasterapp" />
+    <meta name="twitter:title" content="FlowMaster — Free n8n Automation Course" />
+    <meta
+      name="twitter:description"
+      content="Learn n8n automation for free with interactive lessons, real-world projects and gamified XP. Go from zero to expert — build powerful no-code workflows with n8n today."
+    />
+    <meta name="twitter:image" content="https://flowmaster.app/icons/icon-512.png" />
+
+    <!-- ── Favicons & PWA ──────────────────────────────────────────────── -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#0d1117" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="FlowMaster" />
 
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="FlowMaster" />
-    <meta property="og:description" content="Master automation. No code required." />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="FlowMaster" />
-    <meta name="twitter:description" content="Master automation. No code required." />
-</head>
+    <!-- ── Font preconnect (perf) ─────────────────────────────────────── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- ── Structured Data — Organization ─────────────────────────────── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "FlowMaster",
+      "url": "https://flowmaster.app",
+      "logo": "https://flowmaster.app/icons/icon-512.png",
+      "description": "Free interactive n8n automation learning platform with gamified lessons and real-world projects.",
+      "sameAs": []
+    }
+    </script>
+
+    <!-- ── Structured Data — Course ───────────────────────────────────── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Learn n8n Automation — From Beginner to Expert",
+      "description": "A free, interactive n8n automation course covering workflows, AI integrations, webhooks, and real-world automation projects. 50+ lessons across 5 learning levels.",
+      "url": "https://flowmaster.app/",
+      "image": "https://flowmaster.app/icons/icon-512.png",
+      "provider": {
+        "@type": "Organization",
+        "name": "FlowMaster",
+        "sameAs": "https://flowmaster.app"
+      },
+      "educationalLevel": "Beginner to Expert",
+      "teaches": "n8n workflow automation, no-code automation, webhook integration, AI workflow integration, automation best practices",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "online",
+        "courseSchedule": {
+          "@type": "Schedule",
+          "repeatFrequency": "P1D",
+          "repeatCount": 365
+        }
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "category": "free"
+      },
+      "numberOfCredits": 50,
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "2000",
+        "bestRating": "5"
+      }
+    }
+    </script>
+
+    <!-- ── Structured Data — WebSite (Sitelinks searchbox) ────────────── -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "FlowMaster",
+      "url": "https://flowmaster.app",
+      "description": "Free n8n automation course — from beginner to expert",
+      "inLanguage": "en"
+    }
+    </script>
+  </head>
 
   <body>
     <div id="root"></div>

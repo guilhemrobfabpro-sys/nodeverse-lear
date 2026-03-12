@@ -1,14 +1,19 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
+# FlowMaster — robots.txt
 
 User-agent: *
 Allow: /
+Allow: /sign-in
+Allow: /sign-up
+
+# Private app routes — no value for search engines
+Disallow: /dashboard
+Disallow: /learning-path
+Disallow: /lesson/
+Disallow: /glossary
+Disallow: /profile
+Disallow: /challenges
+Disallow: /leaderboard
+Disallow: /settings
+Disallow: /onboarding
+
+Sitemap: https://flowmaster.app/sitemap.xml
