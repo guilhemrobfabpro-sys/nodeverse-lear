@@ -23,4 +23,4 @@ Disallow: /onboarding
 Disallow: /upgrade
 Disallow: /glossary
 
-Sitemap: https://flowmaster.app/sitemap.xml
+Sitemap: https://flowmaster-lear.vercel.app/sitemap.xml

@@ -62,7 +62,7 @@
   <text x="860" y="428" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#fdba74" font-weight="600" text-anchor="middle">Certificate Included</text>
 
   <!-- Bottom CTA -->
-  <text x="80" y="530" font-family="system-ui, -apple-system, sans-serif" font-size="22" fill="#64748b">flowmaster.app</text>
+  <text x="80" y="530" font-family="system-ui, -apple-system, sans-serif" font-size="22" fill="#64748b">flowmaster-lear.vercel.app</text>
 
   <!-- Right side visual element — stacked cards -->
   <g transform="translate(880, 140)" opacity="0.85">
