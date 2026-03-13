@@ -12,3 +12,15 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /dashboard
+Disallow: /learning-path
+Disallow: /lesson/
+Disallow: /profile
+Disallow: /challenges
+Disallow: /leaderboard
+Disallow: /settings
+Disallow: /onboarding
+Disallow: /upgrade
+Disallow: /glossary
+
+Sitemap: https://flowmaster.app/sitemap.xml

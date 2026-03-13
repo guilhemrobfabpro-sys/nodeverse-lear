@@ -8,27 +8,135 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no"
     />
+
     <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2ZLEHRE1PP"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-2ZLEHRE1PP');
-  </script>
-  <title>FlowMaster</title>
-    <meta name="description" content="Master automation. No code required." />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2ZLEHRE1PP"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-2ZLEHRE1PP');
+    </script>
+
+    <!-- Primary SEO -->
+    <title>FlowMaster — Learn n8n Automation. No Code Required.</title>
+    <meta name="description" content="Master workflow automation with FlowMaster. Gamified lessons, daily challenges, XP rewards, and a structured path from zero to n8n expert. Free to start." />
+    <meta name="keywords" content="n8n automation, learn automation, workflow automation, no-code automation, n8n tutorial, automation course, workflow builder, zapier alternative, make automation" />
+    <link rel="canonical" href="https://flowmaster.app/" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="FlowMaster" />
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="FlowMaster" />
+    <meta property="og:title" content="FlowMaster — Learn n8n Automation. No Code Required." />
+    <meta property="og:description" content="Master workflow automation with FlowMaster. Gamified lessons, daily challenges, XP rewards, and a structured path from zero to n8n expert. Free to start." />
+    <meta property="og:url" content="https://flowmaster.app/" />
+    <meta property="og:image" content="https://flowmaster.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="FlowMaster — Gamified n8n Automation Learning Platform" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="FlowMaster — Learn n8n Automation. No Code Required." />
+    <meta name="twitter:description" content="Master workflow automation with FlowMaster. Gamified lessons, daily challenges, XP rewards, and a structured path from zero to n8n expert. Free to start." />
+    <meta name="twitter:image" content="https://flowmaster.app/og-image.png" />
+    <meta name="twitter:image:alt" content="FlowMaster — Gamified n8n Automation Learning Platform" />
+
+    <!-- Apple Mobile -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="FlowMaster" />
 
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="FlowMaster" />
-    <meta property="og:description" content="Master automation. No code required." />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="FlowMaster" />
-    <meta name="twitter:description" content="Master automation. No code required." />
-</head>
+    <!-- Theme color for browser UI -->
+    <meta name="theme-color" content="#1a1030" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "@id": "https://flowmaster.app/#app",
+          "name": "FlowMaster",
+          "url": "https://flowmaster.app",
+          "description": "Gamified n8n workflow automation learning platform. Go from zero to automation expert with structured lessons, daily challenges, XP, badges, and a leaderboard.",
+          "applicationCategory": "EducationalApplication",
+          "operatingSystem": "Any",
+          "browserRequirements": "Requires JavaScript",
+          "inLanguage": "en",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Free Plan",
+              "price": "0",
+              "priceCurrency": "USD",
+              "description": "Level 1 — Foundations (8 lessons) + daily challenges"
+            },
+            {
+              "@type": "Offer",
+              "name": "Pro Plan",
+              "price": "9",
+              "priceCurrency": "USD",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": "9",
+                "priceCurrency": "USD",
+                "unitText": "MONTH"
+              },
+              "description": "Full access to all 6 levels, 50+ lessons, full challenge library, and certificate"
+            }
+          ],
+          "featureList": [
+            "50+ structured n8n automation lessons",
+            "Gamified XP and badge progression system",
+            "Daily automation challenges",
+            "Global leaderboard",
+            "Certificate of completion",
+            "Interactive quizzes",
+            "Automation glossary"
+          ]
+        },
+        {
+          "@type": "Organization",
+          "@id": "https://flowmaster.app/#org",
+          "name": "FlowMaster",
+          "url": "https://flowmaster.app",
+          "logo": "https://flowmaster.app/icons/icon-512.png",
+          "description": "FlowMaster helps you master n8n workflow automation through gamified, structured learning."
+        },
+        {
+          "@type": "Course",
+          "@id": "https://flowmaster.app/#course",
+          "name": "n8n Automation Mastery",
+          "description": "A complete, structured curriculum to master n8n workflow automation — from basic concepts to selling automations as a service.",
+          "provider": {
+            "@id": "https://flowmaster.app/#org"
+          },
+          "hasCourseInstance": {
+            "@type": "CourseInstance",
+            "courseMode": "online",
+            "courseWorkload": "PT6H"
+          },
+          "teaches": [
+            "n8n workflow automation",
+            "Webhook integration",
+            "HTTP requests and APIs",
+            "AI automation with n8n",
+            "Error handling and debugging",
+            "Selling automation services"
+          ],
+          "educationalLevel": "Beginner to Advanced",
+          "inLanguage": "en",
+          "isAccessibleForFree": true
+        }
+      ]
+    }
+    </script>
+  </head>
 
   <body>
     <script>
